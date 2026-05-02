@@ -1,0 +1,24 @@
+{
+  "name": "com.xuyuchen.ai-builder",
+  "version": "0.1.0",
+  "displayName": "Unity Codex AIBuilder",
+  "description": "Unity Editor toolkit and Codex workflow for reference-image-driven scene generation, prefab asset indexing, visual candidate comparison, and procedural fallback.",
+  "unity": "2022.3",
+  "dependencies": {
+    "com.unity.render-pipelines.universal": "14.0.12",
+    "com.unity.textmeshpro": "3.0.7",
+    "com.unity.probuilder": "5.2.4"
+  },
+  "keywords": [
+    "ai",
+    "codex",
+    "unity",
+    "scene-generation",
+    "prefab-library",
+    "xr",
+    "urp"
+  ],
+  "author": {
+    "name": "XuYuChen921"
+  }
+}

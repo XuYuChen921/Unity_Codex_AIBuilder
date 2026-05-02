@@ -1,0 +1,116 @@
+{
+  "sceneName": "ForestHeartClearing",
+  "generatedRootName": "AI_Generated_ForestHeartClearing",
+  "theme": "stylized_low_poly_forest_clearing",
+  "generatorVersion": "v2",
+  "seed": 20260502,
+  "referenceImage": {
+    "assetPath": "Assets/AIBuilder/References/00c0b5c0-1d08-4a11-94b2-db92ab1ed23a.png",
+    "width": 1680,
+    "height": 945,
+    "analysisPreset": "forest_heart_clearing"
+  },
+  "visualNotes": [
+    "wide 16:9 stylized low-poly forest clearing",
+    "large open playable grass field framed by trees and rocks",
+    "rear-center circular altar with floating green glowing heart",
+    "warm sun from upper left and soft cyan sky",
+    "dense foreground foliage and small magic glow pools near lower corners"
+  ],
+  "camera": {
+    "position": { "x": 0.0, "y": 8.2, "z": -17.5 },
+    "lookAt": { "x": 0.0, "y": 1.25, "z": 5.2 },
+    "fieldOfView": 41.0,
+    "nearClipPlane": 0.1,
+    "farClipPlane": 140.0
+  },
+  "lighting": {
+    "sunEuler": { "x": 36.0, "y": -38.0, "z": 0.0 },
+    "sunColor": { "r": 1.0, "g": 0.86, "b": 0.48, "a": 1.0 },
+    "sunIntensity": 2.35,
+    "ambientSkyColor": { "r": 0.58, "g": 0.82, "b": 0.78, "a": 1.0 },
+    "ambientEquatorColor": { "r": 0.48, "g": 0.62, "b": 0.35, "a": 1.0 },
+    "ambientGroundColor": { "r": 0.25, "g": 0.32, "b": 0.18, "a": 1.0 },
+    "fogColor": { "r": 0.68, "g": 0.9, "b": 0.82, "a": 1.0 },
+    "fogDensity": 0.011,
+    "bloomIntensity": 0.62
+  },
+  "terrain": {
+    "size": { "x": 42.0, "y": 32.0 },
+    "groundYOffset": 0.0,
+    "grassPatchCount": 105,
+    "baseGrassColor": { "r": 0.55, "g": 0.78, "b": 0.12, "a": 1.0 },
+    "patchGrassA": { "r": 0.67, "g": 0.84, "b": 0.16, "a": 1.0 },
+    "patchGrassB": { "r": 0.42, "g": 0.66, "b": 0.13, "a": 1.0 }
+  },
+  "centralFeature": {
+    "position": { "x": 0.0, "y": 0.0, "z": 7.4 },
+    "altarRadius": 2.35,
+    "altarHeight": 0.62,
+    "heartHeight": 2.55,
+    "glowIntensity": 4.5,
+    "glowColor": { "r": 0.47, "g": 1.0, "b": 0.08, "a": 1.0 }
+  },
+  "scatterGroups": [
+    {
+      "id": "rear_pines",
+      "type": "pine_tree",
+      "count": 24,
+      "areaMin": { "x": -20.0, "y": 0.0, "z": 7.0 },
+      "areaMax": { "x": 20.0, "y": 0.0, "z": 15.0 },
+      "scaleRange": { "x": 0.9, "y": 1.55 },
+      "edgeBias": 0.65,
+      "assetKeywords": [ "pine", "fir", "spruce", "tree" ]
+    },
+    {
+      "id": "side_broadleaf_trees",
+      "type": "broadleaf_tree",
+      "count": 14,
+      "areaMin": { "x": -20.5, "y": 0.0, "z": -9.5 },
+      "areaMax": { "x": 20.5, "y": 0.0, "z": 9.5 },
+      "scaleRange": { "x": 0.95, "y": 1.65 },
+      "edgeBias": 1.0,
+      "assetKeywords": [ "oak", "broadleaf", "tree", "trunk" ]
+    },
+    {
+      "id": "border_rocks",
+      "type": "rock",
+      "count": 44,
+      "areaMin": { "x": -20.5, "y": 0.0, "z": -12.5 },
+      "areaMax": { "x": 20.5, "y": 0.0, "z": 13.0 },
+      "scaleRange": { "x": 0.55, "y": 1.8 },
+      "edgeBias": 0.85,
+      "assetKeywords": [ "rock", "stone", "boulder" ]
+    },
+    {
+      "id": "border_bushes",
+      "type": "bush",
+      "count": 70,
+      "areaMin": { "x": -20.0, "y": 0.0, "z": -13.0 },
+      "areaMax": { "x": 20.0, "y": 0.0, "z": 14.0 },
+      "scaleRange": { "x": 0.45, "y": 1.25 },
+      "edgeBias": 0.95,
+      "assetKeywords": [ "bush", "shrub", "leaf", "plant" ]
+    },
+    {
+      "id": "flowers",
+      "type": "flower",
+      "count": 115,
+      "areaMin": { "x": -19.0, "y": 0.0, "z": -12.0 },
+      "areaMax": { "x": 19.0, "y": 0.0, "z": 12.5 },
+      "scaleRange": { "x": 0.65, "y": 1.25 },
+      "edgeBias": 0.8,
+      "assetKeywords": [ "flower", "daisy", "plant" ]
+    },
+    {
+      "id": "background_mountains",
+      "type": "mountain",
+      "count": 8,
+      "areaMin": { "x": -24.0, "y": 0.0, "z": 18.0 },
+      "areaMax": { "x": 24.0, "y": 0.0, "z": 28.0 },
+      "scaleRange": { "x": 1.0, "y": 2.2 },
+      "edgeBias": 0.0,
+      "assetKeywords": [ "mountain", "hill", "cliff" ]
+    }
+  ]
+}

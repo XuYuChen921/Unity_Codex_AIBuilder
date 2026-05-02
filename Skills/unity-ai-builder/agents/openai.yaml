@@ -1,0 +1,3 @@
+display_name: Unity AIBuilder
+short_description: Build Unity scenes from reference images using prefab libraries and visual asset selection.
+default_prompt: Analyze my reference image, compare Unity prefab candidates visually, update the AIBuilder SceneSpec, and generate the scene workflow.

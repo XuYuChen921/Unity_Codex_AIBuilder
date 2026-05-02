@@ -1,0 +1,20 @@
+{
+  "name": "Unity.Codex.AIBuilder.Editor",
+  "rootNamespace": "AIBuilder.EditorTools",
+  "references": [
+    "Unity.Codex.AIBuilder.Runtime",
+    "Unity.TextMeshPro",
+    "Unity.RenderPipelines.Universal.Runtime"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}
