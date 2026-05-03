@@ -22,13 +22,13 @@ namespace AIBuilder.EditorTools
         private const string DataFolder = "Assets/AIBuilder/Data";
         private const string PackageDefaultSpecPath = "Packages/com.xuyuchen.ai-builder/Editor/DefaultSpecs/ProBuilderModel_StylizedCrate.json";
 
-        [MenuItem("AIBuilder/ProBuilder Model From Reference")]
+        [MenuItem("AI构建器/模型生成/参考图生成模型 ProBuilder")]
         public static void OpenWindow()
         {
             AIProBuilderModelWindow.Open();
         }
 
-        [MenuItem("AIBuilder/Generate Default ProBuilder Model")]
+        [MenuItem("AI构建器/模型生成/生成模型示例")]
         public static void GenerateDefaultModelFromMenu()
         {
             var specAsset = LoadDefaultModelSpec();
@@ -41,7 +41,7 @@ namespace AIBuilder.EditorTools
             GenerateFromTextAsset(specAsset, new AIProBuilderModelBuildOptions());
         }
 
-        [MenuItem("AIBuilder/Create ProBuilder ModelSpec Template From Selected Images")]
+        [MenuItem("AI构建器/模型生成/选中图片生成模型配置")]
         public static void CreateTemplateFromSelectedImages()
         {
             var selectedTextures = new List<Texture2D>();

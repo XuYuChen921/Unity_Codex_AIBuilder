@@ -5,7 +5,7 @@
 Use Unity menu:
 
 ```text
-AIBuilder/Prefab Asset Library
+AI构建器/Prefab资产库/打开资产库面板
 ```
 
 Start with:
@@ -107,7 +107,7 @@ The spec should encode:
 Use:
 
 ```text
-AIBuilder/Scene From Reference
+AI构建器/场景生成/参考图生成场景
 ```
 
 or call the editor generation method in batchmode.
@@ -140,7 +140,7 @@ Use this when the missing asset is a single model, not a full scene.
 2. If the images are inside the project, select them and run:
 
 ```text
-AIBuilder/Create ProBuilder ModelSpec Template From Selected Images
+AI构建器/模型生成/选中图片生成模型配置
 ```
 
 3. Send the image(s) to Codex.
@@ -154,7 +154,7 @@ Assets/AIBuilder/Data
 6. Run:
 
 ```text
-AIBuilder/ProBuilder Model From Reference
+AI构建器/模型生成/参考图生成模型 ProBuilder
 ```
 
 7. Generate the model and refine the created ProBuilder parts.

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.2
+
+- Renamed Unity menus to clear Chinese task-based labels.
+- Removed visible default forest scene presets and bundled forest default specs.
+- Made scene creation use a clean template with optional scene feature toggles disabled by default.
+
 ## 0.2.1
 
 - Added the missing `Unity.RenderPipelines.Core.Runtime` assembly reference required by URP `Volume` and `VolumeProfile` types.

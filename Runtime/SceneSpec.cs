@@ -17,6 +17,7 @@ namespace AIBuilder
         public CameraSpec camera = new CameraSpec();
         public LightingSpec lighting = new LightingSpec();
         public TerrainSpec terrain = new TerrainSpec();
+        public SceneFeatureSpec features = new SceneFeatureSpec();
         public CentralFeatureSpec centralFeature = new CentralFeatureSpec();
         public List<ScatterGroupSpec> scatterGroups = new List<ScatterGroupSpec>();
     }
@@ -27,7 +28,17 @@ namespace AIBuilder
         public string assetPath;
         public int width;
         public int height;
-        public string analysisPreset = "forest_heart_clearing";
+        public string analysisPreset = "custom_reference_scene";
+    }
+
+    [Serializable]
+    public sealed class SceneFeatureSpec
+    {
+        public bool centralFeature;
+        public bool magicPools;
+        public bool heroForegroundTrees;
+        public bool clouds;
+        public bool postProcessing = true;
     }
 
     [Serializable]

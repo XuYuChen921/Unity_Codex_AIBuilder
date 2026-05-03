@@ -26,7 +26,7 @@ namespace AIBuilder.EditorTools
         private int captureHeight = 1080;
         private string outputFolder = "Assets/AIBuilder/Generated/AssetCatalogShots";
 
-        [MenuItem("AIBuilder/Asset Catalog Capture")]
+        [MenuItem("AI构建器/资产整理/摆放并拍摄当前资产")]
         public static void Open()
         {
             GetWindow<AssetCatalogWindow>("Asset Catalog");
@@ -127,13 +127,13 @@ namespace AIBuilder.EditorTools
         private const string RightCameraName = CameraPrefix + "Right";
         private const string TopCameraName = CameraPrefix + "Top";
 
-        [MenuItem("AIBuilder/Asset Catalog/Build Layout From Scene")]
+        [MenuItem("AI构建器/资产整理/资产目录/按当前场景排版")]
         public static void BuildLayoutFromSceneMenu()
         {
             BuildCatalogFromCurrentScene(new AssetCatalogSettings(), resetCameras: true);
         }
 
-        [MenuItem("AIBuilder/Asset Catalog/Capture All Views")]
+        [MenuItem("AI构建器/资产整理/资产目录/拍摄全部视图")]
         public static void CaptureAllViewsMenu()
         {
             CaptureAllCatalogCameras(new AssetCatalogSettings());

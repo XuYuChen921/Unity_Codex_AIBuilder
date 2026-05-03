@@ -26,7 +26,7 @@ namespace AIBuilder.EditorTools
         private bool showAdvanced;
         private int maxItemsPerRun;
 
-        [MenuItem("AIBuilder/Prefab Asset Library")]
+        [MenuItem("AI构建器/Prefab资产库/打开资产库面板")]
         public static void Open()
         {
             GetWindow<PrefabAssetLibraryWindow>("Prefab Library");
@@ -211,19 +211,19 @@ namespace AIBuilder.EditorTools
         private const string SideImageName = "side.png";
         private const string TopImageName = "top.png";
 
-        [MenuItem("AIBuilder/Prefab Asset Library/Build Missing Or Changed")]
+        [MenuItem("AI构建器/Prefab资产库/生成缺失或变化的截图")]
         public static void BuildMissingOrChangedMenu()
         {
             BuildLibrary(new PrefabAssetLibrarySettings(), rebuildAll: false);
         }
 
-        [MenuItem("AIBuilder/Prefab Asset Library/Rebuild All")]
+        [MenuItem("AI构建器/Prefab资产库/全部重新生成截图")]
         public static void RebuildAllMenu()
         {
             BuildLibrary(new PrefabAssetLibrarySettings(), rebuildAll: true);
         }
 
-        [MenuItem("AIBuilder/Prefab Asset Library/Build Fast Metadata Missing Or Changed")]
+        [MenuItem("AI构建器/Prefab资产库/快速扫描缺失或变化资产")]
         public static void BuildFastMetadataMenu()
         {
             BuildFastMetadataIndex(new PrefabAssetLibrarySettings(), rebuildAll: false);

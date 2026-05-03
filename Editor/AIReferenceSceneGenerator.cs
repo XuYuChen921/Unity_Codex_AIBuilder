@@ -22,39 +22,23 @@ namespace AIBuilder.EditorTools
 
     public static class AIReferenceSceneGenerator
     {
-        public const string DefaultSpecPath = "Assets/AIBuilder/Data/ForestHeartClearing.json";
-        public const string PackageDefaultSpecPath = "Packages/com.xuyuchen.ai-builder/Editor/DefaultSpecs/ForestHeartClearing.json";
+        public const string DefaultSpecPath = "Assets/AIBuilder/Data/SceneSpec.json";
 
         private const string MaterialFolder = "Assets/AIBuilder/Materials";
         private const string GeneratedFolder = "Assets/AIBuilder/Generated";
         private const string SceneFolder = "Assets/AIBuilder/Scenes";
-        private const string GeneratedScenePath = "Assets/AIBuilder/Scenes/ForestHeartClearing_Generated.unity";
-        private const string VolumeProfilePath = "Assets/AIBuilder/Generated/ForestHeartClearing_VolumeProfile.asset";
         private const string AssetReportPath = "Assets/AIBuilder/Generated/AssetMatchReport.md";
-
-        [MenuItem("AIBuilder/Generate Forest Heart Clearing")]
-        public static void GenerateForestHeartClearingFromMenu()
-        {
-            var specAsset = LoadDefaultSceneSpec();
-            GenerateFromTextAsset(specAsset, new AIReferenceSceneBuildOptions());
-        }
 
         public static TextAsset LoadDefaultSceneSpec()
         {
-            var specAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(DefaultSpecPath);
-            if (specAsset != null)
-            {
-                return specAsset;
-            }
-
-            return AssetDatabase.LoadAssetAtPath<TextAsset>(PackageDefaultSpecPath);
+            return AssetDatabase.LoadAssetAtPath<TextAsset>(DefaultSpecPath);
         }
 
         public static void GenerateFromTextAsset(TextAsset textAsset, AIReferenceSceneBuildOptions options)
         {
             if (textAsset == null)
             {
-                EditorUtility.DisplayDialog("AI Scene Builder", $"Scene spec not found:\n{DefaultSpecPath}\n{PackageDefaultSpecPath}", "OK");
+                EditorUtility.DisplayDialog("AI Scene Builder", "Select a SceneSpec JSON first.", "OK");
                 return;
             }
 
@@ -92,19 +76,39 @@ namespace AIBuilder.EditorTools
             BuildLighting(spec, root.transform);
             BuildCamera(spec, root.transform);
             BuildGround(spec, root.transform, materials, random);
-            BuildCentralFeature(spec, root.transform, materials, assetLibrary, random);
-            BuildMagicPools(root.transform, materials, spec, random);
+            var features = spec.features ?? new SceneFeatureSpec();
+            if (features.centralFeature)
+            {
+                BuildCentralFeature(spec, root.transform, materials, assetLibrary, random);
+            }
+
+            if (features.magicPools)
+            {
+                BuildMagicPools(root.transform, materials, spec, random);
+            }
+
             BuildScatterGroups(spec, root.transform, materials, assetLibrary, random);
-            BuildHeroForegroundTrees(root.transform, materials, assetLibrary, random);
-            BuildClouds(root.transform, materials, random);
-            BuildPostProcessing(spec, root.transform);
+            if (features.heroForegroundTrees)
+            {
+                BuildHeroForegroundTrees(root.transform, materials, assetLibrary, random);
+            }
+
+            if (features.clouds)
+            {
+                BuildClouds(root.transform, materials, random);
+            }
+
+            if (features.postProcessing)
+            {
+                BuildPostProcessing(spec, root.transform);
+            }
 
             Selection.activeGameObject = root;
             EditorUtility.SetDirty(root);
 
             if (options.SaveScene)
             {
-                EditorSceneManager.SaveScene(SceneManager.GetActiveScene(), GeneratedScenePath);
+                EditorSceneManager.SaveScene(SceneManager.GetActiveScene(), GetGeneratedScenePath(spec));
             }
 
             AssetDatabase.SaveAssets();
@@ -114,7 +118,7 @@ namespace AIBuilder.EditorTools
                 assetLibrary.WriteReport(AssetReportPath);
             }
 
-            Debug.Log($"AI Scene Builder generated '{spec.sceneName}' at {GeneratedScenePath}");
+            Debug.Log($"AI Scene Builder generated '{spec.sceneName}' at {GetGeneratedScenePath(spec)}");
         }
 
         private static void EnsureProjectFolders()
@@ -483,9 +487,10 @@ namespace AIBuilder.EditorTools
 
         private static void BuildPostProcessing(SceneSpec spec, Transform root)
         {
-            if (AssetDatabase.LoadAssetAtPath<VolumeProfile>(VolumeProfilePath) != null)
+            var volumeProfilePath = GetVolumeProfilePath(spec);
+            if (AssetDatabase.LoadAssetAtPath<VolumeProfile>(volumeProfilePath) != null)
             {
-                AssetDatabase.DeleteAsset(VolumeProfilePath);
+                AssetDatabase.DeleteAsset(volumeProfilePath);
             }
 
             var volumeObject = new GameObject("URP_Global_Volume");
@@ -495,7 +500,7 @@ namespace AIBuilder.EditorTools
             volume.priority = 1f;
 
             var profile = ScriptableObject.CreateInstance<VolumeProfile>();
-            profile.name = "ForestHeartClearing_VolumeProfile";
+            profile.name = $"{SanitizeFileName(spec.sceneName)}_VolumeProfile";
 
             var bloom = profile.Add<Bloom>(true);
             bloom.intensity.Override(spec.lighting.bloomIntensity);
@@ -511,8 +516,33 @@ namespace AIBuilder.EditorTools
             vignette.intensity.Override(0.14f);
             vignette.smoothness.Override(0.55f);
 
-            AssetDatabase.CreateAsset(profile, VolumeProfilePath);
+            AssetDatabase.CreateAsset(profile, volumeProfilePath);
             volume.sharedProfile = profile;
+        }
+
+        private static string GetGeneratedScenePath(SceneSpec spec)
+        {
+            return $"{SceneFolder}/{SanitizeFileName(spec.sceneName)}_Generated.unity";
+        }
+
+        private static string GetVolumeProfilePath(SceneSpec spec)
+        {
+            return $"{GeneratedFolder}/{SanitizeFileName(spec.sceneName)}_VolumeProfile.asset";
+        }
+
+        private static string SanitizeFileName(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return "GeneratedScene";
+            }
+
+            foreach (var invalid in Path.GetInvalidFileNameChars())
+            {
+                value = value.Replace(invalid, '_');
+            }
+
+            return value.Trim().Replace(' ', '_');
         }
 
         private static Vector3 SampleOpenClearingPosition(SceneSpec spec, System.Random random)

@@ -19,8 +19,8 @@ Use this workflow for Unity 2022.3 URP AIBuilder projects.
 
 ## Asset Index Workflow
 
-1. Run Unity menu `AIBuilder/Prefab Asset Library`.
-2. Use `Build Fast Metadata Missing / Changed` after importing assets.
+1. Run Unity menu `AI构建器/Prefab资产库/打开资产库面板`.
+2. Use `快速扫描缺失或变化资产` after importing assets.
 3. Read `Assets/AIBuilder/Generated/PrefabAssetMetadataLibrary/PrefabAssetLibrary_Index.md` and the relevant `metadata.json` files.
 4. Shortlist candidates by object role, style, shape, and approximate color.
 5. For final selection, use existing `PrefabAssetLibrary` screenshots or request/run `Build Missing / Changed Library` for shortlisted candidates.
@@ -55,7 +55,7 @@ Reject visually wrong prefabs even if their metadata or name matches.
 3. Encode camera, lighting, terrain, central features, and scatter groups.
 4. Use validated prefab paths when available.
 5. Use procedural fallback where prefab candidates do not visually match.
-6. Generate through `AIBuilder/Scene From Reference`.
+6. Generate through `AI构建器/场景生成/参考图生成场景`.
 7. Review main camera plus side/top spatial validity.
 
 ## Model Reference To ProBuilder Workflow
@@ -68,7 +68,7 @@ Use this when the user provides one or more model reference images and wants a m
 4. Read `Assets/AIBuilder/Runtime/ProBuilderModelSpec.cs`.
 5. Create or update `Assets/AIBuilder/Data/<ModelName>.json` using `ProBuilderModelSpec`.
 6. Split the model into named editable parts using `box`, `cylinder`, `cone`, `sphere`, `plane`, `prism/wedge/roof`, `pipe/ring`, `torus`, `arch`, or `stair`.
-7. Generate through `AIBuilder/ProBuilder Model From Reference`.
+7. Generate through `AI构建器/模型生成/参考图生成模型 ProBuilder`.
 8. Review the generated model from front, side, and top; adjust the spec if the silhouette does not match.
 
 ## Important Files

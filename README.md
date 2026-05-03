@@ -8,7 +8,7 @@ It provides Unity Editor tools for:
 - Rendering selected or project-wide prefabs into front/side/top visual references.
 - Creating labeled asset catalog views from scene objects.
 - Generating editable `SceneSpec` JSON.
-- Generating stylized reference scenes from `SceneSpec`.
+- Generating clean editable scenes from Codex-authored `SceneSpec` JSON.
 - Generating editable ProBuilder model blockouts from Codex-authored `ProBuilderModelSpec` JSON.
 - Capturing the workflow as a Codex Skill.
 
@@ -38,20 +38,19 @@ These dependencies are declared in `package.json`.
 ## Menus
 
 ```text
-AIBuilder/Scene From Reference
-AIBuilder/Generate Forest Heart Clearing
-AIBuilder/Asset Catalog Capture
-AIBuilder/Prefab Asset Library
-AIBuilder/ProBuilder Model From Reference
-AIBuilder/Generate Default ProBuilder Model
-AIBuilder/Create ProBuilder ModelSpec Template From Selected Images
+AI构建器/场景生成/参考图生成场景
+AI构建器/场景生成/选中图片生成场景配置
+AI构建器/模型生成/参考图生成模型 ProBuilder
+AI构建器/模型生成/选中图片生成模型配置
+AI构建器/资产整理/摆放并拍摄当前资产
+AI构建器/Prefab资产库/打开资产库面板
 ```
 
 ## Recommended Workflow
 
 1. Import your own art assets into the Unity project.
-2. Run `AIBuilder/Prefab Asset Library`.
-3. Click `Build Fast Metadata Missing / Changed`.
+2. Run `AI构建器/Prefab资产库/打开资产库面板`.
+3. Click `快速扫描缺失或变化资产`.
 4. Give Codex a reference image.
 5. Codex analyzes the reference world and reads the fast metadata index.
 6. Codex shortlists candidate prefabs by type, style, shape, and approximate color.
@@ -68,7 +67,7 @@ This package also supports reference-image-driven model blockouts.
 2. Send the image(s) to Codex in chat.
 3. Codex analyzes silhouette, proportions, visible materials, and missing-view assumptions.
 4. Codex writes a `ProBuilderModelSpec` JSON under `Assets/AIBuilder/Data`.
-5. Run `AIBuilder/ProBuilder Model From Reference`.
+5. Run `AI构建器/模型生成/参考图生成模型 ProBuilder`.
 6. Generate the model as editable ProBuilder parts.
 7. Manually refine faces, bevels, UVs, and proportions in ProBuilder, or send screenshots back to Codex for another spec pass.
 
