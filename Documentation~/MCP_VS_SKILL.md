@@ -29,6 +29,7 @@ A Skill is appropriate because the critical value is procedural:
 - When to generate screenshots.
 - How to perform final visual selection.
 - How to update `SceneSpec` and regenerate a Unity scene.
+- How to convert model reference images into a `ProBuilderModelSpec`.
 - When to fall back to ProBuilder/procedural geometry.
 
 Those are workflow rules that Codex should follow, not a network protocol.
@@ -42,6 +43,7 @@ This could become an MCP later if we add a Unity bridge process that exposes too
 - `render_prefab_candidates`
 - `query_asset_library`
 - `generate_scene_from_spec`
+- `generate_probuilder_model_from_spec`
 - `capture_scene_views`
 
 That would let Codex operate Unity more directly. Until then, the standard packaging is Unity editor tooling plus a Codex Skill.
@@ -57,6 +59,7 @@ Current functionality is good enough for a V1 workflow:
 - Project-wide prefab screenshot library.
 - Fast metadata-only prefab indexing.
 - Incremental detection with GUID and dependency hash.
+- Editable ProBuilder model generation from Codex-authored model specs.
 - Documentation and skill workflow.
 
 Known limitations:
@@ -64,6 +67,5 @@ Known limitations:
 - No live Unity MCP server yet.
 - No embedded vision model inside Unity.
 - Metadata-only matching is approximate and cannot replace visual comparison.
-- Procedural/ProBuilder fallback is still basic and should be expanded by scene type.
+- ProBuilder model generation is primitive/spec-driven; it is useful for editable blockouts and stylized low-poly forms, not final organic sculpting.
 - Large full-project screenshot builds can take time.
-

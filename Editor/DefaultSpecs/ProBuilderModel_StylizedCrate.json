@@ -1,0 +1,361 @@
+{
+    "modelName": "StylizedLowPolyCrate",
+    "generatedRootName": "AI_ProBuilder_Model_StylizedLowPolyCrate",
+    "generatorVersion": "model_v1",
+    "sourceMode": "codex_visual_analysis",
+    "referenceImages": [],
+    "visualNotes": [
+        "chunky stylized low-poly wooden crate",
+        "simple readable silhouette built from editable ProBuilder primitives",
+        "warm wood body with darker raised lid and blackened metal straps"
+    ],
+    "modelingNotes": [
+        "This is a package sample showing the JSON shape vocabulary.",
+        "For real use, Codex replaces these parts after analyzing model reference images."
+    ],
+    "savePrefab": true,
+    "outputFolder": "Assets/AIBuilder/GeneratedModels",
+    "origin": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "parts": [
+        {
+            "name": "body",
+            "parentName": "",
+            "shape": "box",
+            "position": {
+                "x": 0.0,
+                "y": 0.6,
+                "z": 0.0
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "size": {
+                "x": 2.6,
+                "y": 1.2,
+                "z": 1.8
+            },
+            "color": {
+                "r": 0.58,
+                "g": 0.34,
+                "b": 0.16,
+                "a": 1.0
+            },
+            "materialName": "AI_PB_WarmWood",
+            "emissionColor": {
+                "r": 0.0,
+                "g": 0.0,
+                "b": 0.0,
+                "a": 1.0
+            },
+            "emissionIntensity": 0.0,
+            "segments": 12,
+            "subdivisions": 1,
+            "heightCuts": 0,
+            "thickness": 0.18,
+            "archAngle": 180.0,
+            "smooth": false,
+            "addCollider": false,
+            "notes": "Main mass and scale anchor."
+        },
+        {
+            "name": "raised_lid",
+            "parentName": "",
+            "shape": "prism",
+            "position": {
+                "x": 0.0,
+                "y": 1.32,
+                "z": 0.0
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "size": {
+                "x": 2.76,
+                "y": 0.58,
+                "z": 1.96
+            },
+            "color": {
+                "r": 0.7,
+                "g": 0.43,
+                "b": 0.18,
+                "a": 1.0
+            },
+            "materialName": "AI_PB_LitWood",
+            "emissionColor": {
+                "r": 0.0,
+                "g": 0.0,
+                "b": 0.0,
+                "a": 1.0
+            },
+            "emissionIntensity": 0.0,
+            "segments": 12,
+            "subdivisions": 1,
+            "heightCuts": 0,
+            "thickness": 0.18,
+            "archAngle": 180.0,
+            "smooth": false,
+            "addCollider": false,
+            "notes": "Triangular prism creates a readable stylized lid."
+        },
+        {
+            "name": "front_left_strap",
+            "parentName": "",
+            "shape": "box",
+            "position": {
+                "x": -0.78,
+                "y": 0.78,
+                "z": -0.94
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "size": {
+                "x": 0.2,
+                "y": 1.35,
+                "z": 0.08
+            },
+            "color": {
+                "r": 0.12,
+                "g": 0.1,
+                "b": 0.08,
+                "a": 1.0
+            },
+            "materialName": "AI_PB_DarkMetal",
+            "emissionColor": {
+                "r": 0.0,
+                "g": 0.0,
+                "b": 0.0,
+                "a": 1.0
+            },
+            "emissionIntensity": 0.0,
+            "segments": 12,
+            "subdivisions": 1,
+            "heightCuts": 0,
+            "thickness": 0.18,
+            "archAngle": 180.0,
+            "smooth": false,
+            "addCollider": false,
+            "notes": "Front metal strap."
+        },
+        {
+            "name": "front_right_strap",
+            "parentName": "",
+            "shape": "box",
+            "position": {
+                "x": 0.78,
+                "y": 0.78,
+                "z": -0.94
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "size": {
+                "x": 0.2,
+                "y": 1.35,
+                "z": 0.08
+            },
+            "color": {
+                "r": 0.12,
+                "g": 0.1,
+                "b": 0.08,
+                "a": 1.0
+            },
+            "materialName": "AI_PB_DarkMetal",
+            "emissionColor": {
+                "r": 0.0,
+                "g": 0.0,
+                "b": 0.0,
+                "a": 1.0
+            },
+            "emissionIntensity": 0.0,
+            "segments": 12,
+            "subdivisions": 1,
+            "heightCuts": 0,
+            "thickness": 0.18,
+            "archAngle": 180.0,
+            "smooth": false,
+            "addCollider": false,
+            "notes": "Front metal strap."
+        },
+        {
+            "name": "center_lock_plate",
+            "parentName": "",
+            "shape": "box",
+            "position": {
+                "x": 0.0,
+                "y": 0.72,
+                "z": -0.99
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "size": {
+                "x": 0.45,
+                "y": 0.38,
+                "z": 0.08
+            },
+            "color": {
+                "r": 0.95,
+                "g": 0.7,
+                "b": 0.18,
+                "a": 1.0
+            },
+            "materialName": "AI_PB_WarmGold",
+            "emissionColor": {
+                "r": 0.0,
+                "g": 0.0,
+                "b": 0.0,
+                "a": 1.0
+            },
+            "emissionIntensity": 0.0,
+            "segments": 12,
+            "subdivisions": 1,
+            "heightCuts": 0,
+            "thickness": 0.18,
+            "archAngle": 180.0,
+            "smooth": false,
+            "addCollider": false,
+            "notes": "Small color accent on the front."
+        },
+        {
+            "name": "left_side_band",
+            "parentName": "",
+            "shape": "box",
+            "position": {
+                "x": -1.34,
+                "y": 0.78,
+                "z": 0.0
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "size": {
+                "x": 0.08,
+                "y": 1.28,
+                "z": 1.85
+            },
+            "color": {
+                "r": 0.12,
+                "g": 0.1,
+                "b": 0.08,
+                "a": 1.0
+            },
+            "materialName": "AI_PB_DarkMetal",
+            "emissionColor": {
+                "r": 0.0,
+                "g": 0.0,
+                "b": 0.0,
+                "a": 1.0
+            },
+            "emissionIntensity": 0.0,
+            "segments": 12,
+            "subdivisions": 1,
+            "heightCuts": 0,
+            "thickness": 0.18,
+            "archAngle": 180.0,
+            "smooth": false,
+            "addCollider": false,
+            "notes": "Side band makes the silhouette less flat."
+        },
+        {
+            "name": "right_side_band",
+            "parentName": "",
+            "shape": "box",
+            "position": {
+                "x": 1.34,
+                "y": 0.78,
+                "z": 0.0
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "size": {
+                "x": 0.08,
+                "y": 1.28,
+                "z": 1.85
+            },
+            "color": {
+                "r": 0.12,
+                "g": 0.1,
+                "b": 0.08,
+                "a": 1.0
+            },
+            "materialName": "AI_PB_DarkMetal",
+            "emissionColor": {
+                "r": 0.0,
+                "g": 0.0,
+                "b": 0.0,
+                "a": 1.0
+            },
+            "emissionIntensity": 0.0,
+            "segments": 12,
+            "subdivisions": 1,
+            "heightCuts": 0,
+            "thickness": 0.18,
+            "archAngle": 180.0,
+            "smooth": false,
+            "addCollider": false,
+            "notes": "Side band makes the silhouette less flat."
+        },
+        {
+            "name": "lock_ring",
+            "parentName": "",
+            "shape": "torus",
+            "position": {
+                "x": 0.0,
+                "y": 0.36,
+                "z": -1.04
+            },
+            "rotation": {
+                "x": 90.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "size": {
+                "x": 0.38,
+                "y": 0.38,
+                "z": 0.1
+            },
+            "color": {
+                "r": 0.95,
+                "g": 0.7,
+                "b": 0.18,
+                "a": 1.0
+            },
+            "materialName": "AI_PB_WarmGold",
+            "emissionColor": {
+                "r": 0.0,
+                "g": 0.0,
+                "b": 0.0,
+                "a": 1.0
+            },
+            "emissionIntensity": 0.0,
+            "segments": 16,
+            "subdivisions": 1,
+            "heightCuts": 0,
+            "thickness": 0.18,
+            "archAngle": 180.0,
+            "smooth": true,
+            "addCollider": false,
+            "notes": "Optional rounded accent; still editable as a ProBuilder torus."
+        }
+    ]
+}

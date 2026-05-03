@@ -132,3 +132,31 @@ Common iteration points:
 - Improve lighting and fog.
 - Regenerate candidate screenshots if new assets were imported.
 
+## 8. Build A ProBuilder Model From Model References
+
+Use this when the missing asset is a single model, not a full scene.
+
+1. Import one or more model reference images into Unity.
+2. If the images are inside the project, select them and run:
+
+```text
+AIBuilder/Create ProBuilder ModelSpec Template From Selected Images
+```
+
+3. Send the image(s) to Codex.
+4. Codex analyzes front, side, top, and hidden-depth assumptions from the available views.
+5. Codex creates or updates a `ProBuilderModelSpec` JSON under:
+
+```text
+Assets/AIBuilder/Data
+```
+
+6. Run:
+
+```text
+AIBuilder/ProBuilder Model From Reference
+```
+
+7. Generate the model and refine the created ProBuilder parts.
+
+The generator creates editable ProBuilder primitives, not a final sculpt. Use it for blockout, stylized low-poly construction, layout replacement assets, and rapid iteration. Single-view references are valid but require conservative inference for depth and hidden sides; multi-view references are preferred for accurate silhouettes.

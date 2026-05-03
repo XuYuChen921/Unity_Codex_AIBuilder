@@ -9,6 +9,7 @@ It provides Unity Editor tools for:
 - Creating labeled asset catalog views from scene objects.
 - Generating editable `SceneSpec` JSON.
 - Generating stylized reference scenes from `SceneSpec`.
+- Generating editable ProBuilder model blockouts from Codex-authored `ProBuilderModelSpec` JSON.
 - Capturing the workflow as a Codex Skill.
 
 ## Install
@@ -41,6 +42,9 @@ AIBuilder/Scene From Reference
 AIBuilder/Generate Forest Heart Clearing
 AIBuilder/Asset Catalog Capture
 AIBuilder/Prefab Asset Library
+AIBuilder/ProBuilder Model From Reference
+AIBuilder/Generate Default ProBuilder Model
+AIBuilder/Create ProBuilder ModelSpec Template From Selected Images
 ```
 
 ## Recommended Workflow
@@ -55,6 +59,22 @@ AIBuilder/Prefab Asset Library
 8. Codex performs final visual comparison.
 9. Codex updates or creates `SceneSpec` JSON.
 10. Generate the Unity scene.
+
+## Model Reference To ProBuilder
+
+This package also supports reference-image-driven model blockouts.
+
+1. Import one or more model reference images into Unity.
+2. Send the image(s) to Codex in chat.
+3. Codex analyzes silhouette, proportions, visible materials, and missing-view assumptions.
+4. Codex writes a `ProBuilderModelSpec` JSON under `Assets/AIBuilder/Data`.
+5. Run `AIBuilder/ProBuilder Model From Reference`.
+6. Generate the model as editable ProBuilder parts.
+7. Manually refine faces, bevels, UVs, and proportions in ProBuilder, or send screenshots back to Codex for another spec pass.
+
+Supported primitive vocabulary includes `box`, `cylinder`, `cone`, `sphere`, `plane`, `prism/wedge/roof`, `pipe/ring`, `torus`, `arch`, and `stair`.
+
+Single-view references are supported, but depth and hidden-side details are inferred conservatively. Multi-view references should be used whenever silhouette accuracy matters.
 
 ## Final Asset Selection Rule
 
@@ -90,6 +110,7 @@ Assets/AIBuilder/Generated
 Assets/AIBuilder/Data
 Assets/AIBuilder/Scenes
 Assets/AIBuilder/Materials
+Assets/AIBuilder/GeneratedModels
 ```
 
 These are intentionally project-local outputs and are not part of the package source.
@@ -105,4 +126,3 @@ Documentation~/MCP_VS_SKILL.md
 Documentation~/WORKFLOW.md
 Skills/unity-ai-builder/SKILL.md
 ```
-
