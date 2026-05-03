@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1
+
+- Added the missing `Unity.RenderPipelines.Core.Runtime` assembly reference required by URP `Volume` and `VolumeProfile` types.
+
 ## 0.2.0
 
 - Added `ProBuilderModelSpec` for Codex-authored model generation from one or more reference images.

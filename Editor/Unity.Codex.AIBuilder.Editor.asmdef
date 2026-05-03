@@ -4,6 +4,7 @@
   "references": [
     "Unity.Codex.AIBuilder.Runtime",
     "Unity.TextMeshPro",
+    "Unity.RenderPipelines.Core.Runtime",
     "Unity.RenderPipelines.Universal.Runtime",
     "Unity.ProBuilder"
   ],

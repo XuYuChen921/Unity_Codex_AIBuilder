@@ -1,6 +1,6 @@
 {
   "name": "com.xuyuchen.ai-builder",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "displayName": "Unity Codex AIBuilder",
   "description": "Unity Editor toolkit and Codex workflow for reference-image-driven scene generation, ProBuilder model blockouts, prefab asset indexing, visual candidate comparison, and procedural fallback.",
   "unity": "2022.3",
