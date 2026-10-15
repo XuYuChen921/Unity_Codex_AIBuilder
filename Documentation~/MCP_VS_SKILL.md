@@ -1,71 +1,22 @@
-# MCP vs Skill Decision
+# 为什么当前只用 Codex Skill
 
-## Decision
+当前方案是：Codex Skill + Unity 编辑器包 + ProBuilder。
 
-This project should currently be shipped as:
+不接本地视觉模型，因为参考图理解由 Codex 完成；Unity 只做确定性的几何生成、截图和写入。
 
-- A Unity editor toolkit.
-- A Codex Skill that documents the scene-building workflow.
+暂不接 MCP，因为核心闭环已经可以通过两个本地文件边界完成：
 
-It should not currently be shipped as an MCP server.
+```text
+Codex -> Assets/AIBuilder/Data/<任务>.json
+Unity -> Library/AIBuilder/Reviews/<本轮复查包>
+```
 
-## Why Not MCP Yet
+MCP 只有在需要 Codex 无人值守地调用正在运行的 Unity、查询实时 Scene 状态或自动触发多轮生成时才有明显价值。现阶段加入常驻桥接服务会增加安装、连接和故障排查成本，不提升白盒几何本身的质量。
 
-MCP is appropriate when an AI client needs callable tools exposed by a running service, for example:
+质量主要来自：
 
-- Query Unity assets through a live tool call.
-- Trigger Unity scene generation from Codex without manual editor interaction.
-- Request prefab screenshots or metadata through a protocol boundary.
-- Inspect open Unity scenes interactively.
-
-The current project does not run a persistent Unity-side server. Its functions are Unity Editor menu tools and C# editor scripts. They are useful and functional, but they are not exposed as external callable MCP tools.
-
-## Why A Skill Fits
-
-A Skill is appropriate because the critical value is procedural:
-
-- How to analyze a reference image.
-- How to coarse-filter prefabs using metadata.
-- When to generate screenshots.
-- How to perform final visual selection.
-- How to update `SceneSpec` and regenerate a Unity scene.
-- How to convert model reference images into a `ProBuilderModelSpec`.
-- When to fall back to ProBuilder/procedural geometry.
-
-Those are workflow rules that Codex should follow, not a network protocol.
-
-## Future MCP Path
-
-This could become an MCP later if we add a Unity bridge process that exposes tools such as:
-
-- `scan_prefabs`
-- `build_fast_metadata`
-- `render_prefab_candidates`
-- `query_asset_library`
-- `generate_scene_from_spec`
-- `generate_probuilder_model_from_spec`
-- `capture_scene_views`
-
-That would let Codex operate Unity more directly. Until then, the standard packaging is Unity editor tooling plus a Codex Skill.
-
-## Maturity Assessment
-
-Current functionality is good enough for a V1 workflow:
-
-- Editable scene spec data model.
-- Reference-scene generator.
-- Project asset matching.
-- Asset catalog layout and labeled multi-view capture.
-- Project-wide prefab screenshot library.
-- Fast metadata-only prefab indexing.
-- Incremental detection with GUID and dependency hash.
-- Editable ProBuilder model generation from Codex-authored model specs.
-- Documentation and skill workflow.
-
-Known limitations:
-
-- No live Unity MCP server yet.
-- No embedded vision model inside Unity.
-- Metadata-only matching is approximate and cannot replace visual comparison.
-- ProBuilder model generation is primitive/spec-driven; it is useful for editable blockouts and stylized low-poly forms, not final organic sculpting.
-- Large full-project screenshot builds can take time.
+- 明确区分场景与物体任务。
+- 结构化 ProBuilder 体块配置。
+- 主、侧、俯三视角复查。
+- 配置修改后强制重新预览。
+- 最终写入由人确认，且不覆盖旧结果。

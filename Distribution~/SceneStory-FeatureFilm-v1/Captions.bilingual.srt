@@ -1,0 +1,59 @@
+1
+00:00:00,000 --> 00:00:06,000
+Scene Story · 多角色剧情编排
+Actor routes and staging for Unity Timeline
+
+2
+00:00:06,000 --> 00:00:14,000
+同一时间轴，检查多个角色的走位
+Inspect multiple actors on one Timeline
+
+3
+00:00:14,000 --> 00:00:17,500
+选中片段，在它后面插入停留
+Select a clip; insert a Hold after it
+
+4
+00:00:17,500 --> 00:00:23,500
+后续路线顺延，停留衔接前段终点
+Later route clips shift; the Hold follows the endpoint
+
+5
+00:00:25,000 --> 00:00:35,000
+调整移动片段顺序，查看路线重新连接
+Reorder Move clips and inspect route connections
+
+6
+00:00:35,000 --> 00:00:43,000
+选择场景路线，切换当前角色轨道
+Select a scene route to switch actor tracks
+
+7
+00:00:43,000 --> 00:00:51,000
+用朝向曲线安排转向与保持
+Shape when the actor turns and holds its heading
+
+8
+00:00:51,000 --> 00:00:59,000
+回正时间可控，移动路线保持独立
+Control the return while preserving the movement route
+
+9
+00:00:59,000 --> 00:01:06,500
+启用距离同步，使用动画循环距离
+Enable gait sync using distance per animation cycle
+
+10
+00:01:06,500 --> 00:01:14,000
+缩短移动时长，步态跟随路程推进
+Shorten the move; gait follows traveled distance
+
+11
+00:01:14,000 --> 00:01:24,000
+前后定位，检查多角色关键时刻
+Seek backward and forward to inspect the performance
+
+12
+00:01:24,000 --> 00:01:28,000
+Scene Story · 编排表演，随时改戏
+Stage the performance. Revise the blocking.

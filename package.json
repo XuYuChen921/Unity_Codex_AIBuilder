@@ -1,23 +1,22 @@
 {
   "name": "com.xuyuchen.ai-builder",
-  "version": "0.2.2",
-  "displayName": "Unity Codex AIBuilder",
-  "description": "Unity Editor toolkit and Codex workflow for reference-image-driven scene generation, ProBuilder model blockouts, prefab asset indexing, visual candidate comparison, and procedural fallback.",
+  "version": "0.6.0",
+  "displayName": "Unity AIBuilder",
+  "description": "Codex-guided Unity ProBuilder blockouts from scene or object reference images, with safe preview, multi-view review, and confirmed writes.",
   "unity": "2022.3",
   "dependencies": {
     "com.unity.render-pipelines.universal": "14.0.12",
     "com.unity.textmeshpro": "3.0.7",
-    "com.unity.probuilder": "5.2.4"
+    "com.unity.probuilder": "5.2.4",
+    "com.unity.timeline": "1.7.7"
   },
   "keywords": [
     "ai",
     "codex",
     "unity",
-    "scene-generation",
+    "scene-blockout",
     "probuilder",
-    "model-blockout",
-    "prefab-library",
-    "xr",
+    "object-blockout",
     "urp"
   ],
   "author": {

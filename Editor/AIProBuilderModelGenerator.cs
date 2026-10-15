@@ -5,14 +5,16 @@ using AIBuilder;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.ProBuilder;
-using Object = UnityEngine.Object;
+using UnityEngine.ProBuilder.MeshOperations;
 
 namespace AIBuilder.EditorTools
 {
     public sealed class AIProBuilderModelBuildOptions
     {
-        public bool ReplaceExisting = true;
-        public bool SavePrefab = true;
+        public bool ReplaceExisting;
+        public bool SavePrefab;
+        public bool PersistMaterials;
+        public bool OverwriteExistingPrefab;
         public bool SelectGeneratedRoot = true;
         public string OutputFolder = "Assets/AIBuilder/GeneratedModels";
     }
@@ -22,13 +24,13 @@ namespace AIBuilder.EditorTools
         private const string DataFolder = "Assets/AIBuilder/Data";
         private const string PackageDefaultSpecPath = "Packages/com.xuyuchen.ai-builder/Editor/DefaultSpecs/ProBuilderModel_StylizedCrate.json";
 
-        [MenuItem("AI构建器/模型生成/参考图生成模型 ProBuilder")]
+        public static string LastSavedPrefabPath { get; private set; }
+
         public static void OpenWindow()
         {
             AIProBuilderModelWindow.Open();
         }
 
-        [MenuItem("AI构建器/模型生成/生成模型示例")]
         public static void GenerateDefaultModelFromMenu()
         {
             var specAsset = LoadDefaultModelSpec();
@@ -41,7 +43,6 @@ namespace AIBuilder.EditorTools
             GenerateFromTextAsset(specAsset, new AIProBuilderModelBuildOptions());
         }
 
-        [MenuItem("AI构建器/模型生成/选中图片生成模型配置")]
         public static void CreateTemplateFromSelectedImages()
         {
             var selectedTextures = new List<Texture2D>();
@@ -86,10 +87,20 @@ namespace AIBuilder.EditorTools
                 return null;
             }
 
-            var spec = JsonUtility.FromJson<ProBuilderModelSpec>(specAsset.text);
+            ProBuilderModelSpec spec;
+            try
+            {
+                spec = JsonUtility.FromJson<ProBuilderModelSpec>(specAsset.text);
+            }
+            catch (Exception exception)
+            {
+                DisplayError($"ModelSpec JSON 解析失败：\n{exception.Message}");
+                return null;
+            }
+
             if (spec == null)
             {
-                EditorUtility.DisplayDialog("AI ProBuilder Model", $"Could not parse ModelSpec JSON:\n{AssetDatabase.GetAssetPath(specAsset)}", "OK");
+                DisplayError($"无法解析 ModelSpec JSON：\n{AssetDatabase.GetAssetPath(specAsset)}");
                 return null;
             }
 
@@ -98,6 +109,7 @@ namespace AIBuilder.EditorTools
 
         public static GameObject Generate(ProBuilderModelSpec spec, AIProBuilderModelBuildOptions options)
         {
+            LastSavedPrefabPath = null;
             if (spec == null)
             {
                 return null;
@@ -108,14 +120,49 @@ namespace AIBuilder.EditorTools
                 options = new AIProBuilderModelBuildOptions();
             }
 
-            if (spec.parts == null || spec.parts.Count == 0)
+            var outputFolder = string.IsNullOrWhiteSpace(options.OutputFolder) ? spec.outputFolder : options.OutputFolder;
+            if (string.IsNullOrWhiteSpace(outputFolder))
             {
-                EditorUtility.DisplayDialog("AI ProBuilder Model", "ModelSpec has no parts. Add at least one ProBuilderModelPartSpec.", "OK");
+                outputFolder = "Assets/AIBuilder/GeneratedModels";
+            }
+
+            var validation = AIBuilderSpecValidator.ValidateModelSpec(spec, outputFolder);
+            if (!validation.IsValid)
+            {
+                DisplayError(validation.ToDisplayString());
                 return null;
             }
 
-            EnsureFolder("Assets", "AIBuilder");
-            EnsureFolder("Assets/AIBuilder", "Materials");
+            AIBuilderAssetPathUtility.TryNormalizeAssetsFolder(outputFolder, out var normalizedOutputFolder, out _);
+            outputFolder = normalizedOutputFolder;
+
+            if (validation.Warnings.Count > 0)
+            {
+                Debug.LogWarning("AI ProBuilder Model 配置警告：\n" + validation.ToDisplayString());
+            }
+
+            var shouldSavePrefab = options.SavePrefab && spec.savePrefab;
+            var shouldPersistMaterials = shouldSavePrefab || options.PersistMaterials;
+            string prefabPath = null;
+            string materialFolder = null;
+            var materialPrefix = SanitizeFileName(spec.modelName);
+            if (shouldSavePrefab)
+            {
+                AIBuilderAssetPathUtility.EnsureAssetFolder(outputFolder);
+                prefabPath = $"{outputFolder}/{SanitizeFileName(spec.modelName)}.prefab";
+                if (!options.OverwriteExistingPrefab)
+                {
+                    prefabPath = AssetDatabase.GenerateUniqueAssetPath(prefabPath);
+                }
+                materialPrefix = SanitizeFileName(Path.GetFileNameWithoutExtension(prefabPath));
+            }
+
+            if (shouldPersistMaterials)
+            {
+                AIBuilderAssetPathUtility.EnsureAssetFolder(outputFolder);
+                materialFolder = outputFolder + "/Materials";
+                AIBuilderAssetPathUtility.EnsureAssetFolder(materialFolder);
+            }
 
             var rootName = string.IsNullOrWhiteSpace(spec.generatedRootName)
                 ? $"AI_ProBuilder_Model_{SanitizeObjectName(spec.modelName)}"
@@ -126,17 +173,32 @@ namespace AIBuilder.EditorTools
                 var existing = GameObject.Find(rootName);
                 if (existing != null)
                 {
-                    Object.DestroyImmediate(existing);
+                    Undo.DestroyObjectImmediate(existing);
                 }
+            }
+            else if (GameObject.Find(rootName) != null)
+            {
+                rootName = GameObjectUtility.GetUniqueNameForSibling(null, rootName);
             }
 
             var root = new GameObject(rootName);
+            Undo.RegisterCreatedObjectUndo(root, "生成 ProBuilder 模型");
             root.transform.position = spec.origin;
 
             var createdParts = new Dictionary<string, GameObject>(StringComparer.OrdinalIgnoreCase);
+            var analysisElements = BuildAnalysisElementMap(spec.sceneAnalysis);
             foreach (var part in spec.parts)
             {
-                var partObject = CreatePart(part);
+                analysisElements.TryGetValue(part.analysisElementId ?? string.Empty, out var analysisElement);
+                var partObject = CreatePart(
+                    part,
+                    analysisElement,
+                    spec.camera,
+                    spec.referenceFrame,
+                    materialPrefix,
+                    materialFolder,
+                    shouldPersistMaterials,
+                    options.OverwriteExistingPrefab);
                 if (partObject == null)
                 {
                     continue;
@@ -159,32 +221,71 @@ namespace AIBuilder.EditorTools
                 child.transform.SetParent(parent.transform, false);
             }
 
+            CreateReferenceCamera(spec.camera, spec.referenceFrame, root.transform);
+
             if (options.SelectGeneratedRoot)
             {
                 Selection.activeGameObject = root;
                 SceneView.lastActiveSceneView?.FrameSelected();
             }
 
-            var shouldSavePrefab = options.SavePrefab;
             if (shouldSavePrefab)
             {
-                var folder = string.IsNullOrWhiteSpace(options.OutputFolder) ? spec.outputFolder : options.OutputFolder;
-                if (string.IsNullOrWhiteSpace(folder))
-                {
-                    folder = "Assets/AIBuilder/GeneratedModels";
-                }
-
-                EnsureFolderPath(folder);
-                var path = $"{folder}/{SanitizeFileName(spec.modelName)}.prefab";
-                PrefabUtility.SaveAsPrefabAssetAndConnect(root, path, InteractionMode.AutomatedAction);
-                Debug.Log($"AI ProBuilder Model saved prefab: {path}");
+                PrefabUtility.SaveAsPrefabAssetAndConnect(root, prefabPath, InteractionMode.AutomatedAction);
+                AssetDatabase.SaveAssets();
+                LastSavedPrefabPath = prefabPath;
+                Debug.Log($"AI ProBuilder Model 已保存 prefab：{prefabPath}");
+            }
+            else
+            {
+                Debug.Log("AI ProBuilder Model 预览完成：未写入 prefab 或材质资产。");
             }
 
             Debug.Log($"AI ProBuilder Model generated {createdParts.Count} editable ProBuilder parts for '{spec.modelName}'.");
             return root;
         }
 
-        private static GameObject CreatePart(ProBuilderModelPartSpec part)
+        private static void CreateReferenceCamera(
+            ProBuilderModelCameraSpec cameraSpec,
+            ProBuilderReferenceFrameSpec referenceFrame,
+            Transform root)
+        {
+            if (cameraSpec == null || !cameraSpec.enabled)
+            {
+                return;
+            }
+
+            var direction = cameraSpec.lookAt - cameraSpec.position;
+            if (direction.sqrMagnitude < 0.0001f)
+            {
+                direction = Vector3.forward;
+            }
+
+            var cameraObject = new GameObject("AIBuilder_ReferenceCamera");
+            Undo.RegisterCreatedObjectUndo(cameraObject, "生成白盒参考相机");
+            cameraObject.transform.SetParent(root, false);
+            cameraObject.transform.localPosition = cameraSpec.position;
+            cameraObject.transform.localRotation = Quaternion.LookRotation(direction, Vector3.up);
+            var camera = cameraObject.AddComponent<Camera>();
+            camera.enabled = false;
+            camera.fieldOfView = Mathf.Clamp(cameraSpec.fieldOfView, 10f, 120f);
+            if (referenceFrame != null && referenceFrame.enabled && referenceFrame.width > 0 && referenceFrame.height > 0)
+            {
+                camera.aspect = referenceFrame.width / (float)referenceFrame.height;
+            }
+            camera.nearClipPlane = 0.05f;
+            camera.farClipPlane = 1000f;
+        }
+
+        private static GameObject CreatePart(
+            ProBuilderModelPartSpec part,
+            ProBuilderSceneElementSpec analysisElement,
+            ProBuilderModelCameraSpec cameraSpec,
+            ProBuilderReferenceFrameSpec referenceFrame,
+            string materialPrefix,
+            string materialFolder,
+            bool persistMaterial,
+            bool overwriteMaterial)
         {
             if (part == null)
             {
@@ -201,7 +302,9 @@ namespace AIBuilder.EditorTools
                 return empty;
             }
 
-            var mesh = CreatePrimitive(shape, part);
+            var mesh = shape == "screen_polygon"
+                ? CreateScreenPolygon(analysisElement, cameraSpec, referenceFrame)
+                : CreatePrimitive(shape, part);
             if (mesh == null)
             {
                 Debug.LogWarning($"AI ProBuilder Model skipped unsupported shape '{part.shape}' on part '{partName}'.");
@@ -210,8 +313,11 @@ namespace AIBuilder.EditorTools
 
             var gameObject = mesh.gameObject;
             gameObject.name = partName;
-            ApplyTransform(gameObject.transform, part);
-            ApplyMaterial(gameObject, part);
+            if (shape != "screen_polygon")
+            {
+                ApplyTransform(gameObject.transform, part);
+            }
+            ApplyMaterial(gameObject, part, materialPrefix, materialFolder, persistMaterial, overwriteMaterial);
 
             if (part.addCollider && gameObject.GetComponent<Collider>() == null)
             {
@@ -222,6 +328,97 @@ namespace AIBuilder.EditorTools
             mesh.Refresh();
             EditorUtility.SetDirty(mesh);
             return gameObject;
+        }
+
+        private static Dictionary<string, ProBuilderSceneElementSpec> BuildAnalysisElementMap(
+            ProBuilderSceneAnalysisSpec analysis)
+        {
+            var result = new Dictionary<string, ProBuilderSceneElementSpec>(StringComparer.OrdinalIgnoreCase);
+            if (analysis?.enabled != true || analysis.elements == null)
+            {
+                return result;
+            }
+
+            foreach (var element in analysis.elements)
+            {
+                if (element != null && !string.IsNullOrWhiteSpace(element.id))
+                {
+                    result[element.id.Trim()] = element;
+                }
+            }
+
+            return result;
+        }
+
+        private static ProBuilderMesh CreateScreenPolygon(
+            ProBuilderSceneElementSpec element,
+            ProBuilderModelCameraSpec cameraSpec,
+            ProBuilderReferenceFrameSpec referenceFrame)
+        {
+            if (element?.generateFromScreen != true || element.screenPolygon == null || element.screenPolygon.Count < 3)
+            {
+                return null;
+            }
+
+            var cameraPosition = cameraSpec?.position ?? new Vector3(0f, 3f, -10f);
+            var lookAt = cameraSpec?.lookAt ?? Vector3.zero;
+            var cameraForward = lookAt - cameraPosition;
+            if (cameraForward.sqrMagnitude < 0.0001f)
+            {
+                cameraForward = Vector3.forward;
+            }
+            cameraForward.Normalize();
+
+            var cameraRotation = Quaternion.LookRotation(cameraForward, Vector3.up);
+            var cameraRight = cameraRotation * Vector3.right;
+            var cameraUp = cameraRotation * Vector3.up;
+            var polygonRotation = Quaternion.LookRotation(cameraUp, cameraForward);
+            var aspect = referenceFrame != null && referenceFrame.enabled && referenceFrame.width > 0 && referenceFrame.height > 0
+                ? referenceFrame.width / (float)referenceFrame.height
+                : 16f / 9f;
+            var fieldOfView = Mathf.Clamp(cameraSpec?.fieldOfView ?? 50f, 10f, 120f);
+            var depth = Mathf.Max(0.1f, element.depthMeters);
+            var verticalSpan = 2f * depth * Mathf.Tan(fieldOfView * 0.5f * Mathf.Deg2Rad);
+            var horizontalSpan = verticalSpan * aspect;
+
+            var minX = 1f;
+            var maxX = 0f;
+            var minY = 1f;
+            var maxY = 0f;
+            foreach (var point in element.screenPolygon)
+            {
+                minX = Mathf.Min(minX, point.x);
+                maxX = Mathf.Max(maxX, point.x);
+                minY = Mathf.Min(minY, point.y);
+                maxY = Mathf.Max(maxY, point.y);
+            }
+
+            var centerX = (minX + maxX) * 0.5f;
+            var centerY = (minY + maxY) * 0.5f;
+            var center = cameraPosition +
+                         cameraForward * depth +
+                         cameraRight * ((centerX - 0.5f) * horizontalSpan) +
+                         cameraUp * ((0.5f - centerY) * verticalSpan);
+            var points = new List<Vector3>(element.screenPolygon.Count);
+            foreach (var point in element.screenPolygon)
+            {
+                points.Add(new Vector3(
+                    (point.x - centerX) * horizontalSpan,
+                    0f,
+                    (centerY - point.y) * verticalSpan));
+            }
+
+            var mesh = ProBuilderMesh.Create();
+            mesh.transform.localPosition = center;
+            mesh.transform.localRotation = polygonRotation;
+            var result = mesh.CreateShapeFromPolygon(points, Mathf.Max(0.02f, element.thicknessMeters), true);
+            if (result.status == ActionResult.Status.Failure || result.status == ActionResult.Status.NoChange)
+            {
+                UnityEngine.Object.DestroyImmediate(mesh.gameObject);
+                return null;
+            }
+
+            return mesh;
         }
 
         private static ProBuilderMesh CreatePrimitive(string shape, ProBuilderModelPartSpec part)
@@ -267,7 +464,13 @@ namespace AIBuilder.EditorTools
             transform.localScale = SafeScale(part.size);
         }
 
-        private static void ApplyMaterial(GameObject gameObject, ProBuilderModelPartSpec part)
+        private static void ApplyMaterial(
+            GameObject gameObject,
+            ProBuilderModelPartSpec part,
+            string materialPrefix,
+            string materialFolder,
+            bool persistMaterial,
+            bool overwriteMaterial)
         {
             var renderer = gameObject.GetComponent<MeshRenderer>();
             if (renderer == null)
@@ -279,30 +482,69 @@ namespace AIBuilder.EditorTools
                 ? $"AI_PB_{SanitizeFileName(part.name)}"
                 : SanitizeFileName(part.materialName);
 
-            renderer.sharedMaterial = CreateMaterial(materialName, part.color, part.emissionColor, part.emissionIntensity);
+            renderer.sharedMaterial = CreateMaterial(
+                materialPrefix + "_" + materialName,
+                materialFolder,
+                part.color,
+                part.emissionColor,
+                part.emissionIntensity,
+                string.Equals(NormalizeShape(part.shape), "screen_polygon", StringComparison.Ordinal),
+                persistMaterial,
+                overwriteMaterial);
         }
 
-        private static Material CreateMaterial(string name, Color baseColor, Color emissionColor, float emissionIntensity)
+        private static Material CreateMaterial(
+            string name,
+            string materialFolder,
+            Color baseColor,
+            Color emissionColor,
+            float emissionIntensity,
+            bool unlit,
+            bool persist,
+            bool overwrite)
         {
-            EnsureFolder("Assets", "AIBuilder");
-            EnsureFolder("Assets/AIBuilder", "Materials");
+            Material material = null;
+            string path = null;
+            if (persist)
+            {
+                path = $"{materialFolder}/{name}.mat";
+                if (overwrite)
+                {
+                    material = AssetDatabase.LoadAssetAtPath<Material>(path);
+                }
+                else
+                {
+                    path = AssetDatabase.GenerateUniqueAssetPath(path);
+                }
+            }
 
-            var path = $"Assets/AIBuilder/Materials/{name}.mat";
-            var material = AssetDatabase.LoadAssetAtPath<Material>(path);
             if (material == null)
             {
-                var shader = Shader.Find("Universal Render Pipeline/Lit");
+                var shader = unlit
+                    ? Shader.Find("Universal Render Pipeline/Unlit") ?? Shader.Find("Unlit/Color") ?? Shader.Find("Standard")
+                    : Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard");
                 if (shader == null)
                 {
-                    shader = Shader.Find("Standard");
+                    throw new InvalidOperationException("找不到可用的 Lit 或 Standard Shader。");
                 }
 
                 material = new Material(shader) { name = name };
-                AssetDatabase.CreateAsset(material, path);
+                if (persist)
+                {
+                    AssetDatabase.CreateAsset(material, path);
+                }
+                else
+                {
+                    material.hideFlags = HideFlags.HideAndDontSave;
+                }
             }
 
             SetMaterialColor(material, "_BaseColor", baseColor);
             SetMaterialColor(material, "_Color", baseColor);
+            if (unlit && material.HasProperty("_Cull"))
+            {
+                material.SetFloat("_Cull", 0f);
+            }
 
             if (material.HasProperty("_Smoothness"))
             {
@@ -319,7 +561,11 @@ namespace AIBuilder.EditorTools
                 material.DisableKeyword("_EMISSION");
             }
 
-            EditorUtility.SetDirty(material);
+            if (persist)
+            {
+                EditorUtility.SetDirty(material);
+            }
+
             return material;
         }
 
@@ -327,13 +573,15 @@ namespace AIBuilder.EditorTools
         {
             var spec = new ProBuilderModelSpec
             {
+                blockoutType = AIBlockoutSpecRepository.ObjectBlockout,
+                displayName = "参考图物体白盒",
                 modelName = "ReferenceModel_FromImages",
                 generatedRootName = "AI_ProBuilder_Model_Reference",
-                generatorVersion = "model_v1",
-                sourceMode = "codex_visual_analysis",
+                generatorVersion = "model_v2",
+                sourceMode = "visual_analysis",
                 visualNotes = new[]
                 {
-                    "Codex fills this after reading the supplied reference images.",
+                    "A planner or artist fills this after reading the supplied reference images.",
                     "Describe silhouette, proportions, style language, surface detail, and visible material regions."
                 },
                 modelingNotes = new[]
@@ -352,7 +600,7 @@ namespace AIBuilder.EditorTools
                     view = i == 0 ? "primary" : "additional",
                     width = texture.width,
                     height = texture.height,
-                    notes = "Reference image for Codex visual analysis."
+                    notes = "Reference image for visual analysis."
                 });
             }
 
@@ -363,7 +611,7 @@ namespace AIBuilder.EditorTools
                 position = new Vector3(0f, 0.5f, 0f),
                 size = new Vector3(1.5f, 1f, 1f),
                 color = new Color(0.6f, 0.6f, 0.55f, 1f),
-                notes = "Replace this placeholder after Codex analyzes the reference."
+                notes = "Replace this placeholder after the reference is analyzed."
             });
 
             return spec;
@@ -416,24 +664,6 @@ namespace AIBuilder.EditorTools
             }
         }
 
-        private static void EnsureFolderPath(string folderPath)
-        {
-            folderPath = folderPath.Replace('\\', '/').TrimEnd('/');
-            if (string.IsNullOrWhiteSpace(folderPath) ||
-                (folderPath != "Assets" && !folderPath.StartsWith("Assets/", StringComparison.Ordinal)))
-            {
-                throw new ArgumentException("Output folder must be under Assets.", nameof(folderPath));
-            }
-
-            var parts = folderPath.Split('/');
-            var current = parts[0];
-            for (var i = 1; i < parts.Length; i++)
-            {
-                EnsureFolder(current, parts[i]);
-                current = $"{current}/{parts[i]}";
-            }
-        }
-
         private static void EnsureFolder(string parent, string child)
         {
             var path = $"{parent}/{child}";
@@ -466,6 +696,15 @@ namespace AIBuilder.EditorTools
             }
 
             return value.Trim().Replace(' ', '_');
+        }
+
+        private static void DisplayError(string message)
+        {
+            Debug.LogError("AI ProBuilder Model：\n" + message);
+            if (!Application.isBatchMode)
+            {
+                EditorUtility.DisplayDialog("AI ProBuilder Model", message, "确定");
+            }
         }
     }
 }

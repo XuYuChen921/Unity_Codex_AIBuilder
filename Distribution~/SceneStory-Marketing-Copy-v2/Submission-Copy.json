@@ -1,0 +1,22 @@
+{
+  "status": "local draft; not uploaded",
+  "title": "Scene Story - Actor Routes for Timeline",
+  "summary_en": "Stage multiple actors on one Unity Timeline. Edit routes, revise Hold and Move clips, control facing, and sync calibrated walk/run animations to travel distance.",
+  "summary_zh_CN": "在同一条 Unity Timeline 上编排多个角色的剧情走位。直接编辑场景路线、插入和调整停留与移动片段、控制转向，并让经过校准的走跑动画跟随移动距离。",
+  "website": "https://www.gindxrstu.com/",
+  "keywords": [
+    "Timeline",
+    "Cutscene",
+    "Cinematic",
+    "Character",
+    "Animation",
+    "Movement",
+    "Path",
+    "Route",
+    "Sequencing",
+    "Staging",
+    "Editor Tools",
+    "Multi Actor"
+  ],
+  "subtitle_status": "planned timings for the new 90-second edit; not aligned to old 36-second video"
+}

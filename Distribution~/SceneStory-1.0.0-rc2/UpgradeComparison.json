@@ -1,0 +1,9 @@
+{
+  "paths": 60,
+  "all_guids_preserved": true,
+  "changed": [
+    "Assets/SceneStory/README.md",
+    "Assets/SceneStory/QuickStart.md",
+    "Assets/SceneStory/Editor/StageStoryWindow.cs"
+  ]
+}

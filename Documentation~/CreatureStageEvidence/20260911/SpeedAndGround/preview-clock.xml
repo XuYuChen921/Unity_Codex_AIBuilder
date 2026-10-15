@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="37" result="Passed" total="37" passed="37" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.2007113">
+  <test-suite type="TestSuite" id="1101" name="CreatureStageValidation" fullname="CreatureStageValidation" runstate="Runnable" testcasecount="86" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.200711" total="37" passed="37" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties />
+    <test-suite type="Assembly" id="1197" name="Unity.Codex.AIBuilder.Editor.Tests.dll" fullname="E:/X/Validation/CreatureStageValidation_20260911/Library/ScriptAssemblies/Unity.Codex.AIBuilder.Editor.Tests.dll" runstate="Runnable" testcasecount="86" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.189071" total="37" passed="37" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="127728" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+      </properties>
+      <test-suite type="TestSuite" id="1198" name="AIBuilder" fullname="AIBuilder" runstate="Runnable" testcasecount="86" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.188136" total="37" passed="37" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1199" name="EditorTools" fullname="AIBuilder.EditorTools" runstate="Runnable" testcasecount="86" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.187421" total="37" passed="37" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1200" name="Tests" fullname="AIBuilder.EditorTools.Tests" runstate="Runnable" testcasecount="86" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.186760" total="37" passed="37" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1150" name="StageStoryTests" fullname="AIBuilder.EditorTools.Tests.StageStoryTests" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" testcasecount="37" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.185191" total="37" passed="37" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1179" name="Clip_DistanceSyncAndNonloopClamping" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.Clip_DistanceSyncAndNonloopClamping" methodname="Clip_DistanceSyncAndNonloopClamping" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="684083673" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.023343" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1185" name="Curves_AdjacentMovesShareTangentAndReactToNodeChanges" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.Curves_AdjacentMovesShareTangentAndReactToNodeChanges" methodname="Curves_AdjacentMovesShareTangentAndReactToNodeChanges" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="2127869952" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.010287" asserts="0">
+                <properties />
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="1188" name="Curves_AutoConnectedMovesStaySmoothAcrossHoldsAndReordering" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.Curves_AutoConnectedMovesStaySmoothAcrossHoldsAndReordering" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.030067" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1186" name="Curves_AutoConnectedMovesStaySmoothAcrossHoldsAndReordering(1)" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.Curves_AutoConnectedMovesStaySmoothAcrossHoldsAndReordering(1)" methodname="Curves_AutoConnectedMovesStaySmoothAcrossHoldsAndReordering" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="583522376" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.024013" asserts="0">
+                  <properties />
+                </test-case>
+                <test-case id="1187" name="Curves_AutoConnectedMovesStaySmoothAcrossHoldsAndReordering(3)" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.Curves_AutoConnectedMovesStaySmoothAcrossHoldsAndReordering(3)" methodname="Curves_AutoConnectedMovesStaySmoothAcrossHoldsAndReordering" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="580401728" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.001618" asserts="0">
+                  <properties />
+                </test-case>
+              </test-suite>
+              <test-case id="1189" name="Curves_SmoothnessChangesShapeButPreservesNodesAndSeek" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.Curves_SmoothnessChangesShapeButPreservesNodesAndSeek" methodname="Curves_SmoothnessChangesShapeButPreservesNodesAndSeek" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="1908556531" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.000900" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1167" name="DragSort_PreservesClipsDurationsAndUndoRestoresOriginalTiming" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.DragSort_PreservesClipsDurationsAndUndoRestoresOriginalTiming" methodname="DragSort_PreservesClipsDurationsAndUndoRestoresOriginalTiming" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="737078174" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.008000" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1158" name="FlightRoute_ToggleUsesXYZAndInvalidatesGroundCache" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.FlightRoute_ToggleUsesXYZAndInvalidatesGroundCache" methodname="FlightRoute_ToggleUsesXYZAndInvalidatesGroundCache" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="897504422" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.001792" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1155" name="GaitSync_AdjacentAnimationClipsKeepPhaseAndConversionSupportsUndo" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.GaitSync_AdjacentAnimationClipsKeepPhaseAndConversionSupportsUndo" methodname="GaitSync_AdjacentAnimationClipsKeepPhaseAndConversionSupportsUndo" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="563336903" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.019682" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1154" name="GaitSync_IntegratesCurvesAcrossHoldsAndPreservesNativeBlend" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.GaitSync_IntegratesCurvesAcrossHoldsAndPreservesNativeBlend" methodname="GaitSync_IntegratesCurvesAcrossHoldsAndPreservesNativeBlend" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="1985309762" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.004664" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1153" name="GaitSync_NativePoseFollowsDistanceDurationAndSeeking" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.GaitSync_NativePoseFollowsDistanceDurationAndSeeking" methodname="GaitSync_NativePoseFollowsDistanceDurationAndSeeking" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="974415416" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.003311" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1156" name="GroundToFlight_ConnectsToProjectedEndpointWithoutChangingAirDestination" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.GroundToFlight_ConnectsToProjectedEndpointWithoutChangingAirDestination" methodname="GroundToFlight_ConnectsToProjectedEndpointWithoutChangingAirDestination" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="1710653200" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.002164" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1166" name="Hierarchy_TracksCurrentReferencesAndRestoresAfterUndo" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.Hierarchy_TracksCurrentReferencesAndRestoresAfterUndo" methodname="Hierarchy_TracksCurrentReferencesAndRestoresAfterUndo" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="442153615" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.004723" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1171" name="Hold_FollowsLiveEndpointThroughChainAndDirectSeek" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.Hold_FollowsLiveEndpointThroughChainAndDirectSeek" methodname="Hold_FollowsLiveEndpointThroughChainAndDirectSeek" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="789997770" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.001761" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1172" name="Hold_ManualOverrideAndFirstHoldKeepTheirStation" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.Hold_ManualOverrideAndFirstHoldKeepTheirStation" methodname="Hold_ManualOverrideAndFirstHoldKeepTheirStation" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="461260237" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.003452" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1170" name="LeadingHolds_KeepFirstStationAndDriveLaterMoveStart" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.LeadingHolds_KeepFirstStationAndDriveLaterMoveStart" methodname="LeadingHolds_KeepFirstStationAndDriveLaterMoveStart" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="1699082669" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.002583" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1161" name="NativeAnimationTrack_BlendsIndependentlyWhileRouteStillMoves" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.NativeAnimationTrack_BlendsIndependentlyWhileRouteStillMoves" methodname="NativeAnimationTrack_BlendsIndependentlyWhileRouteStillMoves" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="822842113" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.003734" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1160" name="NativeAnimationTrack_PreservesAnimationSpeedCurveByBaking" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.NativeAnimationTrack_PreservesAnimationSpeedCurveByBaking" methodname="NativeAnimationTrack_PreservesAnimationSpeedCurveByBaking" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="504529099" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.004551" asserts="0">
+                <properties />
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="1165" name="PanelDelete_ReflowsTimePreservesReferencesAndSupportsUndo" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.PanelDelete_ReflowsTimePreservesReferencesAndSupportsUndo" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.014163" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1162" name="PanelDelete_ReflowsTimePreservesReferencesAndSupportsUndo(0)" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.PanelDelete_ReflowsTimePreservesReferencesAndSupportsUndo(0)" methodname="PanelDelete_ReflowsTimePreservesReferencesAndSupportsUndo" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="164833451" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.008599" asserts="0">
+                  <properties />
+                </test-case>
+                <test-case id="1163" name="PanelDelete_ReflowsTimePreservesReferencesAndSupportsUndo(1)" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.PanelDelete_ReflowsTimePreservesReferencesAndSupportsUndo(1)" methodname="PanelDelete_ReflowsTimePreservesReferencesAndSupportsUndo" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="300937090" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.001774" asserts="0">
+                  <properties />
+                </test-case>
+                <test-case id="1164" name="PanelDelete_ReflowsTimePreservesReferencesAndSupportsUndo(2)" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.PanelDelete_ReflowsTimePreservesReferencesAndSupportsUndo(2)" methodname="PanelDelete_ReflowsTimePreservesReferencesAndSupportsUndo" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="814841418" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.001426" asserts="0">
+                  <properties />
+                </test-case>
+              </test-suite>
+              <test-case id="1152" name="PlaybackClock_ManualOnlyDuringRuntimeOwnershipAndRestoredOnDisable" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.PlaybackClock_ManualOnlyDuringRuntimeOwnershipAndRestoredOnDisable" methodname="PlaybackClock_ManualOnlyDuringRuntimeOwnershipAndRestoredOnDisable" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="32756797" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.002081" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1151" name="PreviewClock_RepairsOwnedManualDirectorWithoutMovingTimeOrClips" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.PreviewClock_RepairsOwnedManualDirectorWithoutMovingTimeOrClips" methodname="PreviewClock_RepairsOwnedManualDirectorWithoutMovingTimeOrClips" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="1946652760" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.002519" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1178" name="Route_CurvePassesEndpointsAndRejectsZeroLength" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.Route_CurvePassesEndpointsAndRejectsZeroLength" methodname="Route_CurvePassesEndpointsAndRejectsZeroLength" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="1182649839" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.000971" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1177" name="Route_MovingAnchorInvalidatesCachedArcLength" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.Route_MovingAnchorInvalidatesCachedArcLength" methodname="Route_MovingAnchorInvalidatesCachedArcLength" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="1324056861" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.000568" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1183" name="Route_ReplacedGroundInvalidatesSamplesWithoutMovingControlPoints" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.Route_ReplacedGroundInvalidatesSamplesWithoutMovingControlPoints" methodname="Route_ReplacedGroundInvalidatesSamplesWithoutMovingControlPoints" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="757734441" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.000920" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1184" name="RouteDisplay_TracksDeletionUndoAndSharedReferences" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.RouteDisplay_TracksDeletionUndoAndSharedReferences" methodname="RouteDisplay_TracksDeletionUndoAndSharedReferences" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="864340323" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.002819" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1169" name="Routes_ManualConnectionOptOutPreservesIndependentStart" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.Routes_ManualConnectionOptOutPreservesIndependentStart" methodname="Routes_ManualConnectionOptOutPreservesIndependentStart" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="1702871816" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.000935" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1168" name="Routes_ReorderDeleteAndUndoConnectWithoutChangingAuthoredNodes" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.Routes_ReorderDeleteAndUndoConnectWithoutChangingAuthoredNodes" methodname="Routes_ReorderDeleteAndUndoConnectWithoutChangingAuthoredNodes" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="1742869377" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.002619" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1157" name="SharedRoute_PerClipGroundModesAndFollowingHoldsRemainIndependent" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.SharedRoute_PerClipGroundModesAndFollowingHoldsRemainIndependent" methodname="SharedRoute_PerClipGroundModesAndFollowingHoldsRemainIndependent" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="313900917" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.002026" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1180" name="SpeedCurves_IntegrateRatesAndAlwaysReachDestination" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.SpeedCurves_IntegrateRatesAndAlwaysReachDestination" methodname="SpeedCurves_IntegrateRatesAndAlwaysReachDestination" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="1574559739" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.001263" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1159" name="StartAlignment_ShiftsBothTracksAndPreservesOverlap" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.StartAlignment_ShiftsBothTracksAndPreservesOverlap" methodname="StartAlignment_ShiftsBothTracksAndPreservesOverlap" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="1219411285" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.007842" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1175" name="Timeline_GapsAndEndHoldPriorState" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.Timeline_GapsAndEndHoldPriorState" methodname="Timeline_GapsAndEndHoldPriorState" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="574579548" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.001475" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1173" name="Timeline_MovesActorAndRestoresOriginalOnStop" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.Timeline_MovesActorAndRestoresOriginalOnStop" methodname="Timeline_MovesActorAndRestoresOriginalOnStop" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="372941058" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.001258" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1176" name="Timeline_RejectsOverlapAndRestoresActor" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.Timeline_RejectsOverlapAndRestoresActor" methodname="Timeline_RejectsOverlapAndRestoresActor" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="1958098998" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.002849" asserts="0">
+                <properties />
+                <output><![CDATA[角色剧情：基础表演片段不能重叠，请先错开时间。
+]]></output>
+              </test-case>
+              <test-case id="1174" name="Timeline_SeekAcrossMoveAndHoldIsDeterministic" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.Timeline_SeekAcrossMoveAndHoldIsDeterministic" methodname="Timeline_SeekAcrossMoveAndHoldIsDeterministic" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="2029481863" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.001497" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1181" name="Transition_BlendsPoseAndHeadingDeterministicallyThenRestores" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.Transition_BlendsPoseAndHeadingDeterministicallyThenRestores" methodname="Transition_BlendsPoseAndHeadingDeterministicallyThenRestores" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="896390177" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.001416" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1182" name="Transition_KeepsOutgoingLoopTailInsteadOfWrappingAtBoundary" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.Transition_KeepsOutgoingLoopTailInsteadOfWrappingAtBoundary" methodname="Transition_KeepsOutgoingLoopTailInsteadOfWrappingAtBoundary" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="319907732" result="Passed" start-time="2026-09-11 09:58:41Z" end-time="2026-09-11 09:58:41Z" duration="0.000906" asserts="0">
+                <properties />
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

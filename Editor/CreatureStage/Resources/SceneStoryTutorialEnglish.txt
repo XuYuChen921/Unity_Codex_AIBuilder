@@ -1,0 +1,41 @@
+SCENE STORY — QUICK START
+
+Requires Unity 2022.3 and Timeline. Compatibility with other editor versions must be checked against the release notes.
+Open Tools > Scene Story > Open Story Editor. Choose English or 简体中文 at the top of the window. The language preference is stored for this editor user. Existing object and clip names are preserved.
+
+1. TRY THE EXAMPLE
+Choose Tools > Scene Story > Create Basic Example. Save your current scene when prompted. The example uses primitive geometry and includes grounded movement, holding, animation, scaling and free-space movement. It does not require purchased models.
+
+2. CREATE A STORY
+Select an object in Hierarchy and choose Tools > Scene Story > Create Story for Selection. Save the Timeline asset. To add another actor to the same story, select that object and click '+ Add selection as new actor' in the story window. This configures the actor and adds its tracks to the current Director.
+
+3. BUILD THE SEQUENCE
+To use an existing Timeline, drag its scene Director into the Director field. A Timeline asset is also accepted when exactly one scene Director uses it. If no actor tracks exist yet, select a scene model and click '+ Actor'. Existing tracks and clips are preserved, and animation tracks are reused by Animator binding. Adding an actor creates a route-driver parent and supports Undo. Continue editing native animation and audio tracks in Timeline.
+Select a clip, then click '+ Hold' or '+ Move' to insert after it. Drag clips to reorder them. Move starts connect to the preceding endpoint by default. Holds can follow the preceding Move endpoint. Disable following or auto-connect for an independent position. Scene point selection switches the current actor track. Each actor has its own route color.
+
+4. EDIT A ROUTE
+Use Locate, then move its points in Scene view. Intermediate points shape the curve. A linked start is controlled by the preceding clip, so edit that endpoint instead. Disable 'Ground this clip' for a flight path and edit point heights directly. Move speed and animation speed can be adjusted independently unless distance synchronization is enabled.
+
+5. CONFIGURE GROUND
+Open Ground binding. Select Static meshes, optionally assign an environment root, and review excluded keywords. Put vegetation in Excluded objects and rocks or slopes in Included objects if necessary. Explicit exclusions take priority. Scan first, inspect the included/excluded objects, then Apply binding. Existing suitable MeshColliders are reused; missing ones are added. Changes support Undo.
+
+The route follows nearby ground height and steps/slopes that it encounters. Upward range, downward range and maximum slope limit projection. A raised route start can select an upper floor. Separate overhead colliders should not attract a route walking below. A single combined mesh with multiple overlapping surfaces is not guaranteed to select the desired level. Use separate walking surfaces for vegetation merged into ground geometry.
+
+6. ANIMATION, FACING AND AUDIO
+Assign an AnimationClip or choose from an actor's animation library. Use facing blend time to turn gradually between clips. Enable animated facing offset for keys within one clip: X is seconds and Y is degrees; the 90-degree preset turns and returns. Ground blend time eases between free-space and grounded heights.
+
+Use native Timeline Audio tracks for sound, bind an AudioSource, and ensure the scene has an active AudioListener. Check AudioSource volume, Timeline track mute and the Game view mute setting if sound is missing.
+
+7. PREVIEW AND SAVE
+Use Preview and Restore in the tool, or use Timeline preview. Stop one preview before starting the other. Save the scene and Timeline assets after editing. Verify your sequence again after reopening the scene and in Play mode.
+
+LIMITATIONS AND TROUBLESHOOTING
+- This is an authored route tool, not automatic navigation or obstacle avoidance.
+- No terrain foot locking, contact calibration or automatic animation retargeting is provided.
+- A route that misses ground requires checking bindings, collider geometry, height limits and slope. A dashed failure indicator is not a valid movement path.
+- Some component Inspector labels, diagnostic messages and legacy/example object names remain Chinese in this release candidate. Main authoring controls and this guide support English and Chinese.
+- Do not install the Assets package alongside the UPM package or an AIBuilder installation containing the same classes.
+- Only claim support for editor versions and render pipelines listed as tested in the release notes. XR device, mobile and all-pipeline compatibility are not established by editor tests.
+
+FOR SUPPORT
+Include editor and Timeline versions, reproduction steps, the complete Console stack trace and a minimal scene that you may legally share. Publisher: GINDXRSTU. Support: chrowder7@163.com.

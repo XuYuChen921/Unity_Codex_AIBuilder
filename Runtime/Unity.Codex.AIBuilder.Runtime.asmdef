@@ -2,7 +2,8 @@
   "name": "Unity.Codex.AIBuilder.Runtime",
   "rootNamespace": "AIBuilder",
   "references": [
-    "Unity.TextMeshPro"
+    "Unity.TextMeshPro",
+    "Unity.Timeline"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

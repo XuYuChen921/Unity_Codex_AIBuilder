@@ -1,0 +1,10 @@
+{
+  "frames": 780,
+  "editor_seconds": 78,
+  "total_seconds": 88,
+  "resolution": "1920x1080",
+  "fps": 30,
+  "decode": "passed",
+  "audio": "none",
+  "footage": "real Unity editor auto demonstration + real Unity scene render"
+}

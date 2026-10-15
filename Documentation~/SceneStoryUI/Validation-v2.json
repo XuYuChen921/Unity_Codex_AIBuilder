@@ -1,0 +1,15 @@
+{
+  "unity": "2022.3.62f3",
+  "sourceSha256": "22f9a3f188acff6c7a2a0532aa455230605145dad93cf7f3164525934826047d",
+  "validatedCopyMatches": true,
+  "tests": {
+    "result": "Passed",
+    "total": "38",
+    "passed": "38",
+    "failed": "0"
+  },
+  "testResults": "E:\\X\\Validation\\SceneStoryRelease_20260911\\StoryUI-reflow-final-tests.xml",
+  "uiLog": "E:\\X\\Validation\\SceneStoryRelease_20260911\\StoryUI-reflow-acceptance.log",
+  "uiChecks": "Unity 2022.3.62f3: wide / narrow / scrolled inspector / empty state captured.\nPASS: mouse selection on overview, playback button, advancing preview, stop button, actor position restored, curve preset, advanced foldout.\nPreset changed only in isolated sample in memory; scene not saved.\n",
+  "note": "Final UI compile/capture includes narrow tick spacing adjustment after the gameplay regression run."
+}

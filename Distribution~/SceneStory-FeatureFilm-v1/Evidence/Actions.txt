@@ -1,0 +1,11 @@
+真实 Unity 编辑器自动演示；未模拟人工鼠标操作。
+0s 三角色共用一个 Director/Timeline。
+8s 选择首段，下一步调用插件 AddClip(false)。
+11.5s 执行 AddClip(false)：当前角色新停留3秒，后续路线片段顺延。独立动画轨未自动重排。
+17.5s 恢复基线供后续章节演示。
+19s 调用 StageStoryWindow.ReorderClip：调换巡查者两段路线。
+29s 调用 SelectSceneRoute/SelectScenePoint 切到橙色角色。
+37s 真实朝向曲线：0→80°→保持→0；整体朝向而非头部 IK。
+53s 启用 StageGaitAnimationAsset；循环距离采用近地支撑脚后移速度的中位数×动画周期。
+60.5s 移动与动画片段时长从6秒改为4秒；同步由距离驱动。
+68s 来回定位 Timeline，三角色在同一时刻求值。

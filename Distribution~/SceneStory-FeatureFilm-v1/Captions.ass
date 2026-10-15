@@ -1,0 +1,45 @@
+﻿[Script Info]
+ScriptType: v4.00+
+PlayResX: 1920
+PlayResY: 1080
+WrapStyle: 2
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: CN,Microsoft YaHei,34,&H00FFFFFF,&H00FFFFFF,&H00302318,&H00302318,0,0,0,0,100,100,0,0,1,1,0,2,60,60,61,1
+Style: EN,Segoe UI,28,&H00D9E2E5,&H00FFFFFF,&H00302318,&H00302318,0,0,0,0,100,100,0,0,1,1,0,2,60,60,24,1
+Style: Badge,Microsoft YaHei,18,&H00C4D5DB,&H00FFFFFF,&H00302318,&H80302318,0,0,0,0,100,100,0,0,1,0,0,8,32,30,9,1
+Style: Title,Segoe UI,76,&H00D6D95C,&H00FFFFFF,&H00302318,&H80302318,1,0,0,0,100,100,0,0,1,1,0,5,50,50,0,1
+Style: SubTitle,Microsoft YaHei,30,&H00FFFFFF,&H00FFFFFF,&H00302318,&H80302318,0,0,0,0,100,100,0,0,1,1,0,5,50,50,0,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:06.00,CN,,0,0,0,,Scene Story · 多角色剧情编排
+Dialogue: 0,0:00:00.00,0:00:06.00,EN,,0,0,0,,Actor routes and staging for Unity Timeline
+Dialogue: 0,0:00:06.00,0:00:14.00,CN,,0,0,0,,同一时间轴，检查多个角色的走位
+Dialogue: 0,0:00:06.00,0:00:14.00,EN,,0,0,0,,Inspect multiple actors on one Timeline
+Dialogue: 0,0:00:14.00,0:00:17.50,CN,,0,0,0,,选中片段，在它后面插入停留
+Dialogue: 0,0:00:14.00,0:00:17.50,EN,,0,0,0,,Select a clip; insert a Hold after it
+Dialogue: 0,0:00:17.50,0:00:23.50,CN,,0,0,0,,后续路线顺延，停留衔接前段终点
+Dialogue: 0,0:00:17.50,0:00:23.50,EN,,0,0,0,,Later route clips shift; the Hold follows the endpoint
+Dialogue: 0,0:00:25.00,0:00:35.00,CN,,0,0,0,,调整移动片段顺序，查看路线重新连接
+Dialogue: 0,0:00:25.00,0:00:35.00,EN,,0,0,0,,Reorder Move clips and inspect route connections
+Dialogue: 0,0:00:35.00,0:00:43.00,CN,,0,0,0,,选择场景路线，切换当前角色轨道
+Dialogue: 0,0:00:35.00,0:00:43.00,EN,,0,0,0,,Select a scene route to switch actor tracks
+Dialogue: 0,0:00:43.00,0:00:51.00,CN,,0,0,0,,用朝向曲线安排转向与保持
+Dialogue: 0,0:00:43.00,0:00:51.00,EN,,0,0,0,,Shape when the actor turns and holds its heading
+Dialogue: 0,0:00:51.00,0:00:59.00,CN,,0,0,0,,回正时间可控，移动路线保持独立
+Dialogue: 0,0:00:51.00,0:00:59.00,EN,,0,0,0,,Control the return while preserving the movement route
+Dialogue: 0,0:00:59.00,0:01:06.50,CN,,0,0,0,,启用距离同步，使用动画循环距离
+Dialogue: 0,0:00:59.00,0:01:06.50,EN,,0,0,0,,Enable gait sync using distance per animation cycle
+Dialogue: 0,0:01:06.50,0:01:14.00,CN,,0,0,0,,缩短移动时长，步态跟随路程推进
+Dialogue: 0,0:01:06.50,0:01:14.00,EN,,0,0,0,,Shorten the move; gait follows traveled distance
+Dialogue: 0,0:01:14.00,0:01:24.00,CN,,0,0,0,,前后定位，检查多角色关键时刻
+Dialogue: 0,0:01:14.00,0:01:24.00,EN,,0,0,0,,Seek backward and forward to inspect the performance
+Dialogue: 0,0:01:24.00,0:01:28.00,CN,,0,0,0,,Scene Story · 编排表演，随时改戏
+Dialogue: 0,0:01:24.00,0:01:28.00,EN,,0,0,0,,Stage the performance. Revise the blocking.
+Dialogue: 1,0:00:06.00,0:01:24.00,Badge,,0,0,0,,真实编辑器 · 自动演示 / Automated editor demonstration
+Dialogue: 2,0:01:24.00,0:01:28.00,Title,,0,0,0,,{\pos(960,400)}Scene Story
+Dialogue: 2,0:01:24.00,0:01:28.00,SubTitle,,0,0,0,,{\pos(960,495)}Actor Routes for Timeline
+Dialogue: 2,0:01:24.00,0:01:28.00,SubTitle,,0,0,0,,{\pos(960,650)}GINDXRSTU · gindxrstu.com
+Dialogue: 2,0:01:24.00,0:01:28.00,EN,,0,0,0,,{\pos(960,860)}演示人物不包含在插件中 / Demo characters not included

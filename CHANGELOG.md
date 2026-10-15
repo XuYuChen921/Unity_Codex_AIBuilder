@@ -1,5 +1,39 @@
 # Changelog
 
+## 0.6.0
+
+- Added structured scene decomposition with normalized screen polygons, depth bands, occlusion relations, landmarks, and human-scale metadata.
+- Added editable `screen_polygon` ProBuilder meshes that are back-projected from the locked reference camera instead of guessed in world space.
+- Added exact-aspect reference, overlay, difference, and projection-error outputs, plus an in-window overlay preview.
+
+## 0.5.0
+
+- Reduced the public workflow to scene blockout and object blockout only.
+- Added one unified Chinese editor window that automatically detects the latest Codex task.
+- Unified both task types on editable ProBuilder geometry and automatic main, side, and top review captures.
+- Added an optional reference camera so scene previews can retain the composition inferred from the source image.
+- Added a temporary review light and capture warm-up so ProBuilder previews remain readable and free of selection overlays.
+- Invalidated stale previews when Codex updates a task in place.
+- Kept preview asset-free and added explicit, non-overwriting scene or Prefab commit actions.
+- Hid legacy scene, prefab-library, and asset-management menus while retaining their code for compatibility.
+
+## 0.4.0
+
+- Added formal JSON Schemas for `SceneSpec` v2 and `ProBuilderModelSpec` v2.
+- Added unique Codex review bundles under `Library/AIBuilder/Reviews`.
+- Added automatic main, side, and top scene captures without saving the preview scene.
+- Added aggregated reporting for exact prefab matches, keyword fallback, procedural fallback, skipped placements, and unresolved prefab references.
+- Added editor coverage for execution-report aggregation and review-bundle output.
+
+## 0.3.0
+
+- Added model-agnostic `SceneSpec` v2 with exact prefab GUID/path placement and explicit hierarchy.
+- Added strict scene/model validation before any scene or asset mutation.
+- Changed scene and ProBuilder generation to preview-only by default; saving and overwriting now require explicit actions.
+- Namespaced generated materials and profiles to avoid accidental cross-scene overwrites.
+- Removed fixed forest behavior from clean templates while preserving legacy scatter/procedural fallback.
+- Added editor tests and Unity package metadata files.
+
 ## 0.2.2
 
 - Renamed Unity menus to clear Chinese task-based labels.

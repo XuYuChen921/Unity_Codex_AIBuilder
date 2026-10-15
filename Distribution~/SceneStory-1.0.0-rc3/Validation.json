@@ -1,0 +1,52 @@
+{
+  "version": "1.0.0-rc3",
+  "date": "2026-09-16",
+  "packageSHA256": "6ca3b09459d88e68086f2061f563e84983c70cf1f70c73048e4071e65e7e2d0e",
+  "packageBytes": 135744,
+  "tests": {
+    "Unity2022": {
+      "total": "82",
+      "passed": "82",
+      "failed": "0",
+      "skipped": "0",
+      "result": "Passed"
+    },
+    "Unity6": {
+      "total": "82",
+      "passed": "82",
+      "failed": "0",
+      "skipped": "0",
+      "result": "Passed"
+    }
+  },
+  "officialValidator": {
+    "tool": "Asset Store Tools 12.0.0 official public source",
+    "passed": 34,
+    "failed": 0,
+    "warnings": 0,
+    "newerVersionShownByTool": "12.0.5; rerun current portal tools before submission"
+  },
+  "player2022": {
+    "passed": true,
+    "directorTime": 2.56523489952087,
+    "audioScheduled": true,
+    "errors": 0
+  },
+  "playerBuild": "Succeeded; errors=0; warnings=0",
+  "upgrade": "60 existing asset paths retain GUIDs; root Assets/SceneStory folder added by official exporter",
+  "dependencyManifest": {
+    "com.unity.timeline": "1.7.7"
+  },
+  "testedPipeline": "Built-in",
+  "ui": "Real English narrow/wide editor and three-actor Timeline screenshots captured",
+  "media": "24s, 1280x720, 30fps, 720 decoded frames, silent actual Unity sample rendering",
+  "limitations": [
+    "URP/HDRP, macOS/Linux, mobile, XR and Tuanjie not validated.",
+    "Audio scheduling passed; human listening and target-device audio acceptance not claimed.",
+    "Initial parallel Unity 6 audio check failed; isolated audio and subsequent full suites passed. Final suites were run sequentially.",
+    "Support site source/local links checked; browser local-file preview blocked by URL policy. Rendered desktop/mobile acceptance pending.",
+    "Unity 6 reserialized three example scenes; source scripts and child GUIDs match.",
+    "Publisher account, public website hosting, payout/tax, owner review and store submission pending."
+  ],
+  "submitted": false
+}

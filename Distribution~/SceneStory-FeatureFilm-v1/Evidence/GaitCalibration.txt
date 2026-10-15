@@ -1,0 +1,6 @@
+Clip=Walk_N-Timeline
+Period=0.9666667
+Contact velocity samples=87
+Median backward stance speed=1.878425
+Cycle distance=1.815811
+Method: foot positions in actor-local coordinates, near minimum height + 0.035 m. Initial calibration; not foot locking.

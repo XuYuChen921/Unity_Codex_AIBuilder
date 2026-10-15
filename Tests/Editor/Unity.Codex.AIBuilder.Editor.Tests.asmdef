@@ -1,0 +1,25 @@
+{
+  "name": "Unity.Codex.AIBuilder.Editor.Tests",
+  "rootNamespace": "AIBuilder.EditorTools.Tests",
+  "references": [
+    "Unity.Codex.AIBuilder.Runtime",
+    "Unity.Codex.AIBuilder.Editor",
+    "Unity.ProBuilder",
+    "Unity.Timeline",
+    "Unity.Timeline.Editor"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": false,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ],
+  "noEngineReferences": false
+}

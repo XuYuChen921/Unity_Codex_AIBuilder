@@ -8,12 +8,12 @@ namespace AIBuilder.EditorTools
         private TextAsset specAsset;
         private Texture2D referenceImage;
         private bool useProjectAssets = true;
-        private bool saveScene = true;
-        private bool createAssetReport = true;
+        private bool createAssetReport;
+        private bool overwriteGeneratedAssets;
         private int seedOffset;
         private string generatedSpecName = "SceneSpec_FromReference";
+        private string lastReviewFolder;
 
-        [MenuItem("AI构建器/场景生成/参考图生成场景")]
         public static void Open()
         {
             GetWindow<AISceneBuilderWindow>("AI Scene Builder");
@@ -32,25 +32,48 @@ namespace AIBuilder.EditorTools
 
             specAsset = (TextAsset)EditorGUILayout.ObjectField("场景配置 JSON", specAsset, typeof(TextAsset), false);
             useProjectAssets = EditorGUILayout.Toggle("使用项目资产", useProjectAssets);
-            saveScene = EditorGUILayout.Toggle("保存生成场景", saveScene);
-            createAssetReport = EditorGUILayout.Toggle("生成资产匹配报告", createAssetReport);
+            createAssetReport = EditorGUILayout.Toggle("保存时生成资产匹配报告", createAssetReport);
+            overwriteGeneratedAssets = EditorGUILayout.Toggle("允许覆盖同名生成资产", overwriteGeneratedAssets);
             seedOffset = EditorGUILayout.IntField("随机种子偏移", seedOffset);
 
             EditorGUILayout.Space(8f);
 
             using (new EditorGUI.DisabledScope(specAsset == null))
             {
-                if (GUILayout.Button("根据配置生成场景", GUILayout.Height(32f)))
+                if (GUILayout.Button("预览场景（不写入资产）", GUILayout.Height(32f)))
                 {
-                    AIReferenceSceneGenerator.GenerateFromTextAsset(
-                        specAsset,
-                        new AIReferenceSceneBuildOptions
+                    AIReferenceSceneGenerator.GenerateFromTextAsset(specAsset, CreateBuildOptions(false));
+                }
+
+                if (GUILayout.Button("预览并生成 Codex 评审包", GUILayout.Height(28f)))
+                {
+                    var root = AIReferenceSceneGenerator.GenerateFromTextAsset(specAsset, CreateBuildOptions(false));
+                    if (root != null)
+                    {
+                        try
                         {
-                            UseProjectAssets = useProjectAssets,
-                            SaveScene = saveScene,
-                            CreateAssetReport = createAssetReport,
-                            SeedOffset = seedOffset
-                        });
+                            var review = AIBuilderReviewBundleBuilder.Create(
+                                specAsset,
+                                root,
+                                AIReferenceSceneGenerator.LastExecutionReport);
+                            lastReviewFolder = review.FolderPath;
+                        }
+                        catch (System.Exception exception)
+                        {
+                            Debug.LogException(exception);
+                            EditorUtility.DisplayDialog("AI Scene Builder", "生成 Codex 评审包失败：\n" + exception.Message, "确定");
+                        }
+                    }
+                }
+
+                if (GUILayout.Button("确认生成并保存场景", GUILayout.Height(28f)) &&
+                    EditorUtility.DisplayDialog(
+                        "AI Scene Builder",
+                        "将创建场景和相关生成资产。是否继续？",
+                        "生成并保存",
+                        "取消"))
+                {
+                    AIReferenceSceneGenerator.GenerateFromTextAsset(specAsset, CreateBuildOptions(true));
                 }
             }
 
@@ -67,29 +90,38 @@ namespace AIBuilder.EditorTools
                     specAsset = AIReferenceSpecCreator.CreateSceneSpecTemplate(referenceImage, outputPath);
                 }
 
-                if (GUILayout.Button("创建配置并生成场景"))
+                if (GUILayout.Button("创建配置并预览场景"))
                 {
                     var outputPath = $"Assets/AIBuilder/Data/{SanitizeFileName(generatedSpecName)}.json";
                     specAsset = AIReferenceSpecCreator.CreateSceneSpecTemplate(referenceImage, outputPath);
                     if (specAsset != null)
                     {
-                        AIReferenceSceneGenerator.GenerateFromTextAsset(
-                            specAsset,
-                            new AIReferenceSceneBuildOptions
-                            {
-                                UseProjectAssets = useProjectAssets,
-                                SaveScene = saveScene,
-                                CreateAssetReport = createAssetReport,
-                                SeedOffset = seedOffset
-                            });
+                        AIReferenceSceneGenerator.GenerateFromTextAsset(specAsset, CreateBuildOptions(false));
                     }
                 }
             }
 
             EditorGUILayout.Space(8f);
+            if (!string.IsNullOrWhiteSpace(lastReviewFolder))
+            {
+                EditorGUILayout.HelpBox("最近评审包：\n" + lastReviewFolder, MessageType.None);
+            }
+
             EditorGUILayout.HelpBox(
-                "这是干净入口：不会自动套用森林空地、爱心祭坛或默认参考图。先选参考图创建空 SceneSpec，再由 Codex 根据你的参考图补全世界分析、资产选择和摆放规则。",
+                "默认只预览，不写入场景或材质资产。Codex 评审包会以唯一目录写入 Library/AIBuilder/Reviews，包含主视角、侧视角、俯视角、Schema 和资产回退报告。",
                 MessageType.Info);
+        }
+
+        private AIReferenceSceneBuildOptions CreateBuildOptions(bool saveScene)
+        {
+            return new AIReferenceSceneBuildOptions
+            {
+                UseProjectAssets = useProjectAssets,
+                SaveScene = saveScene,
+                CreateAssetReport = saveScene && createAssetReport,
+                OverwriteGeneratedAssets = saveScene && overwriteGeneratedAssets,
+                SeedOffset = seedOffset
+            };
         }
 
         private static string SanitizeFileName(string value)

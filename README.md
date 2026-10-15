@@ -1,127 +1,53 @@
-# Unity Codex AIBuilder
+# Unity AIBuilder
 
-Unity Codex AIBuilder is a standalone Unity Package Manager package for reference-image-driven scene generation workflows with Codex.
+Unity AIBuilder 是一个面向白盒搭建的 Unity 2022.3 编辑器包。Codex 负责理解参考图和规划体块，Unity + ProBuilder 负责生成、预览和安全写入。
 
-It provides Unity Editor tools for:
+只保留两个使用入口：
 
-- Building a fast prefab metadata index without screenshots.
-- Rendering selected or project-wide prefabs into front/side/top visual references.
-- Creating labeled asset catalog views from scene objects.
-- Generating editable `SceneSpec` JSON.
-- Generating clean editable scenes from Codex-authored `SceneSpec` JSON.
-- Generating editable ProBuilder model blockouts from Codex-authored `ProBuilderModelSpec` JSON.
-- Capturing the workflow as a Codex Skill.
+- 场景白盒：一张参考图，或同一场景的多视角图。
+- 物体白盒：一张物体参考图。
 
-## Install
+不需要 Unity 内置视觉模型，不要求 MCP，也不以 Prefab 搜索或最终美术生成为目标。
 
-In Unity `2022.3`, open:
+## 安装
 
-```text
-Window/Package Manager/Add package from git URL
-```
-
-Use:
+在 Unity Package Manager 中选择 `Add package from git URL`：
 
 ```text
 https://github.com/XuYuChen921/Unity_Codex_AIBuilder.git
 ```
 
-## Requirements
+支持 Unity `2022.3.x`，依赖 URP 14、TextMeshPro 3 和 ProBuilder 5。
 
-- Unity `2022.3.x`
-- URP `14.x`
-- TextMeshPro `3.x`
-- ProBuilder `5.x`
+## 最短工作流
 
-These dependencies are declared in `package.json`.
+1. 在 Codex 中发送参考图，并说明要“场景白盒”或“物体白盒”。
+2. Codex 分析比例、轮廓、空间关系和不可见部分，在 Unity 项目的 `Assets/AIBuilder/Data` 下写入白盒配置。
+3. Unity 打开 `AI构建器/打开白盒搭建器`，自动识别最新任务。
+4. 点击“生成 / 更新预览”。Unity 生成可编辑 ProBuilder 体块，并自动输出主、侧、俯视角复查图。
+5. 需要修正时，让 Codex 根据复查包更新配置，再次预览。
+6. 人工确认后，点击“确认写入场景”或“确认保存 Prefab”。
 
-## Menus
+预览不会创建 Prefab、场景或材质资产。最终写入默认使用唯一文件名，不覆盖已有结果，并保留 Unity Undo。
 
-```text
-AI构建器/场景生成/参考图生成场景
-AI构建器/场景生成/选中图片生成场景配置
-AI构建器/模型生成/参考图生成模型 ProBuilder
-AI构建器/模型生成/选中图片生成模型配置
-AI构建器/资产整理/摆放并拍摄当前资产
-AI构建器/Prefab资产库/打开资产库面板
-```
+## 数据与输出
 
-## Recommended Workflow
-
-1. Import your own art assets into the Unity project.
-2. Run `AI构建器/Prefab资产库/打开资产库面板`.
-3. Click `快速扫描缺失或变化资产`.
-4. Give Codex a reference image.
-5. Codex analyzes the reference world and reads the fast metadata index.
-6. Codex shortlists candidate prefabs by type, style, shape, and approximate color.
-7. Generate or read front/side/top screenshots for shortlisted prefabs.
-8. Codex performs final visual comparison.
-9. Codex updates or creates `SceneSpec` JSON.
-10. Generate the Unity scene.
-
-## Model Reference To ProBuilder
-
-This package also supports reference-image-driven model blockouts.
-
-1. Import one or more model reference images into Unity.
-2. Send the image(s) to Codex in chat.
-3. Codex analyzes silhouette, proportions, visible materials, and missing-view assumptions.
-4. Codex writes a `ProBuilderModelSpec` JSON under `Assets/AIBuilder/Data`.
-5. Run `AI构建器/模型生成/参考图生成模型 ProBuilder`.
-6. Generate the model as editable ProBuilder parts.
-7. Manually refine faces, bevels, UVs, and proportions in ProBuilder, or send screenshots back to Codex for another spec pass.
-
-Supported primitive vocabulary includes `box`, `cylinder`, `cone`, `sphere`, `plane`, `prism/wedge/roof`, `pipe/ring`, `torus`, `arch`, and `stair`.
-
-Single-view references are supported, but depth and hidden-side details are inferred conservatively. Multi-view references should be used whenever silhouette accuracy matters.
-
-## Final Asset Selection Rule
-
-Metadata is only for coarse filtering.
-
-Final prefab selection must use visual comparison against candidate screenshots. Selection priority:
-
-1. Style and visual language.
-2. Silhouette and external appearance.
-3. Semantic role.
-4. Color family.
-5. Size.
-
-Color and size can be adjusted. A visually wrong prefab should not be selected just because the name or metadata matches.
-
-## Reference Image Rule
-
-Reference images must be understood as 3D worlds. Analyze:
-
-- Theme and atmosphere.
-- Foreground, midground, background, and boundaries.
-- Camera height, lens feel, and view direction.
-- Light direction, color temperature, glow, fog, and shadows.
-- Object roles and placement rhythm.
-- Front/side/top layout, not only the main 2D frame.
-
-## Output Locations
-
-The tools write generated local project data under:
+Codex 使用统一的 `ProBuilderModelSpec` v2 描述场景和物体白盒：
 
 ```text
-Assets/AIBuilder/Generated
-Assets/AIBuilder/Data
-Assets/AIBuilder/Scenes
-Assets/AIBuilder/Materials
-Assets/AIBuilder/GeneratedModels
+Schemas~/ProBuilderModelSpec.v2.schema.json
 ```
 
-These are intentionally project-local outputs and are not part of the package source.
-
-## MCP vs Skill
-
-This package is not currently an MCP server. It is a Unity Editor toolkit plus a Codex Skill workflow.
-
-See:
+主要输出：
 
 ```text
-Documentation~/MCP_VS_SKILL.md
-Documentation~/WORKFLOW.md
-Skills/unity-ai-builder/SKILL.md
+Assets/AIBuilder/Data                         Codex 白盒任务
+Library/AIBuilder/Reviews                    自动复查截图与请求
+Assets/AIBuilder/Scenes                      已确认的场景副本
+Assets/AIBuilder/Generated/Blockouts         场景白盒材质
+Assets/AIBuilder/GeneratedModels             物体 Prefab 与材质
 ```
+
+旧场景生成、Prefab 资产库和资产整理代码暂时保留用于兼容，但不再出现在正常菜单中。
+
+详细流程见 `Documentation~/WORKFLOW.md`。

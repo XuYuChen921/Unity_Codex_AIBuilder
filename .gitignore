@@ -20,6 +20,9 @@ Desktop.ini
 
 *.tmp
 *.bak
+__pycache__/
+__pycache__.meta
+*.pyc
 
 # Local generated package test outputs
 Generated/

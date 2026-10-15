@@ -1,0 +1,2 @@
+Unity 2022.3.62f3: wide / narrow / scrolled inspector / empty state captured.
+PASS: mouse selection on overview, playback button, advancing preview, stop button, actor position restored.

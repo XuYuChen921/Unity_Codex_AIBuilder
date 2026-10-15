@@ -1,0 +1,247 @@
+[
+  {
+    "path": "AI-Disclosure.txt",
+    "bytes": 594,
+    "sha256": "f0bdc5ce526ef8dd6d1cdb86409ab51668270c269b32af181a5b7b2715fb3bc2"
+  },
+  {
+    "path": "Artwork/card-420x280.png",
+    "bytes": 9090,
+    "sha256": "32db2dcd0c03fa382f508cca7c8fc36eeb5681313375bc07cec67db446e0f178"
+  },
+  {
+    "path": "Artwork/cover-1950x1300.png",
+    "bytes": 47982,
+    "sha256": "0db43785b9e4af833c2b30e4435c94d04ff0120da9724170bd72d060c4484996"
+  },
+  {
+    "path": "Artwork/icon-160x160.png",
+    "bytes": 742,
+    "sha256": "8e65d291079e98aa7c5cbc6d7ba6c0ecd9ace6036623334eadbf3d58e9bdef6c"
+  },
+  {
+    "path": "Artwork/README.md",
+    "bytes": 438,
+    "sha256": "df35ee9e9b14d0611ca61aeeaccbc389aa234b4292866c3fb3130c7e13284b43"
+  },
+  {
+    "path": "Artwork/social-1200x630.png",
+    "bytes": 21407,
+    "sha256": "73c510175262c32981d30ba7299912c614aea8df9ddead48c639b85107d976f0"
+  },
+  {
+    "path": "Compatibility.md",
+    "bytes": 2687,
+    "sha256": "02312d60faa74aefbab270b526bdc875b0728bb240e73d3676f06fca57f242a0"
+  },
+  {
+    "path": "Evidence/ArchiveManifest.json",
+    "bytes": 3580,
+    "sha256": "b698cc8cfa4ec84fc43bba616b59539c8cf907e976d6c1a2a70e9d7cb9ec63d9"
+  },
+  {
+    "path": "Evidence/AudioAndFacing-Unity6Upgrade.diff",
+    "bytes": 3540,
+    "sha256": "1eefeb99ac110666010363e123f253c41e9bbb8ea7c7b4a606b3d54e3680198b"
+  },
+  {
+    "path": "Evidence/GroundLayers-Unity6Upgrade.diff",
+    "bytes": 6476,
+    "sha256": "602281e0c45d6d4daaccc533bc6460e4a1c9842200bc3a44a3b279537c9e46eb"
+  },
+  {
+    "path": "Evidence/ImportedManifest2022.json",
+    "bytes": 3652,
+    "sha256": "29cc9803d851dd0ef7dafe008b6761f76d4062c67bc95463e789e12cb5ebc1be"
+  },
+  {
+    "path": "Evidence/ImportedManifest6.json",
+    "bytes": 628,
+    "sha256": "593663740ff37acd390de520a2c849d9a643631b0dec8f47bbdb38a801df4f6b"
+  },
+  {
+    "path": "Evidence/MultiActor-Unity6Upgrade.diff",
+    "bytes": 5608,
+    "sha256": "726e982721b393a01f5d06f0164ed7da0a998005466c7c0281e8b16684d6d52d"
+  },
+  {
+    "path": "Evidence/Player2022/AudioAndFacing.png",
+    "bytes": 30111,
+    "sha256": "cf140c81fe8f56ecb417e2be54095a92e3b8426d23e6226c9530e449e72893da"
+  },
+  {
+    "path": "Evidence/Player2022/Build.txt",
+    "bytes": 31,
+    "sha256": "86e7bec38435c32f1ee3669b78af08789dca11811c0c5e94646dad21ef3fd191"
+  },
+  {
+    "path": "Evidence/Player2022/GroundLayers.png",
+    "bytes": 44197,
+    "sha256": "f2b8da43e809b2abea298c00138312a26d098bec854b486e3c08fd5ceae95724"
+  },
+  {
+    "path": "Evidence/Player2022/MultiActor.png",
+    "bytes": 35500,
+    "sha256": "d3643abc3868da626a51014cd267a6190afeefdc92e7d464926f252dbbea6d15"
+  },
+  {
+    "path": "Evidence/Player2022/Runtime.json",
+    "bytes": 80,
+    "sha256": "e169b0432344bf347a0cc6919b02dee9bb67a46123477f936832599d503095a9"
+  },
+  {
+    "path": "Evidence/StoreValidator.json",
+    "bytes": 6802,
+    "sha256": "3ef7c2a374ff723606a02452e16df7878974fdb9a15680f8df8c77e271192031"
+  },
+  {
+    "path": "Evidence/Unity2022-Tests.xml",
+    "bytes": 55348,
+    "sha256": "0c2af14bb778e8ac82d49f9ccdccd0118928dc76f35ef674d5a191d82313680f"
+  },
+  {
+    "path": "Evidence/Unity6-Tests.xml",
+    "bytes": 56279,
+    "sha256": "13e0a4eb739ddcce79ef005dce5fba5e3d32e0844db9defc963eac628336ad99"
+  },
+  {
+    "path": "Evidence/UpgradeComparison.json",
+    "bytes": 1776,
+    "sha256": "1072d0a3230292c27d71bf3cf226bb95f31b37d342ebf18709f6cdc558a8bc3e"
+  },
+  {
+    "path": "Evidence/VideoDecode.txt",
+    "bytes": 1395,
+    "sha256": "471af164463bc47d9ef1aea921496f0c2299f6c359a07c7f3f227c6db2f8f6b5"
+  },
+  {
+    "path": "Listing.en.md",
+    "bytes": 3395,
+    "sha256": "86eecb2f03fb9d5e2c2c1ffa588806ed8be3a8f9058f60d04dc60d98d6450a73"
+  },
+  {
+    "path": "Publisher-Profile.txt",
+    "bytes": 445,
+    "sha256": "9e330ac8b869f42430bf4432b71f3897a8843400233007e2a93cacc76342e1dc"
+  },
+  {
+    "path": "QuickStart.en.md",
+    "bytes": 5626,
+    "sha256": "14fa2231b05dd8967d13128ad80a373d81b2560251166582c30f9396d26d1b29"
+  },
+  {
+    "path": "README.md",
+    "bytes": 3385,
+    "sha256": "5a20d1837cb8e4a0fa572ea03df7c017ad65d4c31c29789b6f0995e96820f692"
+  },
+  {
+    "path": "Reviewer-Notes.txt",
+    "bytes": 706,
+    "sha256": "7e67cb6bc8efdad030130a4526c3e41ea850ae2fd75da6938075e4b080634d02"
+  },
+  {
+    "path": "SceneStory-1.0.0-rc3.unitypackage",
+    "bytes": 135744,
+    "sha256": "6ca3b09459d88e68086f2061f563e84983c70cf1f70c73048e4071e65e7e2d0e"
+  },
+  {
+    "path": "Screenshots/AudioAndFacing.png",
+    "bytes": 30111,
+    "sha256": "cf140c81fe8f56ecb417e2be54095a92e3b8426d23e6226c9530e449e72893da"
+  },
+  {
+    "path": "Screenshots/Editor-English-Narrow.png",
+    "bytes": 59838,
+    "sha256": "957ab8a40cb6f23cd093ac943828e33784ebbfb6ed1149f53ea6704e63015d2f"
+  },
+  {
+    "path": "Screenshots/Editor-English-Wide.png",
+    "bytes": 181790,
+    "sha256": "ad46ba76b056cd106780c9ee54d443f71d9282e6c2f9217705ecb3592f6a2e51"
+  },
+  {
+    "path": "Screenshots/GroundLayers.png",
+    "bytes": 44263,
+    "sha256": "0aebd2af0bfc23684c32e01f525ce74563eab9b34cd495abf40e4de315b0f628"
+  },
+  {
+    "path": "Screenshots/MultiActor-Timeline-Editor.png",
+    "bytes": 271071,
+    "sha256": "d628a0a146ae798e5c1e6c7920dab5c5823443fbcf6cff1342c9d1f16e30f42a"
+  },
+  {
+    "path": "Screenshots/MultiActor.png",
+    "bytes": 35500,
+    "sha256": "d3643abc3868da626a51014cd267a6190afeefdc92e7d464926f252dbbea6d15"
+  },
+  {
+    "path": "Screenshots/README.md",
+    "bytes": 798,
+    "sha256": "6609737bb2dd68bf221cc6ba9d3851dc8a4e98ddf8ab2d59d427bbfc3d5b5d4c"
+  },
+  {
+    "path": "Submission-Fields.json",
+    "bytes": 532,
+    "sha256": "f39b8747d0e5a5489ecabbe7adc42aded2d04766f9a65bcd0e907319e4c6d031"
+  },
+  {
+    "path": "SupportSite/cover.png",
+    "bytes": 21407,
+    "sha256": "73c510175262c32981d30ba7299912c614aea8df9ddead48c639b85107d976f0"
+  },
+  {
+    "path": "SupportSite/DEPLOY.md",
+    "bytes": 824,
+    "sha256": "143a243c7811a23e26fb199ebdf84106d81d65a2acca70a30872593e67b7c2d3"
+  },
+  {
+    "path": "SupportSite/index.html",
+    "bytes": 3696,
+    "sha256": "24eeb3195ac8b2ec5842e012839a0e6be46b1d3f38f6b7f5f95bb08eb6588fbd"
+  },
+  {
+    "path": "SupportSite/QuickStart.md",
+    "bytes": 5626,
+    "sha256": "14fa2231b05dd8967d13128ad80a373d81b2560251166582c30f9396d26d1b29"
+  },
+  {
+    "path": "Validation.json",
+    "bytes": 1986,
+    "sha256": "975b433f3d4f0cc105c0024f12968995df7ae18b7ae466511b4052e4d2a3488e"
+  },
+  {
+    "path": "Video/AudioAndFacing.mp4",
+    "bytes": 52018,
+    "sha256": "c09d73993523aafc42e4e46dcab06b9d12cb42bbe97a1e7c84d5d3f25f45fcd7"
+  },
+  {
+    "path": "Video/concat.txt",
+    "bytes": 75,
+    "sha256": "c61a4c83445ad918740b769491f4e3938901edd15504952afe1bc90b9578b625"
+  },
+  {
+    "path": "Video/ExampleTone.wav",
+    "bytes": 352844,
+    "sha256": "c174067450b3b32261e7b011b3626ebb3699ace57f94efb93b02917daff924ae"
+  },
+  {
+    "path": "Video/GroundLayers.mp4",
+    "bytes": 67546,
+    "sha256": "acd16495cd3fecdd5e484e04dd302a1d9817721be2dd1a3c2c8fce0bea6d7043"
+  },
+  {
+    "path": "Video/MultiActor.mp4",
+    "bytes": 61712,
+    "sha256": "3ac548cdc9df571ad4be4a9519b9271c3dc9903faf64810b9a503eddc2a4cb0a"
+  },
+  {
+    "path": "Video/README.md",
+    "bytes": 626,
+    "sha256": "e596947ff1229a1d88a8f1864e1f344908943f4aacacfd4cd98568dfb80c8165"
+  },
+  {
+    "path": "Video/SceneStory-FeatureDemo.mp4",
+    "bytes": 179685,
+    "sha256": "315b3b161eedeababcbad715cc686757959e3031afb6c753ea157cefa52c7a11"
+  }
+]

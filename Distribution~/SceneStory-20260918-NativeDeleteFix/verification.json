@@ -1,0 +1,10 @@
+{
+  "assetFiles": 65,
+  "allAssetsAndMetadataMatch": true,
+  "sha256": "fdc6be55b410499e7b1f94d4ba1270b64789781b053b3281efdd75ead5d01605",
+  "bytes": 152160,
+  "dependencies": [
+    "{\r\n  \"dependencies\": {\r\n    \"com.unity.timeline\": \"1.7.7\"\r\n  }\r\n}"
+  ],
+  "tests": "90 regression + 1 native Timeline integration passed"
+}

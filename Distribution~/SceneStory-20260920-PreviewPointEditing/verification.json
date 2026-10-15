@@ -1,0 +1,6 @@
+{
+  "assets": 74,
+  "allAssetsAndMetadataMatch": true,
+  "sha256": "31834f68deb9907b68bb80134e22b506f8dd2575237ef9137c1032c63739a2b2",
+  "tests": "105/105 final run; native playback test had intermittent earlier failures"
+}

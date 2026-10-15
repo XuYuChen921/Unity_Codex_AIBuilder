@@ -1,0 +1,16 @@
+{
+  "name": "SceneStory.Editor.Tests",
+  "rootNamespace": "AIBuilder.CreatureStage",
+  "references": [
+    "SceneStory.Runtime",
+    "SceneStory.Editor",
+    "Unity.Timeline"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "autoReferenced": false,
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ]
+}

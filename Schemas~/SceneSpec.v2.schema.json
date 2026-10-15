@@ -1,0 +1,247 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xuyuchen921.github.io/unity-ai-builder/SceneSpec.v2.schema.json",
+  "title": "Unity AIBuilder SceneSpec v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "sceneName",
+    "generatedRootName",
+    "theme",
+    "generatorVersion",
+    "seed",
+    "referenceImage",
+    "visualNotes",
+    "camera",
+    "lighting",
+    "terrain",
+    "features",
+    "centralFeature",
+    "objects",
+    "scatterGroups"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 2 },
+    "sceneName": { "type": "string", "minLength": 1 },
+    "generatedRootName": { "type": "string", "minLength": 1 },
+    "theme": { "type": "string" },
+    "generatorVersion": { "type": "string" },
+    "seed": { "type": "integer" },
+    "referenceImage": { "$ref": "#/$defs/referenceImage" },
+    "visualNotes": { "$ref": "#/$defs/stringArray" },
+    "camera": { "$ref": "#/$defs/camera" },
+    "lighting": { "$ref": "#/$defs/lighting" },
+    "terrain": { "$ref": "#/$defs/terrain" },
+    "features": { "$ref": "#/$defs/features" },
+    "centralFeature": { "$ref": "#/$defs/centralFeature" },
+    "objects": {
+      "type": "array",
+      "maxItems": 20000,
+      "items": { "$ref": "#/$defs/sceneObject" }
+    },
+    "scatterGroups": {
+      "type": "array",
+      "maxItems": 1000,
+      "items": { "$ref": "#/$defs/scatterGroup" }
+    }
+  },
+  "$defs": {
+    "stringArray": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "vector2": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x", "y"],
+      "properties": {
+        "x": { "type": "number" },
+        "y": { "type": "number" }
+      }
+    },
+    "positiveVector2": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x", "y"],
+      "properties": {
+        "x": { "type": "number", "exclusiveMinimum": 0 },
+        "y": { "type": "number", "exclusiveMinimum": 0 }
+      }
+    },
+    "vector3": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x", "y", "z"],
+      "properties": {
+        "x": { "type": "number" },
+        "y": { "type": "number" },
+        "z": { "type": "number" }
+      }
+    },
+    "positiveVector3": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x", "y", "z"],
+      "properties": {
+        "x": { "type": "number", "exclusiveMinimum": 0 },
+        "y": { "type": "number", "exclusiveMinimum": 0 },
+        "z": { "type": "number", "exclusiveMinimum": 0 }
+      }
+    },
+    "color": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["r", "g", "b", "a"],
+      "properties": {
+        "r": { "type": "number", "minimum": 0 },
+        "g": { "type": "number", "minimum": 0 },
+        "b": { "type": "number", "minimum": 0 },
+        "a": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "referenceImage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["assetPath", "width", "height", "analysisPreset"],
+      "properties": {
+        "assetPath": { "type": "string" },
+        "width": { "type": "integer", "minimum": 0 },
+        "height": { "type": "integer", "minimum": 0 },
+        "analysisPreset": { "type": "string" }
+      }
+    },
+    "camera": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["position", "lookAt", "fieldOfView", "nearClipPlane", "farClipPlane"],
+      "properties": {
+        "position": { "$ref": "#/$defs/vector3" },
+        "lookAt": { "$ref": "#/$defs/vector3" },
+        "fieldOfView": { "type": "number", "exclusiveMinimum": 1, "exclusiveMaximum": 179 },
+        "nearClipPlane": { "type": "number", "exclusiveMinimum": 0 },
+        "farClipPlane": { "type": "number", "exclusiveMinimum": 0 }
+      }
+    },
+    "lighting": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sunEuler",
+        "sunColor",
+        "sunIntensity",
+        "ambientSkyColor",
+        "ambientEquatorColor",
+        "ambientGroundColor",
+        "fogColor",
+        "fogDensity",
+        "bloomIntensity"
+      ],
+      "properties": {
+        "sunEuler": { "$ref": "#/$defs/vector3" },
+        "sunColor": { "$ref": "#/$defs/color" },
+        "sunIntensity": { "type": "number", "minimum": 0 },
+        "ambientSkyColor": { "$ref": "#/$defs/color" },
+        "ambientEquatorColor": { "$ref": "#/$defs/color" },
+        "ambientGroundColor": { "$ref": "#/$defs/color" },
+        "fogColor": { "$ref": "#/$defs/color" },
+        "fogDensity": { "type": "number", "minimum": 0 },
+        "bloomIntensity": { "type": "number", "minimum": 0 }
+      }
+    },
+    "terrain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "objectName", "createColorPatches", "size", "groundYOffset", "grassPatchCount", "baseGrassColor", "patchGrassA", "patchGrassB"],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "objectName": { "type": "string" },
+        "createColorPatches": { "type": "boolean" },
+        "size": { "$ref": "#/$defs/positiveVector2" },
+        "groundYOffset": { "type": "number" },
+        "grassPatchCount": { "type": "integer", "minimum": 0, "maximum": 10000 },
+        "baseGrassColor": { "$ref": "#/$defs/color" },
+        "patchGrassA": { "$ref": "#/$defs/color" },
+        "patchGrassB": { "$ref": "#/$defs/color" }
+      }
+    },
+    "features": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["centralFeature", "magicPools", "heroForegroundTrees", "heroTreePrefabGuids", "heroTreePrefabPaths", "heroTreeAssetKeywords", "clouds", "fog", "postProcessing"],
+      "properties": {
+        "centralFeature": { "type": "boolean" },
+        "magicPools": { "type": "boolean" },
+        "heroForegroundTrees": { "type": "boolean" },
+        "heroTreePrefabGuids": { "$ref": "#/$defs/stringArray" },
+        "heroTreePrefabPaths": { "$ref": "#/$defs/stringArray" },
+        "heroTreeAssetKeywords": { "$ref": "#/$defs/stringArray" },
+        "clouds": { "type": "boolean" },
+        "fog": { "type": "boolean" },
+        "postProcessing": { "type": "boolean" }
+      }
+    },
+    "centralFeature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["position", "usePrefabAltar", "altarPrefabGuid", "altarPrefabPath", "ringStonePrefabGuids", "ringStonePrefabPaths", "ringStoneAssetKeywords", "allowKeywordFallback", "altarRadius", "altarHeight", "heartHeight", "glowIntensity", "glowColor"],
+      "properties": {
+        "position": { "$ref": "#/$defs/vector3" },
+        "usePrefabAltar": { "type": "boolean" },
+        "altarPrefabGuid": { "type": "string" },
+        "altarPrefabPath": { "type": "string" },
+        "ringStonePrefabGuids": { "$ref": "#/$defs/stringArray" },
+        "ringStonePrefabPaths": { "$ref": "#/$defs/stringArray" },
+        "ringStoneAssetKeywords": { "$ref": "#/$defs/stringArray" },
+        "allowKeywordFallback": { "type": "boolean" },
+        "altarRadius": { "type": "number", "exclusiveMinimum": 0 },
+        "altarHeight": { "type": "number", "exclusiveMinimum": 0 },
+        "heartHeight": { "type": "number" },
+        "glowIntensity": { "type": "number", "minimum": 0 },
+        "glowColor": { "$ref": "#/$defs/color" }
+      }
+    },
+    "sceneObject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "parentId", "prefabGuid", "prefabPath", "position", "rotation", "scale", "targetHeight", "snapToGround"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "name": { "type": "string" },
+        "parentId": { "type": "string" },
+        "prefabGuid": { "type": "string" },
+        "prefabPath": { "type": "string" },
+        "position": { "$ref": "#/$defs/vector3" },
+        "rotation": { "$ref": "#/$defs/vector3" },
+        "scale": { "$ref": "#/$defs/positiveVector3" },
+        "targetHeight": { "type": "number", "minimum": 0 },
+        "snapToGround": { "type": "boolean" }
+      },
+      "anyOf": [
+        { "properties": { "prefabGuid": { "type": "string", "minLength": 1 } } },
+        { "properties": { "prefabPath": { "type": "string", "minLength": 1 } } }
+      ]
+    },
+    "scatterGroup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "type", "count", "areaMin", "areaMax", "scaleRange", "edgeBias", "prefabGuids", "prefabPaths", "assetKeywords", "requireExactPrefabMatch", "allowKeywordFallback", "allowProceduralFallback", "avoidCenterClearing"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "type": { "type": "string", "minLength": 1 },
+        "count": { "type": "integer", "minimum": 0, "maximum": 10000 },
+        "areaMin": { "$ref": "#/$defs/vector3" },
+        "areaMax": { "$ref": "#/$defs/vector3" },
+        "scaleRange": { "$ref": "#/$defs/positiveVector2" },
+        "edgeBias": { "type": "number", "minimum": 0, "maximum": 1 },
+        "prefabGuids": { "$ref": "#/$defs/stringArray" },
+        "prefabPaths": { "$ref": "#/$defs/stringArray" },
+        "assetKeywords": { "$ref": "#/$defs/stringArray" },
+        "requireExactPrefabMatch": { "type": "boolean" },
+        "allowKeywordFallback": { "type": "boolean" },
+        "allowProceduralFallback": { "type": "boolean" },
+        "avoidCenterClearing": { "type": "boolean" }
+      }
+    }
+  }
+}

@@ -1,0 +1,3 @@
+Unity 2022.3.62f3: wide / narrow / scrolled inspector / empty state captured.
+PASS: mouse selection on overview, playback button, advancing preview, stop button, actor position restored, curve preset, advanced foldout.
+Preset changed only in isolated sample in memory; scene not saved.

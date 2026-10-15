@@ -9,7 +9,6 @@ namespace AIBuilder.EditorTools
     {
         private const string DataFolder = "Assets/AIBuilder/Data";
 
-        [MenuItem("AI构建器/场景生成/选中图片生成场景配置")]
         public static void CreateFromSelectedTexture()
         {
             var texture = Selection.activeObject as Texture2D;
@@ -29,8 +28,22 @@ namespace AIBuilder.EditorTools
                 return null;
             }
 
-            EnsureFolder("Assets", "AIBuilder");
-            EnsureFolder("Assets/AIBuilder", "Data");
+            outputPath = string.IsNullOrWhiteSpace(outputPath) ? string.Empty : outputPath.Trim().Replace('\\', '/');
+            var outputFolder = Path.GetDirectoryName(outputPath)?.Replace('\\', '/');
+            if (!string.Equals(Path.GetExtension(outputPath), ".json", System.StringComparison.OrdinalIgnoreCase))
+            {
+                Debug.LogError($"AI Scene Builder 配置输出路径必须是 Assets 下的 .json 文件：\n{outputPath}");
+                return null;
+            }
+
+            if (!AIBuilderAssetPathUtility.TryNormalizeAssetsFolder(outputFolder, out outputFolder, out var pathError))
+            {
+                Debug.LogError($"AI Scene Builder 配置输出路径无效：{pathError}\n{outputPath}");
+                return null;
+            }
+
+            AIBuilderAssetPathUtility.EnsureAssetFolder(outputFolder);
+            outputPath = AssetDatabase.GenerateUniqueAssetPath(outputPath);
 
             var assetPath = AssetDatabase.GetAssetPath(referenceImage);
             var spec = CreateSceneSpecTemplate(assetPath, referenceImage.width, referenceImage.height);
@@ -53,7 +66,8 @@ namespace AIBuilder.EditorTools
                 sceneName = "ReferenceScene",
                 generatedRootName = "AI_Generated_Scene",
                 theme = "custom_reference_scene",
-                generatorVersion = "v2-template",
+                schemaVersion = 2,
+                generatorVersion = "scene_v2-template",
                 seed = 20260503,
                 referenceImage = new ReferenceImageSpec
                 {
@@ -64,9 +78,15 @@ namespace AIBuilder.EditorTools
                 },
                 visualNotes = new[]
                 {
-                    "Clean template only. Codex should fill world analysis from the supplied reference image.",
+                    "Clean template only. A planner or artist should fill world analysis from the supplied reference image.",
                     "No default forest clearing, altar, heart, magic pools, or foreground framing is enabled.",
-                    "Use scatterGroups and feature toggles only after the reference image has been analyzed."
+                    "Prefer exact prefab GUID or path bindings; enable keyword/procedural fallback only when intended."
+                },
+                terrain = new TerrainSpec
+                {
+                    enabled = false,
+                    createColorPatches = false,
+                    grassPatchCount = 0
                 },
                 features = new SceneFeatureSpec
                 {
@@ -74,8 +94,10 @@ namespace AIBuilder.EditorTools
                     magicPools = false,
                     heroForegroundTrees = false,
                     clouds = false,
-                    postProcessing = true
+                    postProcessing = false,
+                    fog = false
                 },
+                objects = new System.Collections.Generic.List<SceneObjectSpec>(),
                 scatterGroups = new System.Collections.Generic.List<ScatterGroupSpec>()
             };
         }

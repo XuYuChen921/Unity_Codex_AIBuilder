@@ -1,0 +1,20 @@
+{
+  "name": "com.xuyuchen.scene-story",
+  "version": "1.0.0",
+  "displayName": "Scene Story 场景剧情",
+  "description": "Scene route and Timeline animation authoring with editable primitives sample.",
+  "unity": "2022.3",
+  "dependencies": {
+    "com.unity.timeline": "1.7.7"
+  },
+  "author": {
+    "name": "XuYuChen921"
+  },
+  "samples": [
+    {
+      "displayName": "基础几何体剧情",
+      "description": "Unity primitives with scale, rotation, grounded and free-space routes.",
+      "path": "Samples~/BasicExample"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+Publisher name: GINDXRSTU
+Support email: chrowder7@163.com
+Short description:
+GINDXRSTU creates practical scene-authoring tools for Unity. Our focus is on editable workflows for actor movement and Timeline sequencing.
+
+Website: publish the included SupportSite directory and enter its real public URL here. No live URL is claimed.
+Legal identity, billing address, tax information and payout details: enter directly in your Unity account.

@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 2,
+  "blockoutType": "scene_blockout",
+  "displayName": "参考场景白盒",
+  "modelName": "ReferenceSceneBlockout",
+  "generatedRootName": "AI_Blockout_ReferenceScene",
+  "generatorVersion": "model_v2",
+  "sourceMode": "codex_visual_analysis",
+  "referenceImages": [],
+  "scaleHint": "门高约 2.2 米，其余尺寸按参考图保守推断",
+  "codexSuggestions": [
+    "侧面不可见区域按对称结构暂定，需通过下一轮侧视图复查"
+  ],
+  "visualNotes": [
+    "先匹配主要轮廓、通道宽度和前中后景关系"
+  ],
+  "modelingNotes": [
+    "白盒阶段不制作纹理和装饰细节"
+  ],
+  "camera": {
+    "enabled": true,
+    "position": { "x": 0.0, "y": 2.0, "z": -18.0 },
+    "lookAt": { "x": 0.0, "y": 3.0, "z": 7.0 },
+    "fieldOfView": 50.0
+  },
+  "savePrefab": false,
+  "outputFolder": "Assets/AIBuilder/Generated/Blockouts/ReferenceScene",
+  "origin": { "x": 0.0, "y": 0.0, "z": 0.0 },
+  "parts": [
+    {
+      "name": "ground",
+      "parentName": "",
+      "shape": "box",
+      "position": { "x": 0.0, "y": -0.1, "z": 4.0 },
+      "rotation": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "size": { "x": 12.0, "y": 0.2, "z": 14.0 },
+      "color": { "r": 0.45, "g": 0.47, "b": 0.5, "a": 1.0 },
+      "materialName": "BlockoutGround",
+      "emissionColor": { "r": 0.0, "g": 0.0, "b": 0.0, "a": 1.0 },
+      "emissionIntensity": 0.0,
+      "segments": 12,
+      "subdivisions": 1,
+      "heightCuts": 0,
+      "thickness": 0.18,
+      "archAngle": 180.0,
+      "smooth": false,
+      "addCollider": true,
+      "notes": "场景可行走范围"
+    },
+    {
+      "name": "main_mass",
+      "parentName": "",
+      "shape": "box",
+      "position": { "x": 0.0, "y": 1.5, "z": 6.0 },
+      "rotation": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "size": { "x": 6.0, "y": 3.0, "z": 3.0 },
+      "color": { "r": 0.68, "g": 0.7, "b": 0.74, "a": 1.0 },
+      "materialName": "BlockoutMass",
+      "emissionColor": { "r": 0.0, "g": 0.0, "b": 0.0, "a": 1.0 },
+      "emissionIntensity": 0.0,
+      "segments": 12,
+      "subdivisions": 1,
+      "heightCuts": 0,
+      "thickness": 0.18,
+      "archAngle": 180.0,
+      "smooth": false,
+      "addCollider": true,
+      "notes": "主要建筑或空间体块占位"
+    }
+  ]
+}

@@ -6,8 +6,8 @@ namespace AIBuilder.EditorTools
     public sealed class AIProBuilderModelWindow : EditorWindow
     {
         private TextAsset specAsset;
-        private bool replaceExisting = true;
-        private bool savePrefab = true;
+        private bool replaceExisting;
+        private bool overwriteExistingPrefab;
         private bool selectGeneratedRoot = true;
         private string outputFolder = "Assets/AIBuilder/GeneratedModels";
 
@@ -23,47 +23,61 @@ namespace AIBuilder.EditorTools
 
         private void OnGUI()
         {
-            EditorGUILayout.LabelField("Reference Model To ProBuilder", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("参考图模型转 ProBuilder", EditorStyles.boldLabel);
             EditorGUILayout.Space(4f);
 
-            specAsset = (TextAsset)EditorGUILayout.ObjectField("Model Spec JSON", specAsset, typeof(TextAsset), false);
-            replaceExisting = EditorGUILayout.Toggle("Replace Existing Root", replaceExisting);
-            savePrefab = EditorGUILayout.Toggle("Save Prefab", savePrefab);
-            selectGeneratedRoot = EditorGUILayout.Toggle("Select Generated Root", selectGeneratedRoot);
-            outputFolder = EditorGUILayout.TextField("Output Folder", outputFolder);
+            specAsset = (TextAsset)EditorGUILayout.ObjectField("模型配置 JSON", specAsset, typeof(TextAsset), false);
+            replaceExisting = EditorGUILayout.Toggle("替换同名场景根节点", replaceExisting);
+            overwriteExistingPrefab = EditorGUILayout.Toggle("允许覆盖同名 Prefab", overwriteExistingPrefab);
+            selectGeneratedRoot = EditorGUILayout.Toggle("选中生成根节点", selectGeneratedRoot);
+            outputFolder = EditorGUILayout.TextField("输出目录", outputFolder);
 
             EditorGUILayout.Space(8f);
 
             using (new EditorGUI.DisabledScope(specAsset == null))
             {
-                if (GUILayout.Button("Generate ProBuilder Model", GUILayout.Height(32f)))
+                if (GUILayout.Button("预览 ProBuilder 模型（不写入资产）", GUILayout.Height(32f)))
                 {
-                    AIProBuilderModelGenerator.GenerateFromTextAsset(
-                        specAsset,
-                        new AIProBuilderModelBuildOptions
-                        {
-                            ReplaceExisting = replaceExisting,
-                            SavePrefab = savePrefab,
-                            SelectGeneratedRoot = selectGeneratedRoot,
-                            OutputFolder = outputFolder
-                        });
+                    AIProBuilderModelGenerator.GenerateFromTextAsset(specAsset, CreateBuildOptions(false));
+                }
+
+                if (GUILayout.Button("确认生成并保存 Prefab", GUILayout.Height(28f)) &&
+                    EditorUtility.DisplayDialog(
+                        "AI ProBuilder Model",
+                        "将创建 Prefab 和材质资产。是否继续？",
+                        "生成并保存",
+                        "取消"))
+                {
+                    AIProBuilderModelGenerator.GenerateFromTextAsset(specAsset, CreateBuildOptions(true));
                 }
             }
 
-            if (GUILayout.Button("Generate Default Stylized Crate"))
+            if (GUILayout.Button("预览默认风格化木箱"))
             {
                 AIProBuilderModelGenerator.GenerateDefaultModelFromMenu();
             }
 
-            if (GUILayout.Button("Create Template From Selected Reference Images"))
+            if (GUILayout.Button("从选中的参考图创建模板"))
             {
                 AIProBuilderModelGenerator.CreateTemplateFromSelectedImages();
             }
 
             EditorGUILayout.Space(8f);
             EditorGUILayout.HelpBox(
-                "Workflow: import one or more model reference images, send them to Codex, let Codex write a ProBuilderModelSpec JSON, then generate editable ProBuilder parts from that spec. Single-view images require conservative depth inference; multi-view references produce stronger proportions.",
+                "默认只在当前场景中预览，不保存 Prefab 或材质。ProBuilderModelSpec 可由本地模型、云端模型或人工生成；单视图需要保守推断深度，多视图更利于还原比例。",
                 MessageType.Info);
+        }
+
+        private AIProBuilderModelBuildOptions CreateBuildOptions(bool savePrefab)
+        {
+            return new AIProBuilderModelBuildOptions
+            {
+                ReplaceExisting = replaceExisting,
+                SavePrefab = savePrefab,
+                OverwriteExistingPrefab = savePrefab && overwriteExistingPrefab,
+                SelectGeneratedRoot = selectGeneratedRoot,
+                OutputFolder = outputFolder
+            };
         }
     }
 }

@@ -1,0 +1,52 @@
+{
+  "version": "1.0.0-rc1",
+  "publisher": "GINDXRSTU",
+  "supportEmail": "chrowder7@163.com",
+  "website": null,
+  "archive_sha256": "967a9b5cecc58ecf1485a9285dc72936f14c88490cddb228687f65975ce0277c",
+  "archive_files_and_meta_verified": 114,
+  "tested_code_copies_matched": 58,
+  "tests": {
+    "core2022": {
+      "result": "Passed",
+      "total": "76",
+      "passed": "76",
+      "failed": "0"
+    },
+    "import2022": {
+      "result": "Passed",
+      "total": "5",
+      "passed": "5",
+      "failed": "0"
+    },
+    "all6": {
+      "result": "Passed",
+      "total": "81",
+      "passed": "81",
+      "failed": "0"
+    }
+  },
+  "testedEditors": [
+    "2022.3.62f3",
+    "6000.3.21f1"
+  ],
+  "timeline": "1.7.7",
+  "pipeline": "Built-in",
+  "windowsBuild": "Succeeded; errors=0; warnings=0",
+  "windowsPlayer": {
+    "passed": true,
+    "directorTime": 1.2500303988927,
+    "audioScheduled": true,
+    "errors": 0
+  },
+  "scope": "Windows player smoke check uses AudioAndFacing only; isPlaying confirms scheduling, not an audible listening review. Last export changes documentation only; code matched both tested imports.",
+  "notVerified": [
+    "Tuanjie",
+    "URP/HDRP",
+    "macOS/mobile/XR",
+    "complete English UI visual review",
+    "store Validator",
+    "store submission"
+  ],
+  "status": "candidate_not_submitted"
+}

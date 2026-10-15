@@ -6,7 +6,9 @@
     "Unity.TextMeshPro",
     "Unity.RenderPipelines.Core.Runtime",
     "Unity.RenderPipelines.Universal.Runtime",
-    "Unity.ProBuilder"
+    "Unity.ProBuilder",
+    "Unity.Timeline",
+    "Unity.Timeline.Editor"
   ],
   "includePlatforms": [
     "Editor"

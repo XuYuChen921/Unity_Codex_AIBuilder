@@ -7,10 +7,11 @@ namespace AIBuilder
     [Serializable]
     public sealed class SceneSpec
     {
+        public int schemaVersion = 2;
         public string sceneName = "GeneratedScene";
         public string generatedRootName = "AI_Generated_Scene";
         public string theme = "stylized_low_poly";
-        public string generatorVersion = "v0";
+        public string generatorVersion = "scene_v2";
         public int seed = 12345;
         public ReferenceImageSpec referenceImage = new ReferenceImageSpec();
         public string[] visualNotes = Array.Empty<string>();
@@ -19,6 +20,7 @@ namespace AIBuilder
         public TerrainSpec terrain = new TerrainSpec();
         public SceneFeatureSpec features = new SceneFeatureSpec();
         public CentralFeatureSpec centralFeature = new CentralFeatureSpec();
+        public List<SceneObjectSpec> objects = new List<SceneObjectSpec>();
         public List<ScatterGroupSpec> scatterGroups = new List<ScatterGroupSpec>();
     }
 
@@ -37,7 +39,11 @@ namespace AIBuilder
         public bool centralFeature;
         public bool magicPools;
         public bool heroForegroundTrees;
+        public string[] heroTreePrefabGuids = Array.Empty<string>();
+        public string[] heroTreePrefabPaths = Array.Empty<string>();
+        public string[] heroTreeAssetKeywords = Array.Empty<string>();
         public bool clouds;
+        public bool fog = true;
         public bool postProcessing = true;
     }
 
@@ -68,6 +74,9 @@ namespace AIBuilder
     [Serializable]
     public sealed class TerrainSpec
     {
+        public bool enabled = true;
+        public string objectName = "Generated_Ground";
+        public bool createColorPatches = true;
         public Vector2 size = new Vector2(42f, 32f);
         public float groundYOffset = 0f;
         public int grassPatchCount = 90;
@@ -80,11 +89,33 @@ namespace AIBuilder
     public sealed class CentralFeatureSpec
     {
         public Vector3 position = new Vector3(0f, 0f, 7.5f);
+        public bool usePrefabAltar = true;
+        public string altarPrefabGuid;
+        public string altarPrefabPath;
+        public string[] ringStonePrefabGuids = Array.Empty<string>();
+        public string[] ringStonePrefabPaths = Array.Empty<string>();
+        public string[] ringStoneAssetKeywords = Array.Empty<string>();
+        public bool allowKeywordFallback = true;
         public float altarRadius = 2.3f;
         public float altarHeight = 0.65f;
         public float heartHeight = 2.45f;
         public float glowIntensity = 4f;
         public Color glowColor = new Color(0.47f, 1f, 0.08f, 1f);
+    }
+
+    [Serializable]
+    public sealed class SceneObjectSpec
+    {
+        public string id;
+        public string name;
+        public string parentId;
+        public string prefabGuid;
+        public string prefabPath;
+        public Vector3 position = Vector3.zero;
+        public Vector3 rotation = Vector3.zero;
+        public Vector3 scale = Vector3.one;
+        public float targetHeight;
+        public bool snapToGround;
     }
 
     [Serializable]
@@ -97,6 +128,12 @@ namespace AIBuilder
         public Vector3 areaMax;
         public Vector2 scaleRange = new Vector2(1f, 1f);
         public float edgeBias;
+        public string[] prefabGuids = Array.Empty<string>();
+        public string[] prefabPaths = Array.Empty<string>();
         public string[] assetKeywords = Array.Empty<string>();
+        public bool requireExactPrefabMatch = true;
+        public bool allowKeywordFallback = true;
+        public bool allowProceduralFallback = true;
+        public bool avoidCenterClearing;
     }
 }

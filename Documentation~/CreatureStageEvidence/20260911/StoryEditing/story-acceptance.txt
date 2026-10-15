@@ -1,0 +1,2 @@
+EDIT PASS: 15 real clips; route edit changes motion; route undo restores; time ripple and undo; stop restores; scene/Timeline save and reload; 37-action library.
+PLAY PASS: sequence advances; actor follows route; overview and close camera renders captured.

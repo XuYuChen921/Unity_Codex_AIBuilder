@@ -1,0 +1,10 @@
+{
+  "assetFiles": 70,
+  "allAssetsAndMetadataMatch": true,
+  "sha256": "d66591ecbdbec69ee7b537ca4a0b5789271396685576f39187f9108f4d39e17b",
+  "bytes": 157683,
+  "dependencies": [
+    "{\r\n  \"dependencies\": {\r\n    \"com.unity.timeline\": \"1.7.7\"\r\n  }\r\n}"
+  ],
+  "tests": "101/101"
+}

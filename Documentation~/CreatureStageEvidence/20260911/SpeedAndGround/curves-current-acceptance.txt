@@ -1,0 +1,1 @@
+PASS: 44 named source clips with preserved local IDs; 37 action-library and 15 Timeline references; 14 real-animation transition seeks; restored bones; curves save/reload. Max boundary angle at 0.1ms=0

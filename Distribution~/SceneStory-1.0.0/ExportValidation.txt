@@ -1,0 +1,17 @@
+PASS: standalone compilation, 5 route clips, 3 animation clips, no missing scripts, no FBX/AIBuilder dependency.
+Assets/SceneStory/Samples/BasicExample/BasicStory.playable
+Assets/SceneStory/Samples/BasicExample/Ground.mat
+Assets/SceneStory/Runtime/StageRoute.cs
+Assets/SceneStory/Runtime/StageStoryPlayback.cs
+Assets/SceneStory/Samples/BasicExample/Pulse.anim
+Assets/SceneStory/Samples/BasicExample/Actor.mat
+Assets/SceneStory/Samples/BasicExample/BasicStory.unity
+Assets/SceneStory/Runtime/StagePerformanceTrack.cs
+Packages/com.unity.timeline/Runtime/Animation/AnimationPlayableAsset.cs
+Assets/SceneStory/Samples/BasicExample/Accent.mat
+Assets/SceneStory/Runtime/StageGroundSettings.cs
+Assets/SceneStory/Samples/BasicExample/Spin.anim
+Packages/com.unity.timeline/Runtime/Animation/AnimationTrack.cs
+Assets/SceneStory/Runtime/StageActorDriver.cs
+Assets/SceneStory/Runtime/StagePerformanceClip.cs
+Packages/com.unity.timeline/Runtime/TimelineAsset.cs

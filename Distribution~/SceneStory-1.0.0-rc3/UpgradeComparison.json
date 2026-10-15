@@ -1,0 +1,43 @@
+{
+  "comparedTo": "1.0.0-rc2",
+  "oldPaths": 60,
+  "newPaths": 61,
+  "changedGuids": [],
+  "added": [
+    "Assets/SceneStory"
+  ],
+  "removed": [],
+  "changedContent": [
+    "Assets/SceneStory/Editor/StageAnimationTrackSetup.cs",
+    "Assets/SceneStory/Editor/StageBasicExample.cs",
+    "Assets/SceneStory/Editor/StageGaitAnimationEditor.cs",
+    "Assets/SceneStory/Editor/StageGroundBindingWindow.cs",
+    "Assets/SceneStory/Editor/StageGroundRepair.cs",
+    "Assets/SceneStory/Editor/StageGroundSettingsEditor.cs",
+    "Assets/SceneStory/Editor/StageLanguage.cs",
+    "Assets/SceneStory/Editor/StageRouteEditor.cs",
+    "Assets/SceneStory/Editor/StageRouteOverlay.cs",
+    "Assets/SceneStory/Editor/StageStoryHierarchy.cs",
+    "Assets/SceneStory/Editor/StageStoryMultiActor.cs",
+    "Assets/SceneStory/Editor/StageStoryStart.cs",
+    "Assets/SceneStory/Editor/StageStoryWindow.cs",
+    "Assets/SceneStory/Editor/StageTutorial.cs",
+    "Assets/SceneStory/QuickStart.md",
+    "Assets/SceneStory/README.md",
+    "Assets/SceneStory/Runtime/StageActionDefinition.cs",
+    "Assets/SceneStory/Runtime/StageActorDriver.cs",
+    "Assets/SceneStory/Runtime/StageActorProfile.cs",
+    "Assets/SceneStory/Runtime/StageGaitAnimationAsset.cs",
+    "Assets/SceneStory/Runtime/StageGroundSettings.cs",
+    "Assets/SceneStory/Runtime/StageMotionPlan.cs",
+    "Assets/SceneStory/Runtime/StagePerformanceClip.cs",
+    "Assets/SceneStory/Runtime/StagePerformanceTrack.cs",
+    "Assets/SceneStory/Runtime/StagePoseSession.cs",
+    "Assets/SceneStory/Runtime/StageRoute.cs",
+    "Assets/SceneStory/Runtime/StageSpeedCurve.cs",
+    "Assets/SceneStory/Runtime/StageStoryPlayback.cs"
+  ],
+  "registryDependencies": {
+    "com.unity.timeline": "1.7.7"
+  }
+}

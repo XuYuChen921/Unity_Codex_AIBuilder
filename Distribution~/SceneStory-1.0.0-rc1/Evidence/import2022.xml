@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="5" result="Passed" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-09-16 05:59:26Z" end-time="2026-09-16 05:59:28Z" duration="1.5102065">
+  <test-suite type="TestSuite" id="1000" name="SceneStoryStoreImport2022_20260916" fullname="SceneStoryStoreImport2022_20260916" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-09-16 05:59:26Z" end-time="2026-09-16 05:59:28Z" duration="1.510207" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties />
+    <test-suite type="Assembly" id="1008" name="SceneStory.Editor.Tests.dll" fullname="E:/X/Validation/SceneStoryStoreImport2022_20260916/Library/ScriptAssemblies/SceneStory.Editor.Tests.dll" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-09-16 05:59:26Z" end-time="2026-09-16 05:59:28Z" duration="1.328532" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="47768" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+      </properties>
+      <test-suite type="TestFixture" id="1001" name="StageStoryStoreImportTests" fullname="StageStoryStoreImportTests" classname="StageStoryStoreImportTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-09-16 05:59:26Z" end-time="2026-09-16 05:59:28Z" duration="1.327713" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1007" name="AudioExample_PlayModeAdvancesActorAndSchedulesAudio" fullname="StageStoryStoreImportTests.AudioExample_PlayModeAdvancesActorAndSchedulesAudio" methodname="AudioExample_PlayModeAdvancesActorAndSchedulesAudio" classname="StageStoryStoreImportTests" runstate="Runnable" seed="812906937" result="Passed" start-time="2026-09-16 05:59:26Z" end-time="2026-09-16 05:59:28Z" duration="1.889674" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+          </properties>
+        </test-case>
+        <test-suite type="ParameterizedMethod" id="1005" name="ImportedScene_RetainsBindingsAndFiniteSampling" fullname="StageStoryStoreImportTests.ImportedScene_RetainsBindingsAndFiniteSampling" classname="StageStoryStoreImportTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-16 05:59:28Z" end-time="2026-09-16 05:59:28Z" duration="0.145502" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-case id="1002" name="ImportedScene_RetainsBindingsAndFiniteSampling(&quot;MultiActor&quot;,3)" fullname="StageStoryStoreImportTests.ImportedScene_RetainsBindingsAndFiniteSampling(&quot;MultiActor&quot;,3)" methodname="ImportedScene_RetainsBindingsAndFiniteSampling" classname="StageStoryStoreImportTests" runstate="Runnable" seed="2014187070" result="Passed" start-time="2026-09-16 05:59:28Z" end-time="2026-09-16 05:59:28Z" duration="0.086555" asserts="0">
+            <properties />
+          </test-case>
+          <test-case id="1003" name="ImportedScene_RetainsBindingsAndFiniteSampling(&quot;GroundLayers&quot;,2)" fullname="StageStoryStoreImportTests.ImportedScene_RetainsBindingsAndFiniteSampling(&quot;GroundLayers&quot;,2)" methodname="ImportedScene_RetainsBindingsAndFiniteSampling" classname="StageStoryStoreImportTests" runstate="Runnable" seed="714334064" result="Passed" start-time="2026-09-16 05:59:28Z" end-time="2026-09-16 05:59:28Z" duration="0.030737" asserts="0">
+            <properties />
+          </test-case>
+          <test-case id="1004" name="ImportedScene_RetainsBindingsAndFiniteSampling(&quot;AudioAndFacing&quot;,1)" fullname="StageStoryStoreImportTests.ImportedScene_RetainsBindingsAndFiniteSampling(&quot;AudioAndFacing&quot;,1)" methodname="ImportedScene_RetainsBindingsAndFiniteSampling" classname="StageStoryStoreImportTests" runstate="Runnable" seed="170425810" result="Passed" start-time="2026-09-16 05:59:28Z" end-time="2026-09-16 05:59:28Z" duration="0.026781" asserts="0">
+            <properties />
+          </test-case>
+        </test-suite>
+        <test-case id="1006" name="LanguageSwitch_UsesEnglishAndChineseWithoutRenamingActor" fullname="StageStoryStoreImportTests.LanguageSwitch_UsesEnglishAndChineseWithoutRenamingActor" methodname="LanguageSwitch_UsesEnglishAndChineseWithoutRenamingActor" classname="StageStoryStoreImportTests" runstate="Runnable" seed="1512208571" result="Passed" start-time="2026-09-16 05:59:28Z" end-time="2026-09-16 05:59:28Z" duration="0.003003" asserts="0">
+          <properties />
+        </test-case>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

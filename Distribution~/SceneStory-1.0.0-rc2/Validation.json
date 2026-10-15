@@ -1,0 +1,18 @@
+{
+  "version": "1.0.0-rc2",
+  "unity": "2022.3.62f3",
+  "timeline": "1.7.7",
+  "archive_bytes": 156849,
+  "sha256": "a210fd8ae05b43cefa7b66d7353cabe493ac449a94cc55dfea553741fa6943bc",
+  "checked_assets_and_meta": 114,
+  "upgrade_import": "passed; archive content matches imported files",
+  "asset_guids": "60/60 unchanged from rc1",
+  "editor_regression": "76/76 passed before export with identical C# source",
+  "not_retested": [
+    "Unity 6",
+    "Tuanjie",
+    "Play mode",
+    "player build",
+    "devices"
+  ]
+}

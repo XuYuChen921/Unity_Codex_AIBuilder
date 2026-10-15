@@ -1,0 +1,1 @@
+PASS: auto tour, action switch, pause, seek, repeat pose, disable/enable release.

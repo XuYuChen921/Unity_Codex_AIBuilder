@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="30" result="Passed" total="30" passed="30" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.2364148">
+  <test-suite type="TestSuite" id="1069" name="CreatureStageValidation" fullname="CreatureStageValidation" runstate="Runnable" testcasecount="56" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.236415" total="30" passed="30" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties />
+    <test-suite type="Assembly" id="1133" name="Unity.Codex.AIBuilder.Editor.Tests.dll" fullname="E:/X/Validation/CreatureStageValidation_20260911/Library/ScriptAssemblies/Unity.Codex.AIBuilder.Editor.Tests.dll" runstate="Runnable" testcasecount="56" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.226215" total="30" passed="30" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="59552" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+      </properties>
+      <test-suite type="TestSuite" id="1134" name="AIBuilder" fullname="AIBuilder" runstate="Runnable" testcasecount="56" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.225636" total="30" passed="30" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1135" name="EditorTools" fullname="AIBuilder.EditorTools" runstate="Runnable" testcasecount="56" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.225357" total="30" passed="30" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1136" name="Tests" fullname="AIBuilder.EditorTools.Tests" runstate="Runnable" testcasecount="56" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.225069" total="30" passed="30" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1092" name="CreatureStageTests" fullname="AIBuilder.EditorTools.Tests.CreatureStageTests" classname="AIBuilder.EditorTools.Tests.CreatureStageTests" runstate="Runnable" testcasecount="23" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.186554" total="23" passed="23" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1112" name="Action_RequiresCalibrationAndValidSamplingRange" fullname="AIBuilder.EditorTools.Tests.CreatureStageTests.Action_RequiresCalibrationAndValidSamplingRange" methodname="Action_RequiresCalibrationAndValidSamplingRange" classname="AIBuilder.EditorTools.Tests.CreatureStageTests" runstate="Runnable" seed="965084123" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.008550" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1113" name="Audit_MissingInputsReportExplicitly" fullname="AIBuilder.EditorTools.Tests.CreatureStageTests.Audit_MissingInputsReportExplicitly" methodname="Audit_MissingInputsReportExplicitly" classname="AIBuilder.EditorTools.Tests.CreatureStageTests" runstate="Runnable" seed="1725915417" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.003063" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1116" name="Intake_RejectsEscapingAndUnapprovedOutputPaths" fullname="AIBuilder.EditorTools.Tests.CreatureStageTests.Intake_RejectsEscapingAndUnapprovedOutputPaths" methodname="Intake_RejectsEscapingAndUnapprovedOutputPaths" classname="AIBuilder.EditorTools.Tests.CreatureStageTests" runstate="Runnable" seed="652618150" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.003183" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1094" name="Motion_ClampsBeforeStartAndAfterEnd" fullname="AIBuilder.EditorTools.Tests.CreatureStageTests.Motion_ClampsBeforeStartAndAfterEnd" methodname="Motion_ClampsBeforeStartAndAfterEnd" classname="AIBuilder.EditorTools.Tests.CreatureStageTests" runstate="Runnable" seed="1842065160" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.005202" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1105" name="Motion_CycleBoundaryKeepsUnwrappedPhase" fullname="AIBuilder.EditorTools.Tests.CreatureStageTests.Motion_CycleBoundaryKeepsUnwrappedPhase" methodname="Motion_CycleBoundaryKeepsUnwrappedPhase" classname="AIBuilder.EditorTools.Tests.CreatureStageTests" runstate="Runnable" seed="1322626682" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.000828" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1095" name="Motion_RandomSeekMatchesSequentialEvaluation" fullname="AIBuilder.EditorTools.Tests.CreatureStageTests.Motion_RandomSeekMatchesSequentialEvaluation" methodname="Motion_RandomSeekMatchesSequentialEvaluation" classname="AIBuilder.EditorTools.Tests.CreatureStageTests" runstate="Runnable" seed="6295209" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.000275" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1102" name="Motion_RejectsImpossibleRateWithoutChangingDuration" fullname="AIBuilder.EditorTools.Tests.CreatureStageTests.Motion_RejectsImpossibleRateWithoutChangingDuration" methodname="Motion_RejectsImpossibleRateWithoutChangingDuration" classname="AIBuilder.EditorTools.Tests.CreatureStageTests" runstate="Runnable" seed="1503431494" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.001049" asserts="0">
+                <properties />
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="1110" name="Motion_RejectsInvalidCalibration" fullname="AIBuilder.EditorTools.Tests.CreatureStageTests.Motion_RejectsInvalidCalibration" classname="AIBuilder.EditorTools.Tests.CreatureStageTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.001564" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1106" name="Motion_RejectsInvalidCalibration(0,1,0.8d,1.2d,0,&quot;GAIT_INVALID&quot;)" fullname="AIBuilder.EditorTools.Tests.CreatureStageTests.Motion_RejectsInvalidCalibration(0,1,0.8d,1.2d,0,&quot;GAIT_INVALID&quot;)" methodname="Motion_RejectsInvalidCalibration" classname="AIBuilder.EditorTools.Tests.CreatureStageTests" runstate="Runnable" seed="925334835" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.000234" asserts="0">
+                  <properties />
+                </test-case>
+                <test-case id="1107" name="Motion_RejectsInvalidCalibration(1,0,0.8d,1.2d,0,&quot;GAIT_INVALID&quot;)" fullname="AIBuilder.EditorTools.Tests.CreatureStageTests.Motion_RejectsInvalidCalibration(1,0,0.8d,1.2d,0,&quot;GAIT_INVALID&quot;)" methodname="Motion_RejectsInvalidCalibration" classname="AIBuilder.EditorTools.Tests.CreatureStageTests" runstate="Runnable" seed="1952922805" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.000069" asserts="0">
+                  <properties />
+                </test-case>
+                <test-case id="1108" name="Motion_RejectsInvalidCalibration(1,1,2,1,0,&quot;RATE_INVALID&quot;)" fullname="AIBuilder.EditorTools.Tests.CreatureStageTests.Motion_RejectsInvalidCalibration(1,1,2,1,0,&quot;RATE_INVALID&quot;)" methodname="Motion_RejectsInvalidCalibration" classname="AIBuilder.EditorTools.Tests.CreatureStageTests" runstate="Runnable" seed="1639434876" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.000033" asserts="0">
+                  <properties />
+                </test-case>
+                <test-case id="1109" name="Motion_RejectsInvalidCalibration(1,1,0.8d,1.2d,1,&quot;PHASE_INVALID&quot;)" fullname="AIBuilder.EditorTools.Tests.CreatureStageTests.Motion_RejectsInvalidCalibration(1,1,0.8d,1.2d,1,&quot;PHASE_INVALID&quot;)" methodname="Motion_RejectsInvalidCalibration" classname="AIBuilder.EditorTools.Tests.CreatureStageTests" runstate="Runnable" seed="1652937872" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.000028" asserts="0">
+                  <properties />
+                </test-case>
+              </test-suite>
+              <test-suite type="ParameterizedMethod" id="1101" name="Motion_RejectsInvalidDuration" fullname="AIBuilder.EditorTools.Tests.CreatureStageTests.Motion_RejectsInvalidDuration" classname="AIBuilder.EditorTools.Tests.CreatureStageTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.000961" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1097" name="Motion_RejectsInvalidDuration(0)" fullname="AIBuilder.EditorTools.Tests.CreatureStageTests.Motion_RejectsInvalidDuration(0)" methodname="Motion_RejectsInvalidDuration" classname="AIBuilder.EditorTools.Tests.CreatureStageTests" runstate="Runnable" seed="558813390" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.000387" asserts="0">
+                  <properties />
+                </test-case>
+                <test-case id="1098" name="Motion_RejectsInvalidDuration(-1)" fullname="AIBuilder.EditorTools.Tests.CreatureStageTests.Motion_RejectsInvalidDuration(-1)" methodname="Motion_RejectsInvalidDuration" classname="AIBuilder.EditorTools.Tests.CreatureStageTests" runstate="Runnable" seed="1047169687" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.000060" asserts="0">
+                  <properties />
+                </test-case>
+                <test-case id="1099" name="Motion_RejectsInvalidDuration(double.NaN)" fullname="AIBuilder.EditorTools.Tests.CreatureStageTests.Motion_RejectsInvalidDuration(double.NaN)" methodname="Motion_RejectsInvalidDuration" classname="AIBuilder.EditorTools.Tests.CreatureStageTests" runstate="Runnable" seed="544952102" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.000030" asserts="0">
+                  <properties />
+                </test-case>
+                <test-case id="1100" name="Motion_RejectsInvalidDuration(double.PositiveInfinity)" fullname="AIBuilder.EditorTools.Tests.CreatureStageTests.Motion_RejectsInvalidDuration(double.PositiveInfinity)" methodname="Motion_RejectsInvalidDuration" classname="AIBuilder.EditorTools.Tests.CreatureStageTests" runstate="Runnable" seed="673699909" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.000026" asserts="0">
+                  <properties />
+                </test-case>
+              </test-suite>
+              <test-case id="1104" name="Motion_RejectsNonfiniteCoordinatesAndSeek" fullname="AIBuilder.EditorTools.Tests.CreatureStageTests.Motion_RejectsNonfiniteCoordinatesAndSeek" methodname="Motion_RejectsNonfiniteCoordinatesAndSeek" classname="AIBuilder.EditorTools.Tests.CreatureStageTests" runstate="Runnable" seed="1136552214" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.000251" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1103" name="Motion_RejectsStationaryAndDuplicatePoints" fullname="AIBuilder.EditorTools.Tests.CreatureStageTests.Motion_RejectsStationaryAndDuplicatePoints" methodname="Motion_RejectsStationaryAndDuplicatePoints" classname="AIBuilder.EditorTools.Tests.CreatureStageTests" runstate="Runnable" seed="2137622032" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.000119" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1111" name="Motion_RejectsUnrepresentableTimeRange" fullname="AIBuilder.EditorTools.Tests.CreatureStageTests.Motion_RejectsUnrepresentableTimeRange" methodname="Motion_RejectsUnrepresentableTimeRange" classname="AIBuilder.EditorTools.Tests.CreatureStageTests" runstate="Runnable" seed="2092588483" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.000096" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1096" name="Motion_SnapshotDoesNotShareMutableSourcePath" fullname="AIBuilder.EditorTools.Tests.CreatureStageTests.Motion_SnapshotDoesNotShareMutableSourcePath" methodname="Motion_SnapshotDoesNotShareMutableSourcePath" classname="AIBuilder.EditorTools.Tests.CreatureStageTests" runstate="Runnable" seed="1887683811" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.000190" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1093" name="Motion_UsesArcLengthInsteadOfPointIndex" fullname="AIBuilder.EditorTools.Tests.CreatureStageTests.Motion_UsesArcLengthInsteadOfPointIndex" methodname="Motion_UsesArcLengthInsteadOfPointIndex" classname="AIBuilder.EditorTools.Tests.CreatureStageTests" runstate="Runnable" seed="1841047622" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.000154" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1114" name="Pose_AbsoluteSamplingRestoresTransformsAndAnimatorSettings" fullname="AIBuilder.EditorTools.Tests.CreatureStageTests.Pose_AbsoluteSamplingRestoresTransformsAndAnimatorSettings" methodname="Pose_AbsoluteSamplingRestoresTransformsAndAnimatorSettings" classname="AIBuilder.EditorTools.Tests.CreatureStageTests" runstate="Runnable" seed="431281906" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.005836" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1115" name="Pose_RejectsCompetingControllerAndInvalidSampleTime" fullname="AIBuilder.EditorTools.Tests.CreatureStageTests.Pose_RejectsCompetingControllerAndInvalidSampleTime" methodname="Pose_RejectsCompetingControllerAndInvalidSampleTime" classname="AIBuilder.EditorTools.Tests.CreatureStageTests" runstate="Runnable" seed="381291165" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.001790" asserts="0">
+                <properties />
+                <output><![CDATA[The Animator Controller () you have used is not valid. Animations will not play
+]]></output>
+              </test-case>
+              <test-case id="1117" name="RealAssets_AllSuppliedClipsSeekDeterministicallyOnModel" fullname="AIBuilder.EditorTools.Tests.CreatureStageTests.RealAssets_AllSuppliedClipsSeekDeterministicallyOnModel" methodname="RealAssets_AllSuppliedClipsSeekDeterministicallyOnModel" classname="AIBuilder.EditorTools.Tests.CreatureStageTests" runstate="Runnable" seed="1514899084" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.143008" asserts="0">
+                <properties />
+                <output><![CDATA[实际产生姿态变化的动画数：37；检查素材文件数：37
+]]></output>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1118" name="StageStoryTests" fullname="AIBuilder.EditorTools.Tests.StageStoryTests" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.037258" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1125" name="Clip_DistanceSyncAndNonloopClamping" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.Clip_DistanceSyncAndNonloopClamping" methodname="Clip_DistanceSyncAndNonloopClamping" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="1477635060" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.008344" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1124" name="Route_CurvePassesEndpointsAndRejectsZeroLength" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.Route_CurvePassesEndpointsAndRejectsZeroLength" methodname="Route_CurvePassesEndpointsAndRejectsZeroLength" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="1124817766" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.003396" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1123" name="Route_MovingAnchorInvalidatesCachedArcLength" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.Route_MovingAnchorInvalidatesCachedArcLength" methodname="Route_MovingAnchorInvalidatesCachedArcLength" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="457314210" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.000679" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1121" name="Timeline_GapsAndEndHoldPriorState" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.Timeline_GapsAndEndHoldPriorState" methodname="Timeline_GapsAndEndHoldPriorState" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="1225792856" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.015938" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1119" name="Timeline_MovesActorAndRestoresOriginalOnStop" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.Timeline_MovesActorAndRestoresOriginalOnStop" methodname="Timeline_MovesActorAndRestoresOriginalOnStop" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="1094529302" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.002583" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1122" name="Timeline_RejectsOverlapAndRestoresActor" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.Timeline_RejectsOverlapAndRestoresActor" methodname="Timeline_RejectsOverlapAndRestoresActor" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="1494356552" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.002446" asserts="0">
+                <properties />
+                <output><![CDATA[角色剧情：基础表演片段不能重叠，请先错开时间。
+]]></output>
+              </test-case>
+              <test-case id="1120" name="Timeline_SeekAcrossMoveAndHoldIsDeterministic" fullname="AIBuilder.EditorTools.Tests.StageStoryTests.Timeline_SeekAcrossMoveAndHoldIsDeterministic" methodname="Timeline_SeekAcrossMoveAndHoldIsDeterministic" classname="AIBuilder.EditorTools.Tests.StageStoryTests" runstate="Runnable" seed="1551217897" result="Passed" start-time="2026-09-11 03:50:23Z" end-time="2026-09-11 03:50:23Z" duration="0.001289" asserts="0">
+                <properties />
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

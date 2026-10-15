@@ -1,0 +1,1 @@
+PASS: fresh empty route binds 9 terrain colliders without previous clips; samples follow terrain; manual route remains unbound.

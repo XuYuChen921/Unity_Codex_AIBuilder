@@ -1,83 +1,58 @@
 ---
 name: unity-ai-builder
-description: Use when working with Unity Codex AIBuilder to generate Unity scenes from reference images, generate ProBuilder models from model reference images, scan prefab libraries, visually select matching assets, update SceneSpec/ProBuilderModelSpec JSON, and use procedural or ProBuilder fallback when prefabs do not match.
+description: Use when Codex needs to turn one or more scene reference images into a Unity ProBuilder scene blockout, or one object reference image into a ProBuilder object blockout, using AIBuilder preview and review bundles.
 ---
 
-# Unity AIBuilder
+# Unity AIBuilder 白盒搭建
 
-Use this workflow for Unity 2022.3 URP AIBuilder projects.
+## 只处理两类任务
 
-## Core Rules
+- 同一场景的一张或多张参考图 -> `scene_blockout`。
+- 一张物体参考图 -> `object_blockout`。
 
-- Treat the reference image as a 3D world, not a flat collage.
-- Final prefab selection must use visual comparison against prefab screenshots.
-- Use fast metadata only for coarse filtering.
-- Prioritize style and external appearance over color and size.
-- Color, scale, rotation, and density can be adjusted after selection.
-- If no prefab visually matches, use procedural or ProBuilder fallback.
-- For model references, Codex performs image understanding and writes `ProBuilderModelSpec`; Unity generates editable ProBuilder parts from the spec.
+不要启动 Prefab 资产库、资产整理、旧 `SceneSpec` 场景生成或本地视觉模型流程，除非用户明确要求恢复旧能力。
 
-## Asset Index Workflow
+## 执行顺序
 
-1. Run Unity menu `AI构建器/Prefab资产库/打开资产库面板`.
-2. Use `快速扫描缺失或变化资产` after importing assets.
-3. Read `Assets/AIBuilder/Generated/PrefabAssetMetadataLibrary/PrefabAssetLibrary_Index.md` and the relevant `metadata.json` files.
-4. Shortlist candidates by object role, style, shape, and approximate color.
-5. For final selection, use existing `PrefabAssetLibrary` screenshots or request/run `Build Missing / Changed Library` for shortlisted candidates.
+1. 确认 Unity 项目路径和任务类型。
+2. 检查所有参考图。多张图必须确认属于同一场景；不一致处标为假设。
+3. 分析元素、屏幕轮廓、负空间、人物尺度、前中后景、角度、遮挡关系和不可见深度。
+4. 读取包内 `Schemas~/ProBuilderModelSpec.v2.schema.json`。
+5. 在 Unity 项目的 `Assets/AIBuilder/Data/<任务名>.json` 创建或更新 `ProBuilderModelSpec`。
+6. 告知用户在 Unity 打开 `AI构建器/打开白盒搭建器` 并生成预览；若 Codex可控制当前 Unity 编辑器，则仍先预览，不直接确认写入。
+7. 读取最新 `Library/AIBuilder/Reviews/*/CodexReviewRequest.md` 及其中列出的主、侧、俯视图。
+8. 只修改同一份配置，修正体块、比例和布局；等待再次预览。
+9. 最终写入必须由用户明确确认。
 
-## Reference Image Analysis
+## 配置规则
 
-Before editing any spec, identify:
+- `blockoutType` 只能是 `scene_blockout` 或 `object_blockout`。
+- `displayName` 使用清楚的任务名。
+- `scaleHint` 写已知尺寸；未知时明确“按参考图保守推断”。
+- `referenceImages` 可记录 Unity 内图片路径；图片只在当前 Codex 任务中时允许为空。
+- `savePrefab`：场景为 `false`，物体为 `true`。
+- `parts` 必须是命名清楚、可编辑的 ProBuilder 体块。
+- `scene_blockout` 应按参考图构图填写 `camera`；`object_blockout` 可关闭它。
+- `scene_blockout` 应填写 `referenceFrame` 和 `sceneAnalysis`；坐标使用左上角原点的 0 到 1 归一化值。
+- 单图主构图优先使用 `screen_polygon`，并通过 `analysisElementId` 绑定分析元素；负空间元素不得生成实体。
+- 先保证大轮廓、比例和空间关系，再增加次级体块。
+- 单图不可见区域保守推断，并写入 `codexSuggestions` 或 `modelingNotes`。
 
-- World theme and mood.
-- Main subject and secondary object roles.
-- Foreground, midground, background, and boundary objects.
-- Camera height, perspective, and focal direction.
-- Light direction, color temperature, fog, glow, and shadow softness.
-- Placement logic from front, side, and top views.
+支持的形状：`box`、`cylinder`、`cone`、`sphere`、`plane`、`prism`、`pipe`、`torus`、`arch`、`stair`、`screen_polygon`，以及 `empty/group` 层级节点。
 
-## Prefab Selection Priority
+## 复查重点
 
-Use this order:
+1. `Overlay.png`：固定相机构图、负空间和主要轮廓。
+2. `ProjectionReport.md`：元素屏幕位置、尺寸和矩形 IoU。
+3. `Side.png`：深度、遮挡、前中后景。
+4. `Top.png`：布局、通道宽度、边界和密度。
 
-1. Style and visual language.
-2. Silhouette and external appearance.
-3. Semantic role.
-4. Color family.
-5. Size.
+不要把白盒扩展成最终建模、自动贴图或 Prefab 匹配任务。
 
-Reject visually wrong prefabs even if their metadata or name matches.
+## 安全边界
 
-## Scene Generation Workflow
-
-1. Read the existing `SceneSpec` model in `Assets/AIBuilder/Runtime/SceneSpec.cs`.
-2. Create or update JSON specs under `Assets/AIBuilder/Data`.
-3. Encode camera, lighting, terrain, central features, and scatter groups.
-4. Use validated prefab paths when available.
-5. Use procedural fallback where prefab candidates do not visually match.
-6. Generate through `AI构建器/场景生成/参考图生成场景`.
-7. Review main camera plus side/top spatial validity.
-
-## Model Reference To ProBuilder Workflow
-
-Use this when the user provides one or more model reference images and wants a model built in Unity with ProBuilder.
-
-1. Inspect every supplied view: single-view, single-image multi-view, or multiple images.
-2. Identify silhouette, proportions, symmetry, large forms, secondary forms, surface regions, material colors, and style.
-3. Mark assumptions for hidden sides and depth. Do not invent high-confidence details that the reference does not show.
-4. Read `Assets/AIBuilder/Runtime/ProBuilderModelSpec.cs`.
-5. Create or update `Assets/AIBuilder/Data/<ModelName>.json` using `ProBuilderModelSpec`.
-6. Split the model into named editable parts using `box`, `cylinder`, `cone`, `sphere`, `plane`, `prism/wedge/roof`, `pipe/ring`, `torus`, `arch`, or `stair`.
-7. Generate through `AI构建器/模型生成/参考图生成模型 ProBuilder`.
-8. Review the generated model from front, side, and top; adjust the spec if the silhouette does not match.
-
-## Important Files
-
-- `Assets/AIBuilder/Editor/AIReferenceSceneGenerator.cs`
-- `Assets/AIBuilder/Editor/AIProBuilderModelGenerator.cs`
-- `Assets/AIBuilder/Editor/PrefabAssetLibraryWindow.cs`
-- `Assets/AIBuilder/Editor/AssetCatalogWindow.cs`
-- `Assets/AIBuilder/Runtime/SceneSpec.cs`
-- `Assets/AIBuilder/Runtime/ProBuilderModelSpec.cs`
-- `Documentation~/WORKFLOW.md`
-- `Documentation~/MCP_VS_SKILL.md`
+- 预览不得创建场景、Prefab 或材质资产。
+- 配置变化后必须重新预览。
+- 不覆盖已有输出。
+- 场景写入保存新副本，不自动覆盖用户当前场景。
+- 写入保留 Unity Undo，并要求明确确认。

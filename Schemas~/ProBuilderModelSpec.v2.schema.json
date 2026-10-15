@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xuyuchen921.github.io/unity-ai-builder/ProBuilderModelSpec.v2.schema.json",
+  "title": "Unity AIBuilder ProBuilderModelSpec v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "blockoutType", "displayName", "modelName", "generatedRootName", "generatorVersion", "sourceMode", "referenceImages", "scaleHint", "codexSuggestions", "visualNotes", "modelingNotes", "savePrefab", "outputFolder", "origin", "parts"],
+  "properties": {
+    "schemaVersion": { "const": 2 },
+    "blockoutType": { "enum": ["scene_blockout", "object_blockout"] },
+    "displayName": { "type": "string" },
+    "modelName": { "type": "string", "minLength": 1 },
+    "generatedRootName": { "type": "string", "minLength": 1 },
+    "generatorVersion": { "type": "string" },
+    "sourceMode": { "type": "string" },
+    "referenceImages": { "type": "array", "items": { "$ref": "#/$defs/referenceImage" } },
+    "scaleHint": { "type": "string" },
+    "codexSuggestions": { "$ref": "#/$defs/stringArray" },
+    "visualNotes": { "$ref": "#/$defs/stringArray" },
+    "modelingNotes": { "$ref": "#/$defs/stringArray" },
+    "camera": { "$ref": "#/$defs/blockoutCamera" },
+    "referenceFrame": { "$ref": "#/$defs/referenceFrame" },
+    "sceneAnalysis": { "$ref": "#/$defs/sceneAnalysis" },
+    "savePrefab": { "type": "boolean" },
+    "outputFolder": { "type": "string", "pattern": "^Assets(?:/|$)" },
+    "origin": { "$ref": "#/$defs/vector3" },
+    "parts": { "type": "array", "minItems": 1, "maxItems": 5000, "items": { "$ref": "#/$defs/part" } }
+  },
+  "$defs": {
+    "stringArray": { "type": "array", "items": { "type": "string" } },
+    "vector3": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x", "y", "z"],
+      "properties": { "x": { "type": "number" }, "y": { "type": "number" }, "z": { "type": "number" } }
+    },
+    "vector2": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x", "y"],
+      "properties": { "x": { "type": "number" }, "y": { "type": "number" } }
+    },
+    "positiveVector3": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x", "y", "z"],
+      "properties": {
+        "x": { "type": "number", "exclusiveMinimum": 0 },
+        "y": { "type": "number", "exclusiveMinimum": 0 },
+        "z": { "type": "number", "exclusiveMinimum": 0 }
+      }
+    },
+    "color": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["r", "g", "b", "a"],
+      "properties": {
+        "r": { "type": "number", "minimum": 0 },
+        "g": { "type": "number", "minimum": 0 },
+        "b": { "type": "number", "minimum": 0 },
+        "a": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "blockoutCamera": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "position", "lookAt", "fieldOfView"],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "position": { "$ref": "#/$defs/vector3" },
+        "lookAt": { "$ref": "#/$defs/vector3" },
+        "fieldOfView": { "type": "number", "minimum": 10, "maximum": 120 }
+      }
+    },
+    "referenceFrame": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "width", "height", "lockAspect", "horizonY", "coordinateSystem", "notes"],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "width": { "type": "integer", "minimum": 0 },
+        "height": { "type": "integer", "minimum": 0 },
+        "lockAspect": { "type": "boolean" },
+        "horizonY": { "type": "number", "minimum": 0, "maximum": 1 },
+        "coordinateSystem": { "const": "normalized_top_left" },
+        "notes": { "type": "string" }
+      }
+    },
+    "sceneAnalysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "humanHeightMeters", "elements", "relations", "landmarks", "assumptions"],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "humanHeightMeters": { "type": "number", "exclusiveMinimum": 0 },
+        "elements": { "type": "array", "items": { "$ref": "#/$defs/sceneElement" } },
+        "relations": { "type": "array", "items": { "$ref": "#/$defs/sceneRelation" } },
+        "landmarks": { "type": "array", "items": { "$ref": "#/$defs/sceneLandmark" } },
+        "assumptions": { "$ref": "#/$defs/stringArray" }
+      }
+    },
+    "sceneElement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "role", "category", "depthBand", "partName", "generateFromScreen", "screenPolygon", "depthMeters", "thicknessMeters", "estimatedRotation", "sizeInHumanHeights", "occludes", "occludedBy", "confidence", "notes"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string" },
+        "role": { "enum": ["solid", "negative_space", "scale_reference", "guide"] },
+        "category": { "type": "string" },
+        "depthBand": { "enum": ["foreground", "midground", "background", "sky", "unknown"] },
+        "partName": { "type": "string" },
+        "generateFromScreen": { "type": "boolean" },
+        "screenPolygon": { "type": "array", "items": { "$ref": "#/$defs/vector2" } },
+        "depthMeters": { "type": "number", "exclusiveMinimum": 0 },
+        "thicknessMeters": { "type": "number", "exclusiveMinimum": 0 },
+        "estimatedRotation": { "$ref": "#/$defs/vector3" },
+        "sizeInHumanHeights": { "type": "number", "minimum": 0 },
+        "occludes": { "$ref": "#/$defs/stringArray" },
+        "occludedBy": { "$ref": "#/$defs/stringArray" },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "notes": { "type": "string" }
+      }
+    },
+    "sceneRelation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["subjectId", "predicate", "objectId", "notes"],
+      "properties": {
+        "subjectId": { "type": "string" },
+        "predicate": { "type": "string" },
+        "objectId": { "type": "string" },
+        "notes": { "type": "string" }
+      }
+    },
+    "sceneLandmark": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "elementId", "screenPoint", "tolerance", "notes"],
+      "properties": {
+        "name": { "type": "string" },
+        "elementId": { "type": "string" },
+        "screenPoint": { "$ref": "#/$defs/vector2" },
+        "tolerance": { "type": "number", "minimum": 0, "maximum": 1 },
+        "notes": { "type": "string" }
+      }
+    },
+    "referenceImage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["assetPath", "view", "width", "height", "notes"],
+      "properties": {
+        "assetPath": { "type": "string" },
+        "view": { "type": "string" },
+        "width": { "type": "integer", "minimum": 0 },
+        "height": { "type": "integer", "minimum": 0 },
+        "notes": { "type": "string" }
+      }
+    },
+    "part": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "parentName", "shape", "position", "rotation", "size", "color", "materialName", "emissionColor", "emissionIntensity", "segments", "subdivisions", "heightCuts", "thickness", "archAngle", "smooth", "addCollider", "notes"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "parentName": { "type": "string" },
+        "analysisElementId": { "type": "string" },
+        "shape": { "enum": ["empty", "group", "box", "cube", "cylinder", "cone", "sphere", "icosphere", "plane", "quad", "prism", "wedge", "roof", "pipe", "ring", "torus", "arch", "stair", "stairs", "screen_polygon"] },
+        "position": { "$ref": "#/$defs/vector3" },
+        "rotation": { "$ref": "#/$defs/vector3" },
+        "size": { "$ref": "#/$defs/positiveVector3" },
+        "color": { "$ref": "#/$defs/color" },
+        "materialName": { "type": "string" },
+        "emissionColor": { "$ref": "#/$defs/color" },
+        "emissionIntensity": { "type": "number", "minimum": 0 },
+        "segments": { "type": "integer", "minimum": 0, "maximum": 64 },
+        "subdivisions": { "type": "integer", "minimum": 0, "maximum": 3 },
+        "heightCuts": { "type": "integer", "minimum": 0 },
+        "thickness": { "type": "number", "minimum": 0 },
+        "archAngle": { "type": "number", "minimum": 0, "maximum": 360 },
+        "smooth": { "type": "boolean" },
+        "addCollider": { "type": "boolean" },
+        "notes": { "type": "string" }
+      }
+    }
+  }
+}

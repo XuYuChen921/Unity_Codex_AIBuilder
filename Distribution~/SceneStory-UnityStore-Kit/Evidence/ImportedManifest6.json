@@ -1,0 +1,14 @@
+{
+  "checkedMatchingAssetsAndMeta": 111,
+  "differences": [
+    "Assets/SceneStory.meta",
+    "Assets/SceneStory/Samples/StoreExamples/AudioAndFacing.unity",
+    "Assets/SceneStory/Samples/StoreExamples/MultiActor.unity",
+    "Assets/SceneStory/Samples/StoreExamples/GroundLayers.unity"
+  ],
+  "notes": [
+    "Existing root folder metadata retained by Unity.",
+    "Three StoreExamples scenes were reserialized to Unity 6 format during import/testing; per-scene diffs retained. All scripts, other assets and child GUID metadata match.",
+    "All 82 tests passed, including scene bindings and actual playback."
+  ]
+}

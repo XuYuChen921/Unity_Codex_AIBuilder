@@ -1,0 +1,245 @@
+{
+    "tool": "Unity Asset Store Tools 12.0.0",
+    "category": "tools/animation",
+    "status": "RanToCompletion",
+    "tests": [
+        {
+            "title": "Check Animation Clips",
+            "status": "Pass",
+            "messages": [
+                "No animation clips with invalid names were found!"
+            ]
+        },
+        {
+            "title": "Check Audio Clipping",
+            "status": "Pass",
+            "messages": [
+                "No clipping audio files were detected."
+            ]
+        },
+        {
+            "title": "Check Colliders",
+            "status": "Pass",
+            "messages": [
+                "All found prefabs have colliders!"
+            ]
+        },
+        {
+            "title": "Check Compressed Files",
+            "status": "Pass",
+            "messages": [
+                "No archives were found in the package content!"
+            ]
+        },
+        {
+            "title": "Check Empty Prefabs",
+            "status": "Pass",
+            "messages": [
+                "No empty prefabs were found!"
+            ]
+        },
+        {
+            "title": "Check File Menu Names",
+            "status": "Pass",
+            "messages": [
+                "No MenuItems with invalid names were found!"
+            ]
+        },
+        {
+            "title": "Check Line Endings",
+            "status": "Pass",
+            "messages": [
+                "No scripts with inconsistent line endings were found!"
+            ]
+        },
+        {
+            "title": "Check LODs",
+            "status": "Pass",
+            "messages": [
+                "All found prefabs are meeting the LOD requirements!"
+            ]
+        },
+        {
+            "title": "Check Mesh Prefabs",
+            "status": "Pass",
+            "messages": [
+                "All found prefabs have meshes!"
+            ]
+        },
+        {
+            "title": "Check Missing Components in Assets",
+            "status": "Pass",
+            "messages": [
+                "No assets have missing components!"
+            ]
+        },
+        {
+            "title": "Check Missing Components in Scenes",
+            "status": "Pass",
+            "messages": [
+                "No missing components were found!"
+            ]
+        },
+        {
+            "title": "Check Model Import Logs",
+            "status": "Pass",
+            "messages": [
+                "No issues were detected when importing your models!"
+            ]
+        },
+        {
+            "title": "Check Model Orientation",
+            "status": "Pass",
+            "messages": [
+                "All found models are facing the right way!"
+            ]
+        },
+        {
+            "title": "Check Model Types",
+            "status": "Pass",
+            "messages": [
+                "All models are of allowed formats!"
+            ]
+        },
+        {
+            "title": "Check Normal Map Textures",
+            "status": "Pass",
+            "messages": [
+                "All normal map textures have the correct texture type!"
+            ]
+        },
+        {
+            "title": "Check Package Naming",
+            "status": "Pass",
+            "messages": [
+                "All package asset names are valid!"
+            ]
+        },
+        {
+            "title": "Check Particle Systems",
+            "status": "Pass",
+            "messages": [
+                "No Particle Systems without Prefabs were found!"
+            ]
+        },
+        {
+            "title": "Check Path Lengths",
+            "status": "Pass",
+            "messages": [
+                "All package content matches the path limit criteria!"
+            ]
+        },
+        {
+            "title": "Check Prefab Transforms",
+            "status": "Pass",
+            "messages": [
+                "All found prefabs were reset!"
+            ]
+        },
+        {
+            "title": "Check Script Compilation",
+            "status": "Pass",
+            "messages": [
+                "All scripts in the project compiled successfully!"
+            ]
+        },
+        {
+            "title": "Check Shader Compilation",
+            "status": "Pass",
+            "messages": [
+                "All found Shaders have no compilation errors!"
+            ]
+        },
+        {
+            "title": "Check Texture Dimensions",
+            "status": "Pass",
+            "messages": [
+                "All texture dimensions are a power of 2!"
+            ]
+        },
+        {
+            "title": "Check Type Namespaces",
+            "status": "Pass",
+            "messages": [
+                "All scripts contain valid namespaces!"
+            ]
+        },
+        {
+            "title": "Remove Executable Files",
+            "status": "Pass",
+            "messages": [
+                "No executable files were found!"
+            ]
+        },
+        {
+            "title": "Remove JavaScript Files",
+            "status": "Pass",
+            "messages": [
+                "No UnityScript / JS files were found!"
+            ]
+        },
+        {
+            "title": "Remove JPG Files",
+            "status": "Pass",
+            "messages": [
+                "No JPG/JPEG textures were found!"
+            ]
+        },
+        {
+            "title": "Remove Lossy Audio Files",
+            "status": "Pass",
+            "messages": [
+                "No lossy audio files were found!"
+            ]
+        },
+        {
+            "title": "Remove Mixamo Files",
+            "status": "Pass",
+            "messages": [
+                "No Mixamo files were found!"
+            ]
+        },
+        {
+            "title": "Remove SpeedTree Files",
+            "status": "Pass",
+            "messages": [
+                "No SpeedTree assets have been found!"
+            ]
+        },
+        {
+            "title": "Remove Video Files",
+            "status": "Pass",
+            "messages": [
+                "No video files were found, looking good!"
+            ]
+        },
+        {
+            "title": "Check Demo Scenes",
+            "status": "Pass",
+            "messages": [
+                "Demo scenes found"
+            ]
+        },
+        {
+            "title": "Check Documentation",
+            "status": "Pass",
+            "messages": [
+                "Found documentation files"
+            ]
+        },
+        {
+            "title": "Check Package Size",
+            "status": "Pass",
+            "messages": [
+                "Your package does not exceed the maximum allowed package size!"
+            ]
+        },
+        {
+            "title": "Check Project Template Assets",
+            "status": "Pass",
+            "messages": [
+                "No common assets that might cause asset clashing were found!"
+            ]
+        }
+    ]
+}

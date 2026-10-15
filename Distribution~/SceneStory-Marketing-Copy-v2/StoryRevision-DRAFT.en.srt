@@ -1,0 +1,43 @@
+1
+00:00:00,000 --> 00:00:07,000
+Stage multiple actors on one Timeline
+
+2
+00:00:08,000 --> 00:00:15,000
+Insert a Hold after the selected clip
+
+3
+00:00:16,000 --> 00:00:23,000
+Shift later route clips; keep starts connected
+
+4
+00:00:24,000 --> 00:00:30,000
+Reorder clips and update route connections
+
+5
+00:00:31,000 --> 00:00:36,000
+Select a route point to switch actor tracks
+
+6
+00:00:37,000 --> 00:00:44,000
+Shape a heading curve while moving
+
+7
+00:00:45,000 --> 00:00:52,000
+Set when to hold and return the heading
+
+8
+00:00:53,000 --> 00:01:00,000
+Calibrate gait and sync animation to distance
+
+9
+00:01:01,000 --> 00:01:08,000
+Change distance and duration; inspect the gait
+
+10
+00:01:09,000 --> 00:01:19,000
+Scrub the Timeline to inspect key moments
+
+11
+00:01:20,000 --> 00:01:29,000
+Stage the performance. Revise the blocking.

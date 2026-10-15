@@ -1,0 +1,2 @@
+Original geometric brand artwork, not product screenshots. Font: Windows Segoe UI, rasterized into artwork; no font files distributed. No Unity logo used. Dimensions follow the Unity 2022.3 publisher image documentation; confirm the actual upload slots in the current portal before submitting. Editable generation source: Tools~/prepare_unity_store_kit.py.
+https://docs.unity3d.com/2022.3/Documentation/Manual/AssetStorePkgDetails.html

@@ -1,0 +1,1 @@
+PASS: prefix/contains/exact/empty rules; 1/9 terrain rebinding; unmatched keeps old bindings; control points preserved; custom setting survives scene reload.

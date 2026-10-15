@@ -1,0 +1,7 @@
+Suggested category: Tools / Animation.
+Start with Assets/SceneStory/Samples/StoreExamples/MultiActor.unity.
+Open Tools > Scene Story > Open Story Editor.
+This is a route and multi-actor Timeline authoring tool. It requires Unity Timeline, not ProBuilder or an online AI service.
+The package contains no dinosaurtosky art or production scenes. Examples use primitives, authored transform curves and a generated audio tone.
+Runtime messages are English-readable bilingual diagnostics. Chinese legacy example/object names are preserved to avoid unintended renaming.
+See Compatibility.md and Evidence for the exact validation scope. Tests and publishing utilities are not distributed as product assets.

@@ -1,0 +1,47 @@
+1
+00:00:00,000 --> 00:00:06,000
+Actor routes and staging for Unity Timeline
+
+2
+00:00:06,000 --> 00:00:14,000
+Inspect multiple actors on one Timeline
+
+3
+00:00:14,000 --> 00:00:17,500
+Select a clip; insert a Hold after it
+
+4
+00:00:17,500 --> 00:00:23,500
+Later route clips shift; the Hold follows the endpoint
+
+5
+00:00:25,000 --> 00:00:35,000
+Reorder Move clips and inspect route connections
+
+6
+00:00:35,000 --> 00:00:43,000
+Select a scene route to switch actor tracks
+
+7
+00:00:43,000 --> 00:00:51,000
+Shape when the actor turns and holds its heading
+
+8
+00:00:51,000 --> 00:00:59,000
+Control the return while preserving the movement route
+
+9
+00:00:59,000 --> 00:01:06,500
+Enable gait sync using distance per animation cycle
+
+10
+00:01:06,500 --> 00:01:14,000
+Shorten the move; gait follows traveled distance
+
+11
+00:01:14,000 --> 00:01:24,000
+Seek backward and forward to inspect the performance
+
+12
+00:01:24,000 --> 00:01:28,000
+Stage the performance. Revise the blocking.

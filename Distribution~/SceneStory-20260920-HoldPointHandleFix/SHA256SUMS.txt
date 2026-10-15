@@ -1,0 +1,1 @@
+7d90afc810f505e3f3fd4b7a10376991b23b3ecd0e313537a5d6b8f4ee2202b8  SceneStory-20260920-HoldPointHandleFix.unitypackage

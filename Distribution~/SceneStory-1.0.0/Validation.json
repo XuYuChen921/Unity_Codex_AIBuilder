@@ -1,0 +1,16 @@
+{
+  "unity": "2022.3.62f3",
+  "standalone_editmode": "38/38 passed",
+  "upm_tarball_editmode": "38/38 passed",
+  "unitypackage_scene_validation": "passed",
+  "minimal_without_test_framework": {
+    "upm": "compiled successfully",
+    "unitypackage": "imported and compiled successfully"
+  },
+  "rendered_sample_seconds": [
+    1,
+    7,
+    10
+  ],
+  "external_fbx_dependencies": 0
+}

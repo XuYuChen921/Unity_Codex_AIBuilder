@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using AIBuilder;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -15,14 +16,17 @@ namespace AIBuilder.EditorTools
     public sealed class AIReferenceSceneBuildOptions
     {
         public bool UseProjectAssets = true;
-        public bool SaveScene = true;
-        public bool CreateAssetReport = true;
+        public bool SaveScene;
+        public bool CreateAssetReport;
+        public bool OverwriteGeneratedAssets;
+        public bool PromptToSaveModifiedScenes = true;
         public int SeedOffset;
     }
 
     public static class AIReferenceSceneGenerator
     {
         public const string DefaultSpecPath = "Assets/AIBuilder/Data/SceneSpec.json";
+        public static AIBuilderExecutionReport LastExecutionReport { get; private set; }
 
         private const string MaterialFolder = "Assets/AIBuilder/Materials";
         private const string GeneratedFolder = "Assets/AIBuilder/Generated";
@@ -34,48 +38,86 @@ namespace AIBuilder.EditorTools
             return AssetDatabase.LoadAssetAtPath<TextAsset>(DefaultSpecPath);
         }
 
-        public static void GenerateFromTextAsset(TextAsset textAsset, AIReferenceSceneBuildOptions options)
+        public static GameObject GenerateFromTextAsset(TextAsset textAsset, AIReferenceSceneBuildOptions options)
         {
             if (textAsset == null)
             {
-                EditorUtility.DisplayDialog("AI Scene Builder", "Select a SceneSpec JSON first.", "OK");
-                return;
+                DisplayError("Select a SceneSpec JSON first.");
+                return null;
             }
 
-            var spec = JsonUtility.FromJson<SceneSpec>(textAsset.text);
+            SceneSpec spec;
+            try
+            {
+                spec = JsonUtility.FromJson<SceneSpec>(textAsset.text);
+            }
+            catch (Exception exception)
+            {
+                DisplayError($"Could not parse SceneSpec JSON:\n{exception.Message}");
+                return null;
+            }
+
             if (spec == null)
             {
-                EditorUtility.DisplayDialog("AI Scene Builder", "Could not parse SceneSpec JSON.", "OK");
-                return;
+                DisplayError("Could not parse SceneSpec JSON.");
+                return null;
             }
 
-            Generate(spec, options);
+            return Generate(spec, options);
         }
 
-        public static void Generate(SceneSpec spec, AIReferenceSceneBuildOptions options)
+        public static GameObject Generate(SceneSpec spec, AIReferenceSceneBuildOptions options)
         {
+            LastExecutionReport = null;
             options ??= new AIReferenceSceneBuildOptions();
-            spec.seed += options.SeedOffset;
-
-            if (!Application.isBatchMode && !EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+            var validation = AIBuilderSpecValidator.ValidateSceneSpec(spec);
+            if (!validation.IsValid)
             {
-                return;
+                DisplayError(validation.ToDisplayString());
+                return null;
             }
 
-            EnsureProjectFolders();
+            if (validation.Warnings.Count > 0)
+            {
+                Debug.LogWarning("AI Scene Builder validation warnings:\n" + validation.ToDisplayString());
+            }
+
+            if (options.PromptToSaveModifiedScenes && !Application.isBatchMode && !EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+            {
+                return null;
+            }
+
+            var persistAssets = options.SaveScene;
+            var scenePath = persistAssets ? GetGeneratedScenePath(spec, options.OverwriteGeneratedAssets) : string.Empty;
+            var outputKey = persistAssets
+                ? Path.GetFileNameWithoutExtension(scenePath)
+                : SanitizeFileName(spec.sceneName) + "_Preview";
+
+            if (persistAssets || options.CreateAssetReport)
+            {
+                EnsureProjectFolders(persistAssets, options.CreateAssetReport);
+            }
+
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
             scene.name = spec.sceneName;
 
-            var random = new System.Random(spec.seed);
-            var materials = new MaterialPalette(spec);
-            var assetLibrary = new ProjectAssetLibrary(options.UseProjectAssets);
+            var random = new System.Random(unchecked(spec.seed + options.SeedOffset));
+            var materials = new MaterialPalette(spec, outputKey, persistAssets && UsesProceduralContent(spec));
+            var executionReport = new AIBuilderExecutionReport(spec.sceneName);
+            LastExecutionReport = executionReport;
+            var assetLibrary = new ProjectAssetLibrary(options.UseProjectAssets, executionReport);
 
             var root = new GameObject(spec.generatedRootName);
             root.transform.position = Vector3.zero;
 
             BuildLighting(spec, root.transform);
             BuildCamera(spec, root.transform);
-            BuildGround(spec, root.transform, materials, random);
+            if (spec.terrain.enabled)
+            {
+                BuildGround(spec, root.transform, materials, random);
+            }
+
+            BuildExplicitObjects(spec, root.transform, assetLibrary);
             var features = spec.features ?? new SceneFeatureSpec();
             if (features.centralFeature)
             {
@@ -90,7 +132,7 @@ namespace AIBuilder.EditorTools
             BuildScatterGroups(spec, root.transform, materials, assetLibrary, random);
             if (features.heroForegroundTrees)
             {
-                BuildHeroForegroundTrees(root.transform, materials, assetLibrary, random);
+                BuildHeroForegroundTrees(spec, root.transform, materials, assetLibrary, random);
             }
 
             if (features.clouds)
@@ -100,36 +142,69 @@ namespace AIBuilder.EditorTools
 
             if (features.postProcessing)
             {
-                BuildPostProcessing(spec, root.transform);
+                BuildPostProcessing(spec, root.transform, outputKey, persistAssets, options.OverwriteGeneratedAssets);
             }
 
             Selection.activeGameObject = root;
             EditorUtility.SetDirty(root);
 
-            if (options.SaveScene)
+            if (persistAssets)
             {
-                EditorSceneManager.SaveScene(SceneManager.GetActiveScene(), GetGeneratedScenePath(spec));
+                EditorSceneManager.SaveScene(SceneManager.GetActiveScene(), scenePath);
             }
 
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
             if (options.CreateAssetReport)
             {
-                assetLibrary.WriteReport(AssetReportPath);
+                var reportPath = options.OverwriteGeneratedAssets
+                    ? AssetReportPath
+                    : AssetDatabase.GenerateUniqueAssetPath(AssetReportPath);
+                assetLibrary.WriteReport(reportPath);
             }
 
-            Debug.Log($"AI Scene Builder generated '{spec.sceneName}' at {GetGeneratedScenePath(spec)}");
+            if (persistAssets || options.CreateAssetReport)
+            {
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+            }
+
+            Debug.Log(persistAssets
+                ? $"AI Scene Builder generated '{spec.sceneName}' at {scenePath}"
+                : $"AI Scene Builder generated preview '{spec.sceneName}'. No scene or material asset was written.");
+            return root;
         }
 
-        private static void EnsureProjectFolders()
+        private static void DisplayError(string message)
+        {
+            Debug.LogError("AI Scene Builder: " + message);
+            if (!Application.isBatchMode)
+            {
+                EditorUtility.DisplayDialog("AI Scene Builder", message, "OK");
+            }
+        }
+
+        private static bool UsesProceduralContent(SceneSpec spec)
+        {
+            return spec.terrain.enabled ||
+                   spec.features.centralFeature ||
+                   spec.features.magicPools ||
+                   spec.features.heroForegroundTrees ||
+                   spec.features.clouds ||
+                   spec.scatterGroups.Any(group => group != null && group.allowProceduralFallback);
+        }
+
+        private static void EnsureProjectFolders(bool persistAssets, bool createAssetReport)
         {
             EnsureFolder("Assets", "AIBuilder");
-            EnsureFolder("Assets/AIBuilder", "Runtime");
-            EnsureFolder("Assets/AIBuilder", "Editor");
-            EnsureFolder("Assets/AIBuilder", "Data");
-            EnsureFolder("Assets/AIBuilder", "Materials");
-            EnsureFolder("Assets/AIBuilder", "Generated");
-            EnsureFolder("Assets/AIBuilder", "Scenes");
+            if (persistAssets)
+            {
+                EnsureFolder("Assets/AIBuilder", "Materials");
+                EnsureFolder("Assets/AIBuilder", "Generated");
+                EnsureFolder("Assets/AIBuilder", "Scenes");
+            }
+            else if (createAssetReport)
+            {
+                EnsureFolder("Assets/AIBuilder", "Generated");
+            }
         }
 
         private static void EnsureFolder(string parent, string child)
@@ -147,7 +222,7 @@ namespace AIBuilder.EditorTools
             RenderSettings.ambientSkyColor = spec.lighting.ambientSkyColor;
             RenderSettings.ambientEquatorColor = spec.lighting.ambientEquatorColor;
             RenderSettings.ambientGroundColor = spec.lighting.ambientGroundColor;
-            RenderSettings.fog = true;
+            RenderSettings.fog = spec.features != null && spec.features.fog;
             RenderSettings.fogMode = FogMode.ExponentialSquared;
             RenderSettings.fogColor = spec.lighting.fogColor;
             RenderSettings.fogDensity = spec.lighting.fogDensity;
@@ -185,7 +260,7 @@ namespace AIBuilder.EditorTools
         {
             var groundMesh = MeshFactory.CreatePlane(spec.terrain.size.x, spec.terrain.size.y);
             var ground = CreateMeshObject(
-                "LowPoly_Grass_Clearing",
+                string.IsNullOrWhiteSpace(spec.terrain.objectName) ? "Generated_Ground" : spec.terrain.objectName,
                 groundMesh,
                 materials.GrassBase,
                 root,
@@ -194,7 +269,12 @@ namespace AIBuilder.EditorTools
                 Vector3.one);
             ground.AddComponent<MeshCollider>();
 
-            var patchRoot = new GameObject("Grass_Color_Patches");
+            if (!spec.terrain.createColorPatches || spec.terrain.grassPatchCount == 0)
+            {
+                return;
+            }
+
+            var patchRoot = new GameObject("Ground_Color_Patches");
             patchRoot.transform.SetParent(root);
 
             for (var i = 0; i < spec.terrain.grassPatchCount; i++)
@@ -215,13 +295,90 @@ namespace AIBuilder.EditorTools
             }
         }
 
+        private static void BuildExplicitObjects(SceneSpec spec, Transform root, ProjectAssetLibrary assetLibrary)
+        {
+            if (spec.objects == null || spec.objects.Count == 0)
+            {
+                return;
+            }
+
+            var pending = new List<SceneObjectSpec>(spec.objects);
+            var created = new Dictionary<string, GameObject>(StringComparer.OrdinalIgnoreCase);
+            while (pending.Count > 0)
+            {
+                var progressed = false;
+                for (var i = pending.Count - 1; i >= 0; i--)
+                {
+                    var item = pending[i];
+                    if (!string.IsNullOrWhiteSpace(item.parentId) && !created.ContainsKey(item.parentId))
+                    {
+                        continue;
+                    }
+
+                    if (!AIBuilderPrefabResolver.TryResolvePrefab(item.prefabGuid, item.prefabPath, out var prefab, out var resolvedPath))
+                    {
+                        throw new InvalidOperationException($"Explicit scene object '{item.id}' prefab could not be resolved after validation.");
+                    }
+
+                    var parent = string.IsNullOrWhiteSpace(item.parentId) ? root : created[item.parentId].transform;
+                    var instance = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
+                    if (instance == null)
+                    {
+                        throw new InvalidOperationException($"Could not instantiate prefab for explicit scene object '{item.id}'.");
+                    }
+
+                    instance.name = string.IsNullOrWhiteSpace(item.name) ? item.id : item.name;
+                    instance.transform.SetParent(parent, false);
+                    instance.transform.localPosition = item.position;
+                    instance.transform.localEulerAngles = item.rotation;
+                    instance.transform.localScale = item.scale;
+
+                    if (item.targetHeight > 0f)
+                    {
+                        var bounds = CalculateRendererBounds(instance);
+                        if (bounds.HasValue && bounds.Value.size.y > 0.0001f)
+                        {
+                            instance.transform.localScale *= item.targetHeight / bounds.Value.size.y;
+                        }
+                    }
+
+                    if (item.snapToGround)
+                    {
+                        SnapToGround(instance, spec.terrain.enabled ? spec.terrain.groundYOffset : 0f);
+                    }
+
+                    created[item.id] = instance;
+                    assetLibrary.RecordExactDecision(
+                        "explicit:" + item.id,
+                        DescribeExactRequest(ToOptionalArray(item.prefabGuid), ToOptionalArray(item.prefabPath)),
+                        resolvedPath);
+                    assetLibrary.RecordUse("explicit", prefab);
+                    pending.RemoveAt(i);
+                    progressed = true;
+                }
+
+                if (!progressed)
+                {
+                    throw new InvalidOperationException("Could not resolve explicit scene object hierarchy after validation.");
+                }
+            }
+        }
+
         private static void BuildCentralFeature(SceneSpec spec, Transform root, MaterialPalette materials, ProjectAssetLibrary assetLibrary, System.Random random)
         {
             var featureRoot = new GameObject("Central_Stone_Altar_And_Heart");
             featureRoot.transform.SetParent(root);
             featureRoot.transform.position = spec.centralFeature.position;
 
-            var altarPrefab = assetLibrary.FindPrefab(new[] { "altar", "stone_slab", "stone slab" }, "altar", random);
+            var altarPrefab = spec.centralFeature.usePrefabAltar
+                ? assetLibrary.FindPrefab(
+                    ToOptionalArray(spec.centralFeature.altarPrefabGuid),
+                    ToOptionalArray(spec.centralFeature.altarPrefabPath),
+                    new[] { "altar", "stone_slab", "stone slab" },
+                    "altar",
+                    random,
+                    spec.centralFeature.allowKeywordFallback)
+                : null;
             if (altarPrefab != null)
             {
                 PlacePrefabInstance(
@@ -237,6 +394,11 @@ namespace AIBuilder.EditorTools
             }
             else
             {
+                if (spec.centralFeature.usePrefabAltar)
+                {
+                    assetLibrary.RecordProceduralFallback("altar");
+                }
+
                 var baseCylinder = CreateMeshObject(
                     "Round_Stone_Platform",
                     MeshFactory.CreateCylinder(24, spec.centralFeature.altarRadius, spec.centralFeature.altarHeight),
@@ -264,7 +426,16 @@ namespace AIBuilder.EditorTools
                 var radius = spec.centralFeature.altarRadius + RandomRange(random, -0.12f, 0.28f);
                 var localPosition = new Vector3(Mathf.Cos(angle) * radius, 0.28f, Mathf.Sin(angle) * radius);
                 var scale = new Vector3(RandomRange(random, 0.55f, 1.1f), RandomRange(random, 0.35f, 0.75f), RandomRange(random, 0.5f, 0.95f));
-                var ringStonePrefab = assetLibrary.FindPrefab(new[] { "rock", "stone" }, "rock", random);
+                var ringKeywords = spec.centralFeature.ringStoneAssetKeywords != null && spec.centralFeature.ringStoneAssetKeywords.Length > 0
+                    ? spec.centralFeature.ringStoneAssetKeywords
+                    : new[] { "rock", "stone" };
+                var ringStonePrefab = assetLibrary.FindPrefab(
+                    spec.centralFeature.ringStonePrefabGuids,
+                    spec.centralFeature.ringStonePrefabPaths,
+                    ringKeywords,
+                    "rock",
+                    random,
+                    spec.centralFeature.allowKeywordFallback);
                 if (ringStonePrefab != null)
                 {
                     PlacePrefabInstance(
@@ -280,6 +451,7 @@ namespace AIBuilder.EditorTools
                 }
                 else
                 {
+                    assetLibrary.RecordProceduralFallback("rock");
                     CreateMeshObject(
                         $"Ring_Stone_{i:00}",
                         MeshFactory.CreateRock(random),
@@ -317,7 +489,8 @@ namespace AIBuilder.EditorTools
                 new Vector3(0f, spec.centralFeature.heartHeight, 0f),
                 spec.centralFeature.glowColor,
                 0.95f,
-                22f);
+                22f,
+                materials.MagicSparkle);
         }
 
         private static void BuildMagicPools(Transform root, MaterialPalette materials, SceneSpec spec, System.Random random)
@@ -357,7 +530,8 @@ namespace AIBuilder.EditorTools
                     positions[i] + Vector3.up * 0.25f,
                     spec.centralFeature.glowColor,
                     0.65f,
-                    14f);
+                    14f,
+                    materials.MagicSparkle);
             }
         }
 
@@ -377,7 +551,13 @@ namespace AIBuilder.EditorTools
                     var position = SampleScatterPosition(spec, group, random);
                     var rotation = Quaternion.Euler(0f, RandomRange(random, 0f, 360f), 0f);
                     var scale = RandomRange(random, group.scaleRange.x, group.scaleRange.y);
-                    var prefab = assetLibrary.FindPrefab(group.assetKeywords, group.type, random);
+                    var prefab = assetLibrary.FindPrefab(
+                        group.prefabGuids,
+                        group.prefabPaths,
+                        group.assetKeywords,
+                        group.type,
+                        random,
+                        group.allowKeywordFallback);
 
                     if (prefab != null)
                     {
@@ -394,16 +574,39 @@ namespace AIBuilder.EditorTools
                         continue;
                     }
 
-                    CreateFallbackObject(group.type, groupRoot.transform, position, rotation, scale, materials, random);
+                    if (group.allowProceduralFallback)
+                    {
+                        if (CreateFallbackObject(group.type, groupRoot.transform, position, rotation, scale, materials, random))
+                        {
+                            assetLibrary.RecordProceduralFallback(group.type);
+                        }
+                        else
+                        {
+                            assetLibrary.RecordSkipped(group.type, "没有可用的程序化回退实现");
+                        }
+                    }
+                    else
+                    {
+                        assetLibrary.RecordSkipped(group.type, "Prefab 未匹配且禁止程序化回退");
+                    }
                 }
             }
         }
 
-        private static void BuildHeroForegroundTrees(Transform root, MaterialPalette materials, ProjectAssetLibrary assetLibrary, System.Random random)
+        private static void BuildHeroForegroundTrees(SceneSpec spec, Transform root, MaterialPalette materials, ProjectAssetLibrary assetLibrary, System.Random random)
         {
             var heroRoot = new GameObject("Foreground_Frame_Trees");
             heroRoot.transform.SetParent(root);
-            var heroTreePrefab = assetLibrary.FindPrefab(new[] { "big tree", "tree" }, "hero_tree", random);
+            var heroKeywords = spec.features.heroTreeAssetKeywords != null && spec.features.heroTreeAssetKeywords.Length > 0
+                ? spec.features.heroTreeAssetKeywords
+                : new[] { "big tree", "tree" };
+            var heroTreePrefab = assetLibrary.FindPrefab(
+                spec.features.heroTreePrefabGuids,
+                spec.features.heroTreePrefabPaths,
+                heroKeywords,
+                "hero_tree",
+                random,
+                allowKeywordFallback: true);
 
             if (heroTreePrefab != null)
             {
@@ -418,7 +621,13 @@ namespace AIBuilder.EditorTools
                     assetLibrary,
                     "hero_tree");
 
-                heroTreePrefab = assetLibrary.FindPrefab(new[] { "big tree", "tree" }, "hero_tree", random);
+                heroTreePrefab = assetLibrary.FindPrefab(
+                    spec.features.heroTreePrefabGuids,
+                    spec.features.heroTreePrefabPaths,
+                    heroKeywords,
+                    "hero_tree",
+                    random,
+                    allowKeywordFallback: true);
                 PlacePrefabInstance(
                     heroTreePrefab,
                     heroRoot.transform,
@@ -440,6 +649,7 @@ namespace AIBuilder.EditorTools
                 materials,
                 random,
                 "Left_Hero_Broadleaf");
+            assetLibrary.RecordProceduralFallback("hero_tree");
 
             CreateBroadleafTree(
                 heroRoot.transform,
@@ -449,6 +659,7 @@ namespace AIBuilder.EditorTools
                 materials,
                 random,
                 "Right_Hero_Broadleaf");
+            assetLibrary.RecordProceduralFallback("hero_tree");
         }
 
         private static void BuildClouds(Transform root, MaterialPalette materials, System.Random random)
@@ -485,12 +696,21 @@ namespace AIBuilder.EditorTools
             }
         }
 
-        private static void BuildPostProcessing(SceneSpec spec, Transform root)
+        private static void BuildPostProcessing(
+            SceneSpec spec,
+            Transform root,
+            string outputKey,
+            bool persistAsset,
+            bool overwriteExisting)
         {
-            var volumeProfilePath = GetVolumeProfilePath(spec);
-            if (AssetDatabase.LoadAssetAtPath<VolumeProfile>(volumeProfilePath) != null)
+            var volumeProfilePath = persistAsset ? GetVolumeProfilePath(outputKey) : string.Empty;
+            if (persistAsset && overwriteExisting && AssetDatabase.LoadAssetAtPath<VolumeProfile>(volumeProfilePath) != null)
             {
                 AssetDatabase.DeleteAsset(volumeProfilePath);
+            }
+            else if (persistAsset && !overwriteExisting)
+            {
+                volumeProfilePath = AssetDatabase.GenerateUniqueAssetPath(volumeProfilePath);
             }
 
             var volumeObject = new GameObject("URP_Global_Volume");
@@ -516,18 +736,27 @@ namespace AIBuilder.EditorTools
             vignette.intensity.Override(0.14f);
             vignette.smoothness.Override(0.55f);
 
-            AssetDatabase.CreateAsset(profile, volumeProfilePath);
+            if (persistAsset)
+            {
+                AssetDatabase.CreateAsset(profile, volumeProfilePath);
+            }
+            else
+            {
+                profile.hideFlags = HideFlags.HideAndDontSave;
+            }
+
             volume.sharedProfile = profile;
         }
 
-        private static string GetGeneratedScenePath(SceneSpec spec)
+        private static string GetGeneratedScenePath(SceneSpec spec, bool overwriteExisting)
         {
-            return $"{SceneFolder}/{SanitizeFileName(spec.sceneName)}_Generated.unity";
+            var path = $"{SceneFolder}/{SanitizeFileName(spec.sceneName)}_Generated.unity";
+            return overwriteExisting ? path : AssetDatabase.GenerateUniqueAssetPath(path);
         }
 
-        private static string GetVolumeProfilePath(SceneSpec spec)
+        private static string GetVolumeProfilePath(string outputKey)
         {
-            return $"{GeneratedFolder}/{SanitizeFileName(spec.sceneName)}_VolumeProfile.asset";
+            return $"{GeneratedFolder}/{SanitizeFileName(outputKey)}_VolumeProfile.asset";
         }
 
         private static string SanitizeFileName(string value)
@@ -545,6 +774,27 @@ namespace AIBuilder.EditorTools
             return value.Trim().Replace(' ', '_');
         }
 
+        private static string[] ToOptionalArray(string value)
+        {
+            return string.IsNullOrWhiteSpace(value) ? Array.Empty<string>() : new[] { value.Trim() };
+        }
+
+        private static string DescribeExactRequest(string[] prefabGuids, string[] prefabPaths)
+        {
+            var values = new List<string>();
+            if (prefabGuids != null)
+            {
+                values.AddRange(prefabGuids.Where(value => !string.IsNullOrWhiteSpace(value)).Select(value => "GUID:" + value.Trim()));
+            }
+
+            if (prefabPaths != null)
+            {
+                values.AddRange(prefabPaths.Where(value => !string.IsNullOrWhiteSpace(value)).Select(value => "Path:" + value.Trim()));
+            }
+
+            return string.Join(", ", values);
+        }
+
         private static Vector3 SampleOpenClearingPosition(SceneSpec spec, System.Random random)
         {
             var halfWidth = spec.terrain.size.x * 0.37f;
@@ -553,6 +803,11 @@ namespace AIBuilder.EditorTools
             {
                 var x = RandomRange(random, -halfWidth, halfWidth);
                 var z = RandomRange(random, -halfDepth, halfDepth);
+                if (spec.features == null || !spec.features.centralFeature)
+                {
+                    return new Vector3(x, 0f, z);
+                }
+
                 var altarDelta = new Vector2(x - spec.centralFeature.position.x, z - spec.centralFeature.position.z);
                 if (altarDelta.magnitude > spec.centralFeature.altarRadius + 1.4f)
                 {
@@ -582,12 +837,13 @@ namespace AIBuilder.EditorTools
                         0f,
                         RandomRange(random, group.areaMin.z, group.areaMax.z));
 
-                if (IsOpenClearing(position, spec))
+                if (group.avoidCenterClearing && IsOpenClearing(position, spec))
                 {
                     continue;
                 }
 
-                if (Vector3.Distance(position, spec.centralFeature.position) < spec.centralFeature.altarRadius + 2.3f)
+                if (spec.features != null && spec.features.centralFeature &&
+                    Vector3.Distance(position, spec.centralFeature.position) < spec.centralFeature.altarRadius + 2.3f)
                 {
                     continue;
                 }
@@ -620,7 +876,7 @@ namespace AIBuilder.EditorTools
             };
         }
 
-        private static void CreateFallbackObject(
+        private static bool CreateFallbackObject(
             string type,
             Transform parent,
             Vector3 position,
@@ -633,25 +889,24 @@ namespace AIBuilder.EditorTools
             {
                 case "pine_tree":
                     CreatePineTree(parent, position, rotation, scale, materials, random);
-                    break;
+                    return true;
                 case "broadleaf_tree":
                     CreateBroadleafTree(parent, position, rotation, scale, materials, random, "Broadleaf_Tree");
-                    break;
+                    return true;
                 case "rock":
                     CreateRock(parent, position, rotation, scale, materials, random);
-                    break;
+                    return true;
                 case "bush":
                     CreateBush(parent, position, rotation, scale, materials, random);
-                    break;
+                    return true;
                 case "flower":
                     CreateFlower(parent, position, rotation, scale, materials, random);
-                    break;
+                    return true;
                 case "mountain":
                     CreateMountain(parent, position, rotation, scale, materials, random);
-                    break;
+                    return true;
                 default:
-                    CreateRock(parent, position, rotation, scale, materials, random);
-                    break;
+                    return false;
             }
         }
 
@@ -775,7 +1030,14 @@ namespace AIBuilder.EditorTools
                 new Vector3(scale * RandomRange(random, 3.2f, 5.5f), scale * RandomRange(random, 2.8f, 5.2f), scale * RandomRange(random, 1.1f, 1.9f)));
         }
 
-        private static void CreateSparkleSystem(string name, Transform parent, Vector3 position, Color color, float radius, float rate)
+        private static void CreateSparkleSystem(
+            string name,
+            Transform parent,
+            Vector3 position,
+            Color color,
+            float radius,
+            float rate,
+            Material material)
         {
             var sparkleObject = new GameObject(name);
             sparkleObject.transform.SetParent(parent);
@@ -798,7 +1060,7 @@ namespace AIBuilder.EditorTools
             shape.radius = radius;
 
             var renderer = sparkleObject.GetComponent<ParticleSystemRenderer>();
-            renderer.material = MaterialPalette.CreateMaterial("AI_Magic_Sparkle", color, color, 2.8f);
+            renderer.sharedMaterial = material;
         }
 
         private static GameObject CreateMeshObject(
@@ -924,23 +1186,46 @@ namespace AIBuilder.EditorTools
         private sealed class ProjectAssetLibrary
         {
             private readonly bool enabled;
+            private readonly AIBuilderExecutionReport executionReport;
             private readonly List<PrefabCandidate> allPrefabs = new List<PrefabCandidate>();
             private readonly Dictionary<string, List<PrefabCandidate>> candidateCache = new Dictionary<string, List<PrefabCandidate>>();
             private readonly Dictionary<string, int> usageCounts = new Dictionary<string, int>();
             private readonly Dictionary<string, string> usagePaths = new Dictionary<string, string>();
 
-            public ProjectAssetLibrary(bool enabled)
+            public ProjectAssetLibrary(bool enabled, AIBuilderExecutionReport executionReport)
             {
                 this.enabled = enabled;
+                this.executionReport = executionReport;
                 if (enabled)
                 {
                     ScanPrefabs();
                 }
+
+                executionReport.scannedPrefabCount = allPrefabs.Count;
             }
 
-            public GameObject FindPrefab(string[] keywords, string semanticType, System.Random random)
+            public GameObject FindPrefab(
+                string[] prefabGuids,
+                string[] prefabPaths,
+                string[] keywords,
+                string semanticType,
+                System.Random random,
+                bool allowKeywordFallback)
             {
-                if (!enabled)
+                var exactCandidates = AIBuilderPrefabResolver.ResolvePrefabs(prefabGuids, prefabPaths, out var failures);
+                foreach (var failure in failures)
+                {
+                    executionReport.AddWarning($"{semanticType}: {failure}");
+                }
+
+                if (exactCandidates.Count > 0)
+                {
+                    var exact = exactCandidates[random.Next(0, exactCandidates.Count)];
+                    RecordExactDecision(semanticType, DescribeExactRequest(prefabGuids, prefabPaths), AssetDatabase.GetAssetPath(exact));
+                    return exact;
+                }
+
+                if (!enabled || !allowKeywordFallback)
                 {
                     return null;
                 }
@@ -963,11 +1248,37 @@ namespace AIBuilder.EditorTools
                     pick -= Mathf.Max(1, candidates[i].Score);
                     if (pick < 0)
                     {
+                        executionReport.RecordDecision(
+                            semanticType,
+                            AIBuilderExecutionReport.KeywordFallback,
+                            DescribeKeywords(keywords),
+                            candidates[i].Path);
                         return candidates[i].Prefab;
                     }
                 }
 
-                return candidates[candidates.Count - 1].Prefab;
+                var last = candidates[candidates.Count - 1];
+                executionReport.RecordDecision(
+                    semanticType,
+                    AIBuilderExecutionReport.KeywordFallback,
+                    DescribeKeywords(keywords),
+                    last.Path);
+                return last.Prefab;
+            }
+
+            public void RecordExactDecision(string semanticType, string requested, string resolvedPath)
+            {
+                executionReport.RecordDecision(semanticType, AIBuilderExecutionReport.ExactPrefab, requested, resolvedPath);
+            }
+
+            public void RecordProceduralFallback(string semanticType)
+            {
+                executionReport.RecordDecision(semanticType, AIBuilderExecutionReport.ProceduralFallback, string.Empty, string.Empty);
+            }
+
+            public void RecordSkipped(string semanticType, string reason)
+            {
+                executionReport.RecordDecision(semanticType, AIBuilderExecutionReport.Skipped, reason, string.Empty);
             }
 
             public void RecordUse(string semanticType, GameObject prefab)
@@ -988,13 +1299,8 @@ namespace AIBuilder.EditorTools
             {
                 EnsureFolder("Assets/AIBuilder", "Generated");
 
-                var lines = new List<string>
+                var lines = new List<string>(executionReport.ToMarkdown().Split('\n'))
                 {
-                    "# AIBuilder Asset Match Report",
-                    string.Empty,
-                    $"Project asset matching: {(enabled ? "enabled" : "disabled")}",
-                    $"Scanned prefabs: {allPrefabs.Count}",
-                    string.Empty,
                     "## Used Prefabs",
                     string.Empty
                 };
@@ -1028,6 +1334,16 @@ namespace AIBuilder.EditorTools
 
                 File.WriteAllLines(path, lines);
                 AssetDatabase.ImportAsset(path);
+            }
+
+            private static string DescribeKeywords(string[] keywords)
+            {
+                if (keywords == null)
+                {
+                    return string.Empty;
+                }
+
+                return string.Join(", ", keywords.Where(value => !string.IsNullOrWhiteSpace(value)).Select(value => value.Trim()));
             }
 
             private void ScanPrefabs()
@@ -1379,6 +1695,7 @@ namespace AIBuilder.EditorTools
             public readonly Material Moss;
             public readonly Material MagicHeart;
             public readonly Material MagicPool;
+            public readonly Material MagicSparkle;
             public readonly Material Stem;
             public readonly Material FlowerWhite;
             public readonly Material FlowerYellow;
@@ -1388,42 +1705,48 @@ namespace AIBuilder.EditorTools
             public readonly Material MountainFar;
             public readonly Material Cloud;
 
-            public MaterialPalette(SceneSpec spec)
+            public MaterialPalette(SceneSpec spec, string outputKey, bool persistAssets)
             {
-                GrassBase = CreateMaterial("AI_Grass_Base", spec.terrain.baseGrassColor);
-                GrassPatchA = CreateMaterial("AI_Grass_Patch_Warm", spec.terrain.patchGrassA);
-                GrassPatchB = CreateMaterial("AI_Grass_Patch_Cool", spec.terrain.patchGrassB);
-                Bark = CreateMaterial("AI_Tree_Bark", new Color(0.33f, 0.21f, 0.12f, 1f));
-                PineA = CreateMaterial("AI_Pine_Dark", new Color(0.16f, 0.42f, 0.13f, 1f));
-                PineB = CreateMaterial("AI_Pine_Lit", new Color(0.37f, 0.64f, 0.12f, 1f));
-                LeafDark = CreateMaterial("AI_Leaf_Dark", new Color(0.12f, 0.38f, 0.09f, 1f));
-                LeafMid = CreateMaterial("AI_Leaf_Mid", new Color(0.32f, 0.61f, 0.12f, 1f));
-                LeafBright = CreateMaterial("AI_Leaf_Bright", new Color(0.62f, 0.82f, 0.14f, 1f));
-                StoneWarm = CreateMaterial("AI_Stone_Warm", new Color(0.56f, 0.56f, 0.47f, 1f));
-                StoneCool = CreateMaterial("AI_Stone_Cool", new Color(0.39f, 0.48f, 0.48f, 1f));
-                Moss = CreateMaterial("AI_Moss", new Color(0.4f, 0.68f, 0.11f, 1f));
-                MagicHeart = CreateMaterial("AI_Magic_Heart", spec.centralFeature.glowColor, spec.centralFeature.glowColor, 3.6f);
-                MagicPool = CreateMaterial("AI_Magic_Pool", new Color(0.66f, 1f, 0.08f, 0.82f), spec.centralFeature.glowColor, 2.2f);
-                Stem = CreateMaterial("AI_Flower_Stem", new Color(0.22f, 0.52f, 0.1f, 1f));
-                FlowerWhite = CreateMaterial("AI_Flower_White", new Color(0.96f, 0.95f, 0.82f, 1f));
-                FlowerYellow = CreateMaterial("AI_Flower_Yellow", new Color(1f, 0.83f, 0.12f, 1f));
-                FlowerPink = CreateMaterial("AI_Flower_Pink", new Color(1f, 0.45f, 0.61f, 1f));
-                FlowerPurple = CreateMaterial("AI_Flower_Purple", new Color(0.66f, 0.34f, 0.78f, 1f));
-                MountainNear = CreateMaterial("AI_Mountain_Near", new Color(0.42f, 0.62f, 0.39f, 1f));
-                MountainFar = CreateMaterial("AI_Mountain_Far", new Color(0.52f, 0.72f, 0.68f, 1f));
-                Cloud = CreateMaterial("AI_Cloud", new Color(0.92f, 0.96f, 0.86f, 1f));
+                var prefix = $"AI_{SanitizeFileName(outputKey)}_";
+                GrassBase = CreateMaterial(prefix + "Grass_Base", spec.terrain.baseGrassColor, persistAssets);
+                GrassPatchA = CreateMaterial(prefix + "Grass_Patch_Warm", spec.terrain.patchGrassA, persistAssets);
+                GrassPatchB = CreateMaterial(prefix + "Grass_Patch_Cool", spec.terrain.patchGrassB, persistAssets);
+                Bark = CreateMaterial(prefix + "Tree_Bark", new Color(0.33f, 0.21f, 0.12f, 1f), persistAssets);
+                PineA = CreateMaterial(prefix + "Pine_Dark", new Color(0.16f, 0.42f, 0.13f, 1f), persistAssets);
+                PineB = CreateMaterial(prefix + "Pine_Lit", new Color(0.37f, 0.64f, 0.12f, 1f), persistAssets);
+                LeafDark = CreateMaterial(prefix + "Leaf_Dark", new Color(0.12f, 0.38f, 0.09f, 1f), persistAssets);
+                LeafMid = CreateMaterial(prefix + "Leaf_Mid", new Color(0.32f, 0.61f, 0.12f, 1f), persistAssets);
+                LeafBright = CreateMaterial(prefix + "Leaf_Bright", new Color(0.62f, 0.82f, 0.14f, 1f), persistAssets);
+                StoneWarm = CreateMaterial(prefix + "Stone_Warm", new Color(0.56f, 0.56f, 0.47f, 1f), persistAssets);
+                StoneCool = CreateMaterial(prefix + "Stone_Cool", new Color(0.39f, 0.48f, 0.48f, 1f), persistAssets);
+                Moss = CreateMaterial(prefix + "Moss", new Color(0.4f, 0.68f, 0.11f, 1f), persistAssets);
+                MagicHeart = CreateMaterial(prefix + "Magic_Heart", spec.centralFeature.glowColor, spec.centralFeature.glowColor, 3.6f, persistAssets);
+                MagicPool = CreateMaterial(prefix + "Magic_Pool", new Color(0.66f, 1f, 0.08f, 0.82f), spec.centralFeature.glowColor, 2.2f, persistAssets);
+                MagicSparkle = CreateMaterial(prefix + "Magic_Sparkle", spec.centralFeature.glowColor, spec.centralFeature.glowColor, 2.8f, persistAssets);
+                Stem = CreateMaterial(prefix + "Flower_Stem", new Color(0.22f, 0.52f, 0.1f, 1f), persistAssets);
+                FlowerWhite = CreateMaterial(prefix + "Flower_White", new Color(0.96f, 0.95f, 0.82f, 1f), persistAssets);
+                FlowerYellow = CreateMaterial(prefix + "Flower_Yellow", new Color(1f, 0.83f, 0.12f, 1f), persistAssets);
+                FlowerPink = CreateMaterial(prefix + "Flower_Pink", new Color(1f, 0.45f, 0.61f, 1f), persistAssets);
+                FlowerPurple = CreateMaterial(prefix + "Flower_Purple", new Color(0.66f, 0.34f, 0.78f, 1f), persistAssets);
+                MountainNear = CreateMaterial(prefix + "Mountain_Near", new Color(0.42f, 0.62f, 0.39f, 1f), persistAssets);
+                MountainFar = CreateMaterial(prefix + "Mountain_Far", new Color(0.52f, 0.72f, 0.68f, 1f), persistAssets);
+                Cloud = CreateMaterial(prefix + "Cloud", new Color(0.92f, 0.96f, 0.86f, 1f), persistAssets);
             }
 
-            public static Material CreateMaterial(string name, Color baseColor)
+            private static Material CreateMaterial(string name, Color baseColor, bool persistAsset)
             {
-                return CreateMaterial(name, baseColor, Color.black, 0f);
+                return CreateMaterial(name, baseColor, Color.black, 0f, persistAsset);
             }
 
-            public static Material CreateMaterial(string name, Color baseColor, Color emissionColor, float emissionIntensity)
+            private static Material CreateMaterial(
+                string name,
+                Color baseColor,
+                Color emissionColor,
+                float emissionIntensity,
+                bool persistAsset)
             {
-                EnsureFolder("Assets/AIBuilder", "Materials");
                 var path = $"{MaterialFolder}/{name}.mat";
-                var material = AssetDatabase.LoadAssetAtPath<Material>(path);
+                var material = persistAsset ? AssetDatabase.LoadAssetAtPath<Material>(path) : null;
                 if (material == null)
                 {
                     var shader = Shader.Find("Universal Render Pipeline/Lit");
@@ -1432,13 +1755,29 @@ namespace AIBuilder.EditorTools
                         shader = Shader.Find("Standard");
                     }
 
+                    if (shader == null)
+                    {
+                        throw new InvalidOperationException("No supported Lit shader was found.");
+                    }
+
                     material = new Material(shader) { name = name };
-                    AssetDatabase.CreateAsset(material, path);
+                    if (persistAsset)
+                    {
+                        EnsureFolder("Assets/AIBuilder", "Materials");
+                        AssetDatabase.CreateAsset(material, path);
+                    }
+                    else
+                    {
+                        material.hideFlags = HideFlags.HideAndDontSave;
+                    }
                 }
 
                 SetMaterialColor(material, "_BaseColor", baseColor);
                 SetMaterialColor(material, "_Color", baseColor);
-                material.SetFloat("_Smoothness", 0.18f);
+                if (material.HasProperty("_Smoothness"))
+                {
+                    material.SetFloat("_Smoothness", 0.18f);
+                }
 
                 if (emissionIntensity > 0f)
                 {
@@ -1450,7 +1789,11 @@ namespace AIBuilder.EditorTools
                     material.DisableKeyword("_EMISSION");
                 }
 
-                EditorUtility.SetDirty(material);
+                if (persistAsset)
+                {
+                    EditorUtility.SetDirty(material);
+                }
+
                 return material;
             }
 
